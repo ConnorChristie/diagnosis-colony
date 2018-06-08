@@ -22,10 +22,21 @@ Contains a description, symptoms, and information about an unknown condition, po
 * __Domain:__ Physical, psychological, etc.
 * __Skills:__ Orthopedics, nervous system, etc.
 
+#### Diagnosis Submission
+Many different individuals or groups may collaborate together on figuring out what the condition is and what the causes may be.
+The network would also encourage collaboration and provide positions for different specialties, such as a neurosurgeon providing biological possibilities and data scientists / machine learning algorithms to provide statistical analyses.
+
+__Submitters:__
+* Open the doors for anyone to contribute
+* Allow the _evaluators_ to rate contributions
+* Provide integrations into existing solutions such as WebMD or Wikipedia
+
 ## Workflow Overview
 ![Overview](http://drive.google.com/uc?id=1l3NBQRbCcCjN6mUJGEsA_1ronVWOQeyu)
 
 ## Developer Setup
+_The backend is not currently being used right now but will eventually provide as the mechanism needed to index the symptoms and allow for efficient query results._
+
 ### Prerequisites
 #### Install ColonyJS
 User guide to install, setup, and deploy contracts to a test network: https://joincolony.github.io/colonyjs/docs-get-started/
