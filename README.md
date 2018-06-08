@@ -1,4 +1,4 @@
-# Diagnose Colony
+# Diagnosis Colony
 Building a colony of individuals who solve medical mysteries
 
 ## Background
