@@ -24,3 +24,12 @@ Contains a description, symptoms, and information about an unknown condition, po
 
 ## Workflow Overview
 ![Overview](http://drive.google.com/uc?id=1l3NBQRbCcCjN6mUJGEsA_1ronVWOQeyu)
+
+## Developer Setup
+### Prerequisites
+#### Install ColonyJS
+User guide to install, setup, and deploy contracts to a test network: https://joincolony.github.io/colonyjs/docs-get-started/
+
+### Project
+1. Run `npm install` in the root, server, and client directories
+2. Start the application with `npm start`

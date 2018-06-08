@@ -53,6 +53,7 @@
       "timeEnd",
       "trace"
     ],
+    "no-any": true,
     "no-construct": true,
     "no-debugger": true,
     "no-duplicate-super": true,
