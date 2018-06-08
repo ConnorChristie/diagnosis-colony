@@ -69,12 +69,10 @@ typings/
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 # compiled output
-/dist
+dist/
+server/dist/
 /tmp
-/out-tsc
-
-# dependencies
-/node_modules
+out-tsc/
 
 # IDEs and editors
 /.idea
