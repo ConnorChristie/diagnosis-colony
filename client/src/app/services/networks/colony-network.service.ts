@@ -12,7 +12,7 @@ declare const web3: Web3;
 @Injectable({
   providedIn: 'root'
 })
-export class EthersService {
+export class ColonyNetworkService {
 
   private networkClient: ColonyNetworkClient;
 
@@ -41,39 +41,24 @@ export class EthersService {
     await this.networkClient.init();
   }
 
-  /**
-   * Token address: 0xa6f8431C9eEe4Ac2859207aF4004F7a948924c30
-   Colony ID: 3
-   Colony address: 0x4479B49eE193E6107Ed2Ad38A9b089Ee362542BA
-   Meta Colony address: 0xCa24282be001a428d27FdAC4676561c2EB1DE393
-   * @returns {Promise<void>}
-   */
-  async runExample() {
-    // Let's deploy a new ERC20 token for our Colony.
-    // You could also skip this step and use a pre-existing/deployed contract.
+  async createColony() {
     const tokenAddress = await this.networkClient.createToken({
       name: 'Diagnosis Colony',
       symbol: 'DIAG',
     });
-    console.log('Token address: ' + tokenAddress);
 
-    // Create a cool Colony!
     const {
-      eventData: { colonyId, colonyAddress },
+      eventData: { colonyId },
     } = await this.networkClient.createColony.send({ tokenAddress });
 
-    // Congrats, you've created a Colony!
-    console.log('Colony ID: ' + colonyId);
-    console.log('Colony address: ' + colonyAddress);
+    return colonyId;
+  }
 
-    // For a colony that exists already, you just need its ID:
-    const colonyClient = await this.networkClient.getColonyClient(colonyId);
+  async getColony(colonyId: number) {
+    return await this.networkClient.getColonyClient(colonyId);
+  }
 
-    // Or alternatively, just its address:
-    // const colonyClient = await networkClient.getColonyClientByAddress(colonyAddress);
-
-    // You can also get the Meta Colony:
-    const metaColonyClient = await this.networkClient.getMetaColonyClient();
-    console.log('Meta Colony address: ' + metaColonyClient.contract.address);
+  async getMetaColony() {
+    return await this.networkClient.getMetaColonyClient();
   }
 }

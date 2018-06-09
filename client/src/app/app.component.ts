@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { EthersService } from './services/ethers.service';
+import { ColonyService } from './services/colony.service';
 
 @Component({
   selector: 'app-root',
@@ -9,10 +9,12 @@ import { EthersService } from './services/ethers.service';
 export class AppComponent implements OnInit {
   title = 'app';
 
-  constructor(private ethersService: EthersService) {}
+  constructor(private colonyService: ColonyService) {}
 
   async ngOnInit() {
-    await this.ethersService.init();
-    await this.ethersService.runExample();
+    await this.colonyService.init();
+    const colony = await this.colonyService.createTask();
+
+    console.log(`Task id ${colony}`);
   }
 }
