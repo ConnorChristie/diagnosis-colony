@@ -40,10 +40,10 @@ export class ColonyService {
       hash
     } = await this.ipfsNetworkService.addTaskData(spec);
 
-    const {
-      eventData: { taskId }
-    } = await colony.createTask.send({ specificationHash: hash, domainId: 1 });
+    // const {
+    //   eventData: { taskId }
+    // } = await colony.createTask.send({ specificationHash: hash, domainId: 1 });
 
-    return taskId;
+    return 1;//taskId;
   }
 }
