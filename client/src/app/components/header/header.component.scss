@@ -1,0 +1,18 @@
+$colors: (
+  title-primary: black,
+  title-secondary: #4fd685
+);
+
+.gh-nav-logo-title {
+  text-decoration: none;
+
+  h2 {
+    color: map-get($colors, title-primary);
+    font-weight: 500;
+    margin: 0;
+
+    .title-secondary {
+      color: map-get($colors, title-secondary);
+    }
+  }
+}
