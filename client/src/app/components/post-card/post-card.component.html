@@ -4,6 +4,10 @@
 
 <div class="post-card-content">
   <a class="post-card-content-link" [href]="details.link">
+    <div *ngIf="details.progress" class="progress-container">
+      <span class="progress-bar" [style.width]="details.progress + '%'"></span>
+    </div>
+
     <header class="post-card-header">
       <span class="post-card-tags">{{details.category}}</span>
       <h2 class="post-card-title">{{details.title}}</h2>
@@ -15,15 +19,15 @@
 
   <footer class="post-card-meta">
     <ul class="author-list">
-      <li class="author-list-item">
+      <li *ngFor="let participant of details.participants" class="author-list-item">
         <div class="author-name-tooltip">
-          {{details.author}}
+          {{participant.name}}
         </div>
-        <a href="/author/john/" class="static-avatar">
-          <img class="author-profile-image" src="//www.gravatar.com/avatar/f95828f4e92f1befebabfb7f65cdc8f2?s=250&amp;d=mm&amp;r=x" alt="John O'Nolan">
+        <a [href]="participant.link" class="static-avatar">
+          <img class="author-profile-image" [src]="participant.image" [alt]="participant.name">
         </a>
       </li>
     </ul>
-    <span class="reading-time">1 min read</span>
+    <span class="reading-time">{{details.metadata}}</span>
   </footer>
 </div>

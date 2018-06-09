@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ICardDetails } from '../../components/card/card.component';
+import { IPostCardDetails } from '../../components/post-card/post-card.component';
 
 @Component({
   selector: 'app-home',
@@ -8,7 +8,7 @@ import { ICardDetails } from '../../components/card/card.component';
 })
 export class HomeComponent {
 
-  public featuredCard: ICardDetails = {
+  public featuredCard: IPostCardDetails = {
     title: 'Unsplash x Ghost',
     description: 'We\'ve just released an official Unsplash integration for Ghost; Now you can find and use beautiful free photos from the world\'s most generous community of photographers! No matter what case study you look',
     category: 'New Things',
@@ -17,7 +17,7 @@ export class HomeComponent {
     image: 'https://images.unsplash.com/photo-1476136236990-838240be4859?ixlib=rb-0.3.5&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=1080&amp;fit=max&amp;ixid=eyJhcHBfaWQiOjExNzczfQ&amp;s=102972864c7368a7bf02374c0a9ac06e'
   };
 
-  public cards: ICardDetails[] = [
+  public cards: IPostCardDetails[] = [
     {
       title: 'Unsplash x Ghost',
       description: 'We\'ve just released an official Unsplash integration for Ghost; Now you can find and use beautiful free photos from the world\'s most generous community of photographers! No matter what case study you look',
