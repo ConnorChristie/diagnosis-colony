@@ -1,3 +1,9 @@
+@import '../../../assets/theme';
+
+.site-main {
+  background-color: map-get($background, primary);
+}
+
 .highlight-feed-news-icon svg {
   fill: white;
 }

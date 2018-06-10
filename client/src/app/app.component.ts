@@ -7,7 +7,6 @@ import { ColonyService } from './services/colony.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-
   constructor(private colonyService: ColonyService) {}
 
   async ngOnInit() {

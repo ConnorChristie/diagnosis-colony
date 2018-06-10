@@ -1,9 +1,9 @@
-<a class="post-card-image-link" [href]="details.link">
+<a class="post-card-image-link" [routerLink]="link">
   <div class="post-card-image" [style.backgroundImage]="'url(' + details.image + ')'"></div>
 </a>
 
 <div class="post-card-content">
-  <a class="post-card-content-link" [href]="details.link">
+  <a class="post-card-content-link" [routerLink]="link">
     <div *ngIf="details.progress" class="progress-container">
       <span class="progress-bar" [style.width]="details.progress + '%'"></span>
     </div>
@@ -19,7 +19,7 @@
 
   <footer class="post-card-meta">
     <ul class="author-list">
-      <li *ngFor="let participant of details.participants" class="author-list-item">
+      <li *ngFor="let participant of details.contributors" class="author-list-item">
         <div class="author-name-tooltip">
           {{participant.name}}
         </div>

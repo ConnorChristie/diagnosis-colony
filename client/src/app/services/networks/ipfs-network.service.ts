@@ -8,7 +8,6 @@ import IPFS from 'ipfs';
   providedIn: 'root'
 })
 export class IpfsNetworkService {
-
   private ipfs: IPFS;
 
   constructor() {

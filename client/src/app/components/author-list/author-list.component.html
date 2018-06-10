@@ -1,0 +1,21 @@
+<ul class="author-list">
+  <li *ngFor="let author of authors" #authorItem class="author-list-item"
+      (mouseenter)="onMouseEnter($event)" (mouseleave)="onMouseLeave($event)">
+    <div class="author-card">
+      <div class="basic-info no-cover">
+        <img class="author-profile-image" [src]="author.image" alt="John O'Nolan">
+        <h2>{{author.name}}</h2>
+      </div>
+      <div class="author-card-bio">
+        <p>Founder / CEO at Ghost</p>
+        <span>
+          <a href="/author/john/">More posts</a> by John O'Nolan.
+        </span>
+      </div>
+    </div>
+
+    <a [href]="author.link" class="moving-avatar">
+      <img class="author-profile-image" [src]="author.image" alt="John O'Nolan">
+    </a>
+  </li>
+</ul>

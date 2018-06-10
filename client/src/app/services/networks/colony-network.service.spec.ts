@@ -9,7 +9,10 @@ describe('ColonyNetworkService', () => {
     });
   });
 
-  it('should be created', inject([ColonyNetworkService], (service: ColonyNetworkService) => {
-    expect(service).toBeTruthy();
-  }));
+  it('should be created', inject(
+    [ColonyNetworkService],
+    (service: ColonyNetworkService) => {
+      expect(service).toBeTruthy();
+    }
+  ));
 });

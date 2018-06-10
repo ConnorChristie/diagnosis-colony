@@ -1,22 +1,22 @@
 import { Component, Input } from '@angular/core';
 
-interface IPostParticipant {
+interface IPostContributor {
   name: string;
   image: string;
   link: string;
 }
 
 export interface IPostCardDetails {
+  id: string;
   title: string;
   description: string;
   category: string;
-  link: string;
   image: string;
 
-  metadata: string;
+  metadata?: string;
   progress?: number;
 
-  participants: IPostParticipant[];
+  contributors: IPostContributor[];
 }
 
 @Component({
@@ -25,10 +25,11 @@ export interface IPostCardDetails {
   styleUrls: ['./post-card.component.scss']
 })
 export class PostCardComponent {
+  @Input() public details: IPostCardDetails;
 
-  @Input()
-  public details: IPostCardDetails;
+  constructor() {}
 
-  constructor() { }
-
+  get link() {
+    return ['/stories', this.details.id];
+  }
 }

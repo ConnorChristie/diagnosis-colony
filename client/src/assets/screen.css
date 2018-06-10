@@ -294,7 +294,6 @@ body {
   font-style: normal;
   text-rendering: optimizeLegibility;
   letter-spacing: 0;
-  background: #fff;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -moz-font-feature-settings: "liga" on
@@ -2358,10 +2357,6 @@ svg.retry-animated {
   }
 }
 
-body {
-  background: #f4f8fb
-}
-
 .img {
   display: block;
   width: 100%;
@@ -4349,7 +4344,7 @@ body:not(.gh-head-transparent) .highlight-feed .inner {
   border-left: 12px solid transparent
 }
 
-.author-list-item .author-card.hovered {
+.author-list-item.hovered .author-card {
   opacity: 1;
   transform: scale(1) translateY(0);
   pointer-events: auto

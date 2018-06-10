@@ -7,13 +7,12 @@ import { ITaskSpecification } from '../models/task-specification';
   providedIn: 'root'
 })
 export class ColonyService {
-
   private colonyId: number = 2;
 
   constructor(
     private colonyNetworkService: ColonyNetworkService,
     private ipfsNetworkService: IpfsNetworkService
-  ) { }
+  ) {}
 
   async init() {
     await this.colonyNetworkService.init();
@@ -36,14 +35,12 @@ export class ColonyService {
       description: 'way to be first!'
     };
 
-    const {
-      hash
-    } = await this.ipfsNetworkService.addTaskData(spec);
+    const { hash } = await this.ipfsNetworkService.addTaskData(spec);
 
     // const {
     //   eventData: { taskId }
     // } = await colony.createTask.send({ specificationHash: hash, domainId: 1 });
 
-    return 1;//taskId;
+    return 1; //taskId;
   }
 }

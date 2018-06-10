@@ -1,3 +1,9 @@
+@import '../../../assets/theme';
+
+.tag-header {
+  background-color: map-get($background, primary);
+}
+
 .flex-quarter {
   flex: 1 1 25%;
 }

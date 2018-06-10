@@ -13,7 +13,6 @@ declare const web3: Web3;
   providedIn: 'root'
 })
 export class ColonyNetworkService {
-
   private networkClient: ColonyNetworkClient;
 
   constructor() {
@@ -44,11 +43,11 @@ export class ColonyNetworkService {
   async createColony() {
     const tokenAddress = await this.networkClient.createToken({
       name: 'Diagnosis Colony',
-      symbol: 'DIAG',
+      symbol: 'DIAG'
     });
 
     const {
-      eventData: { colonyId },
+      eventData: { colonyId }
     } = await this.networkClient.createColony.send({ tokenAddress });
 
     return colonyId;

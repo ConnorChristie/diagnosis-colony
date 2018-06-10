@@ -9,7 +9,10 @@ describe('IpfsNetworkService', () => {
     });
   });
 
-  it('should be created', inject([IpfsNetworkService], (service: IpfsNetworkService) => {
-    expect(service).toBeTruthy();
-  }));
+  it('should be created', inject(
+    [IpfsNetworkService],
+    (service: IpfsNetworkService) => {
+      expect(service).toBeTruthy();
+    }
+  ));
 });
