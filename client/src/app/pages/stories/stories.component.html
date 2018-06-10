@@ -6,20 +6,19 @@
           Community Stories
         </h1>
         <h2 class="tag-description">
-          A regular stream of updates, fixes and changes we're making to Ghost as a product. These are all of the most important things we've shipped lately!
+          These stories need your help to make the impossible, possible.
+          Be it through funds or time, even the smallest effort could make a huge difference.
         </h2>
-      </div>
-      <div class="tag-header-right">
       </div>
     </div>
   </div>
 </header>
 
-<main id="site-main" class="site-main outer">
+<main class="site-main outer">
   <div class="inner">
     <div class="post-feed">
       <app-post-card *ngFor="let card of cards; let i = index" [details]="card"
-                     class="post-card post tag-new-things featured {{calculateFlex(i)}}">
+                     class="post-card post {{calculateFlex(i)}}">
       </app-post-card>
     </div>
   </div>

@@ -9,10 +9,11 @@ import { IPostCardDetails } from '../../components/post-card/post-card.component
 export class HomeComponent {
   public featuredCard: IPostCardDetails = {
     id: 'unsplash-ghost-1',
-    title: 'Unsplash x Ghost',
+    title: 'News Post',
     description:
       "We've just released an official Unsplash integration for Ghost; Now you can find and use beautiful free photos from the world's most generous community of photographers! No matter what case study you look",
     category: 'New Things',
+    metadata: 'Raised $12,940',
     contributors: [
       {
         name: 'Connor Christie',

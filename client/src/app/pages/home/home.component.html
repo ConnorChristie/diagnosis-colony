@@ -1,9 +1,9 @@
-<main id="site-main" class="site-main outer">
+<main class="site-main outer">
   <div class="highlight-feed">
     <div class="inner">
       <div class="site-section">
         <div class="post-feed highlight-feed-primary">
-          <app-post-card [details]="featuredCard" class="post-card post tag-inside-ghost tag-hash-feature featured"></app-post-card>
+          <app-post-card [details]="featuredCard" class="post-card post"></app-post-card>
 
           <aside>
             <a class="highlight-feed-news highlight-feed-primary-widget" href="https://blog.ghost.org/twig-3-its-been-5-years/" style="background-image: url(http://adwallpapers.xyz/uploads/posts/7412-medical-research.jpg)">
@@ -21,7 +21,7 @@
         </div>
 
         <div class="post-feed highlight-feed-secondary">
-          <app-post-card *ngFor="let card of cards" class="post-card post tag-new-things featured" [details]="card"></app-post-card>
+          <app-post-card *ngFor="let card of cards" class="post-card post" [details]="card"></app-post-card>
         </div>
       </div>
     </div>

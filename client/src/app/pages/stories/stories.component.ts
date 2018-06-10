@@ -1,12 +1,7 @@
 import { Component } from '@angular/core';
 import { IPostCardDetails } from '../../components/post-card/post-card.component';
 import { CurrencyPipe } from '@angular/common';
-
-interface IResearcher {
-  name: string;
-  image: string;
-  link: string;
-}
+import { IAuthor } from '../../components/author-list/author-list.component';
 
 interface IStoryHeader {
   author: string;
@@ -18,7 +13,7 @@ interface IStoryHeader {
   funded: number;
   fundGoal: number;
 
-  researchers: IResearcher[];
+  contributors: IAuthor[];
 }
 
 @Component({
@@ -41,7 +36,7 @@ export class StoriesComponent {
       funded: 14900,
       fundGoal: 20000,
 
-      researchers: [
+      contributors: [
         {
           name: "Dr. O'Neil",
           image:
@@ -68,7 +63,7 @@ export class StoriesComponent {
       funded: 14900,
       fundGoal: 20000,
 
-      researchers: [
+      contributors: [
         {
           name: "Dr. O'Neil",
           image:
@@ -94,7 +89,7 @@ export class StoriesComponent {
       funded: 14900,
       fundGoal: 20000,
 
-      researchers: [
+      contributors: [
         {
           name: "Dr. O'Neil",
           image:
@@ -120,7 +115,7 @@ export class StoriesComponent {
       funded: 14900,
       fundGoal: 20000,
 
-      researchers: [
+      contributors: [
         {
           name: "Dr. O'Neil",
           image:
@@ -146,7 +141,7 @@ export class StoriesComponent {
       funded: 14900,
       fundGoal: 20000,
 
-      researchers: [
+      contributors: [
         {
           name: "Dr. O'Neil",
           image:
@@ -173,7 +168,7 @@ export class StoriesComponent {
       funded: 14900,
       fundGoal: 20000,
 
-      researchers: [
+      contributors: [
         {
           name: "Dr. O'Neil",
           image:
@@ -199,7 +194,7 @@ export class StoriesComponent {
       funded: 14900,
       fundGoal: 20000,
 
-      researchers: [
+      contributors: [
         {
           name: "Dr. O'Neil",
           image:
@@ -226,7 +221,7 @@ export class StoriesComponent {
       funded: 14900,
       fundGoal: 20000,
 
-      researchers: [
+      contributors: [
         {
           name: "Dr. O'Neil",
           image:
@@ -256,7 +251,7 @@ export class StoriesComponent {
       metadata: `Raised ${this.currencyPipe.transform(story.funded, 'USD')}`,
       progress: (story.funded / story.fundGoal) * 100,
 
-      contributors: story.researchers
+      contributors: story.contributors
     }));
   }
 
