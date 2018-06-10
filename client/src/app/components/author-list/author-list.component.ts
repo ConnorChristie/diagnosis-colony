@@ -1,6 +1,6 @@
-import { Component, ElementRef, QueryList, Renderer2, ViewChildren } from '@angular/core';
+import { Component, ElementRef, Input, QueryList, Renderer2, ViewChildren } from '@angular/core';
 
-interface IAuthor {
+export interface IAuthor {
   name: string;
   image: string;
   link: string;
@@ -12,20 +12,8 @@ interface IAuthor {
   styleUrls: ['./author-list.component.scss']
 })
 export class AuthorListComponent {
-  public authors: IAuthor[] = [
-    {
-      name: "Dr. O'Nolan",
-      image:
-        '//www.gravatar.com/avatar/f95828f4e92f1befebabfb7f65cdc8f2?s=250&amp;d=mm&amp;r=x',
-      link: '/'
-    },
-    {
-      name: 'Hannah Wolfe',
-      image:
-        'https://www.gravatar.com/avatar/49ebcbbe9bb3ed1f5d5de91483de383c?s=250&d=mm&r=x',
-      link: '/'
-    }
-  ];
+  @Input() public authors;
+  @Input() public showDetailed = false;
 
   @ViewChildren('authorItem') public authorItems: QueryList<ElementRef>;
 

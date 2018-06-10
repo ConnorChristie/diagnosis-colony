@@ -1,10 +1,5 @@
 import { Component, Input } from '@angular/core';
-
-interface IPostContributor {
-  name: string;
-  image: string;
-  link: string;
-}
+import { IAuthor } from '../author-list/author-list.component';
 
 export interface IPostCardDetails {
   id: string;
@@ -16,7 +11,7 @@ export interface IPostCardDetails {
   metadata?: string;
   progress?: number;
 
-  contributors: IPostContributor[];
+  contributors: IAuthor[];
 }
 
 @Component({

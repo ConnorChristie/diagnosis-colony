@@ -18,16 +18,7 @@
   </a>
 
   <footer class="post-card-meta">
-    <ul class="author-list">
-      <li *ngFor="let participant of details.contributors" class="author-list-item">
-        <div class="author-name-tooltip">
-          {{participant.name}}
-        </div>
-        <a [href]="participant.link" class="static-avatar">
-          <img class="author-profile-image" [src]="participant.image" [alt]="participant.name">
-        </a>
-      </li>
-    </ul>
+    <app-author-list [authors]="details.contributors"></app-author-list>
     <span class="reading-time">{{details.metadata}}</span>
   </footer>
 </div>
