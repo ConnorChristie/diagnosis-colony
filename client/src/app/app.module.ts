@@ -10,6 +10,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from './pages/home/home.component';
 import { StoryComponent } from './pages/story/story.component';
 import { AuthorListComponent } from './components/author-list/author-list.component';
+import { NewStoryComponent } from './pages/new-story/new-story.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { AuthorListComponent } from './components/author-list/author-list.compon
     StoriesComponent,
     HomeComponent,
     StoryComponent,
-    AuthorListComponent
+    AuthorListComponent,
+    NewStoryComponent
   ],
   imports: [BrowserModule, AppRoutingModule],
   providers: [],

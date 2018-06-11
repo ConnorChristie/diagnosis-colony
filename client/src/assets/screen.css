@@ -879,13 +879,9 @@ fieldset[disabled] .gh-btn {
 }
 
 .gh-btn-blue {
-  padding: 1px;
-  border: 0;
   color: #fff;
-  text-shadow: 0 -1px 0 rgba(0, 0, 0, .1);
-  fill: #fff;
-  background: linear-gradient(#3da1d6, #2288bf);
-  box-shadow: 0 1px 0 rgba(0, 0, 0, .12);
+  background-color: #3eb0ef;
+  border-color: #2b8ec5;
   transition: none!important
 }
 
@@ -895,8 +891,9 @@ fieldset[disabled] .gh-btn {
 }
 
 .gh-btn-blue:active,
-.gh-btn-blue:focus {
-  background: #1e78a9
+.gh-btn-blue:focus,
+.gh-btn-blue:hover {
+  background: #30abe6
 }
 
 .gh-btn-blue:active span,

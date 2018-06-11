@@ -6,6 +6,10 @@ What inspired me to come up with this idea was hearing stories about rare diseas
 
 Not only could this be applicable to rare diseases, this could provide insight on general diseases such as the flu to neighboring countries that don't have direct access to medical professionals.
 
+## Applications
+* Someone with a __rare unknown condition__ may post their story and allow contributions of both funds and knowledge to help them.
+* A __group or organization__ may come together to share a larger story about planned parenthood for example, where research can be funded and crowdsourced to learn more about the issues.
+
 ## Implementation
 There are three main parts of the Colony:
 * Condition (a task in Colony)

@@ -1,0 +1,52 @@
+@import '../../../assets/theme';
+
+.stepper-container {
+  position: relative;
+
+  li {
+    margin: 0 120px;
+  }
+
+  .author-name-tooltip {
+    left: 110%;
+    top: 25%;
+    bottom: unset;
+  }
+
+  .moving-avatar {
+    margin: 0;
+    transition: none;
+  }
+}
+
+.tag-header {
+  background-color: map-get($background, primary);
+  z-index: 101;
+  padding-bottom: 0;
+
+  .tag-header-content {
+    padding-bottom: 60px;
+  }
+}
+
+.post-form {
+  margin-top: 20px;
+
+  .gh-form-group {
+    max-width: 100%;
+
+    .gh-input {
+      font-size: 12pt;
+    }
+  }
+
+  textarea {
+    max-width: 100%;
+    min-height: 150px;
+  }
+}
+
+.post-full-content:after, .post-full-content:before {
+  top: 0;
+  height: 400px;
+}
