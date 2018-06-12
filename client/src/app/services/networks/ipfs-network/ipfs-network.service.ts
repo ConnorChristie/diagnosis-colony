@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ITaskSpecification } from '../../models/task-specification';
+import { ITaskSpecification } from '../../../models/task-specification';
 import { Buffer } from 'buffer';
 
 import IPFS from 'ipfs';

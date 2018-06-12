@@ -12,44 +12,15 @@
       </div>
     </div>
 
-    <app-stepper [steps]="steps"></app-stepper>
+    <app-stepper [steps]="stepArray"></app-stepper>
   </div>
 </header>
 
 <main class="site-main outer">
   <div class="inner">
-    <section class="post-full-content">
-      <form class="post-form">
-        <div class="gh-form-group">
-          <label for="title">Title</label>
-          <input type="text" id="title" class="gh-input">
-          <p>An eye-opening title or just the individual / group's name.</p>
-        </div>
-
-        <div class="gh-form-group">
-          <label for="details">Details</label>
-          <textarea id="details" class="gh-input"></textarea>
-          <p>How has this condition affected family and loved ones?</p>
-        </div>
-
-        <div class="gh-form-group">
-          <label for="main-image">Main Image</label>
-          <input type="file" id="main-image" class="gh-input">
-          <p>This is the main image associated with your story, make it inspirational!</p>
-        </div>
-
-        <div class="gh-form-group">
-          <label for="duration">Funding Duration (days)</label>
-          <input type="number" id="duration" class="gh-input" value="30">
-          <p>Up to 60 days, however we recommend 30 days.</p>
-        </div>
-
-        <hr>
-
-        <div class="gh-form-group">
-          <input type="submit" value="Next" class="gh-input gh-btn-blue">
-        </div>
-      </form>
+    <section [ngSwitch]="activeStep | async" class="post-full-content">
+      <app-story-details *ngSwitchCase="Step.STEP1"></app-story-details>
+      <div *ngSwitchCase="Step.STEP2"></div>
     </section>
   </div>
 </main>

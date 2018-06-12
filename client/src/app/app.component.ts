@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ColonyService } from './services/colony.service';
+import { ColonyService } from './services/colony/colony.service';
 
 @Component({
   selector: 'app-root',

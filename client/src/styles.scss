@@ -6,3 +6,20 @@
     font-weight: 500;
   }
 }
+
+.post-form {
+  margin-top: 20px;
+
+  .gh-form-group {
+    max-width: 100%;
+
+    .gh-input {
+      font-size: 12pt;
+    }
+  }
+
+  textarea {
+    max-width: 100%;
+    min-height: 150px;
+  }
+}

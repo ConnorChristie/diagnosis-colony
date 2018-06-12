@@ -14,16 +14,12 @@ export interface IStep {
   styleUrls: ['./stepper.component.scss']
 })
 export class StepperComponent implements OnInit {
-
   public faCheckCircle = faCheckCircle;
   public faCheckCircleSolid = faCheckCircleSolid;
 
-  @Input()
-  public steps: IStep[];
+  @Input() public steps: IStep[];
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

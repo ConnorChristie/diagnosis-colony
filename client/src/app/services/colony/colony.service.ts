@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { ColonyNetworkService } from './networks/colony-network.service';
-import { IpfsNetworkService } from './networks/ipfs-network.service';
-import { ITaskSpecification } from '../models/task-specification';
+import { ColonyNetworkService } from '../networks/colony-network/colony-network.service';
+import { IpfsNetworkService } from '../networks/ipfs-network/ipfs-network.service';
+import { ITaskSpecification } from '../../models/task-specification';
 
 @Injectable({
   providedIn: 'root'
