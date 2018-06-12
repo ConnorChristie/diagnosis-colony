@@ -8,7 +8,7 @@ import { NewStoryComponent } from './pages/new-story/new-story.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'story', component: NewStoryComponent },
+  { path: 'story/:step', component: NewStoryComponent },
   { path: 'stories', component: StoriesComponent },
   { path: 'stories/:id', component: StoryComponent }
 ];

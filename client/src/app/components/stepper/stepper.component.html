@@ -1,0 +1,16 @@
+<div class="stepper-container">
+  <div class="post-full-introauthors">
+    <span class="progress-line"></span>
+    <ul class="author-list">
+      <li *ngFor="let step of steps" class="author-list-item">
+        <div class="author-name-tooltip">{{step.name}}</div>
+
+        <a [routerLink]="step.link" class="moving-avatar">
+          <div class="author-profile-image">
+            <fa-icon [icon]="step.isActive ? faCheckCircleSolid : faCheckCircle" size="2x"></fa-icon>
+          </div>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>

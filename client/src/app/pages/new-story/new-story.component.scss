@@ -1,24 +1,5 @@
 @import '../../../assets/theme';
 
-.stepper-container {
-  position: relative;
-
-  li {
-    margin: 0 120px;
-  }
-
-  .author-name-tooltip {
-    left: 110%;
-    top: 25%;
-    bottom: unset;
-  }
-
-  .moving-avatar {
-    margin: 0;
-    transition: none;
-  }
-}
-
 .tag-header {
   background-color: map-get($background, primary);
   z-index: 101;

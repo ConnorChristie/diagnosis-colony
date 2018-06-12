@@ -1,0 +1,55 @@
+.stepper-container {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  .post-full-introauthors {
+    width: 70%;
+
+    .author-list {
+      flex-direction: row;
+      justify-content: space-between;
+      display: flex;
+      width: 100%;
+      padding: 10px 0;
+
+      .author-list-item {
+        margin: 0;
+
+        .author-name-tooltip {
+          left: 110%;
+          top: 25%;
+          bottom: unset;
+        }
+
+        .moving-avatar {
+          margin: 0;
+          transition: none;
+
+          .author-profile-image {
+            display: flex;
+            height: 100%;
+
+            fa-icon {
+              margin: 0 auto;
+              display: flex;
+              align-items: center;
+            }
+          }
+        }
+      }
+    }
+
+    .progress-line {
+      position: absolute;
+      margin: 0 auto;
+      height: 2px;
+      width: 95%;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 1;
+      background: rgb(223, 231, 239);
+    }
+  }
+}
