@@ -54,10 +54,9 @@ export class NewStoryComponent implements OnInit {
   }
 
   private updateProgress() {
-    this.newStoryService.getProgress()
-      .pipe(
-        filter(x => !!x)
-      )
+    this.newStoryService
+      .getProgress()
+      .pipe(filter(x => !!x))
       .subscribe(progress => {
         NewStoryService.getSteps().forEach(step => {
           this.steps[step].isActive = progress[step];
