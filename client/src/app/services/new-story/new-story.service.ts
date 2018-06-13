@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { LocalStorage } from '@ngx-pwa/local-storage';
 
-import { filter, map, switchMap } from 'rxjs/operators';
-import { concat, Observable } from 'rxjs';
+import { filter, flatMap, map, switchMap, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 
 export interface IStoryDetails {
@@ -42,6 +42,10 @@ export class NewStoryService {
     private route: ActivatedRoute
   ) {}
 
+  static getSteps(): Step[] {
+    return [Step.STEP1, Step.STEP2, Step.STEP3];
+  }
+
   getProgress() {
     return this.localStorage.getItem<IStoryProgress>(NewStoryService.PROGRESS_KEY);
   }
@@ -51,10 +55,10 @@ export class NewStoryService {
     details: IStoryDetails | IConditionDetails | IFundingDetails,
     completed: boolean
   ) {
-    return concat(
-      this.localStorage.setItem(`new-story/${step}`, details),
-      this.setProgress(step, completed)
-    );
+    return this.localStorage.setItem(`new-story/${step}`, details)
+      .pipe(
+        flatMap(() => this.setProgress(step, completed))
+      );
   }
 
   getDetails(step: Step) {
@@ -62,40 +66,37 @@ export class NewStoryService {
   }
 
   getActiveStep(): Observable<Step> {
-    const values = Object.values(Step).filter(x => !isNaN(x));
-
     return this.route.paramMap
       .pipe(
         filter(x => x.has('step')),
         map(x => x.get('step').toLowerCase()),
         map(stepName => {
-          for (let step of values) {
-            if (NewStoryService.ROUTES[step][1] === stepName) {
-              return step;
-            }
-          }
+          return NewStoryService.getSteps()
+            .find(step => NewStoryService.ROUTES[step][1] === stepName);
         })
       );
   }
 
   private setProgress(step: Step, completed: boolean) {
-    return this.localStorage.getItem<IStoryProgress>(NewStoryService.PROGRESS_KEY).pipe(
-      map((progress: IStoryProgress) => {
-        if (!progress) {
-          progress = {
-            [Step.STEP1]: false,
-            [Step.STEP2]: false,
-            [Step.STEP3]: false
-          };
-        }
+    return this.localStorage.getItem<IStoryProgress>(NewStoryService.PROGRESS_KEY)
+      .pipe(
+        map((progress: IStoryProgress) => {
+          if (!progress) {
+            return NewStoryService.getSteps()
+              .reduce<IStoryProgress>((prev, current) => {
+                prev[current] = false;
+                return prev;
+              }, {});
+          }
 
-        progress[step] = completed;
-
-        return progress;
-      }),
-      switchMap(progress => {
-        return this.localStorage.setItem(NewStoryService.PROGRESS_KEY, progress);
-      })
-    );
+          return progress;
+        }),
+        tap((progress: IStoryProgress) => {
+          progress[step] = completed;
+        }),
+        switchMap(progress => {
+          return this.localStorage.setItem(NewStoryService.PROGRESS_KEY, progress);
+        })
+      );
   }
 }

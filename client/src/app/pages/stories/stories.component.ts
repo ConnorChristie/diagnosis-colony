@@ -27,7 +27,8 @@ export class StoriesComponent {
     {
       author: 'Peter Giles',
       description:
-        'Ever wanted to connect external services to your Ghost site and create seamless automation between them? Now you can, with our new and official integration with Zapier.',
+        'Ever wanted to connect external services to your Ghost site and create seamless automation between them? Now you can, ' +
+        'with our new and official integration with Zapier.',
       category: 'Physical',
       link: '/',
       image:
@@ -38,7 +39,7 @@ export class StoriesComponent {
 
       contributors: [
         {
-          name: "Dr. O'Neil",
+          name: 'Dr. O\'Neil',
           image:
             '//www.gravatar.com/avatar/f95828f4e92f1befebabfb7f65cdc8f2?s=250&amp;d=mm&amp;r=x',
           link: '/'
@@ -54,7 +55,8 @@ export class StoriesComponent {
     {
       author: 'Peter Giles',
       description:
-        'Ever wanted to connect external services to your Ghost site and create seamless automation between them? Now you can, with our new and official integration with Zapier.',
+        'Ever wanted to connect external services to your Ghost site and create seamless automation between them? Now you can, ' +
+        'with our new and official integration with Zapier.',
       category: 'Physical',
       link: '/',
       image:
@@ -65,7 +67,7 @@ export class StoriesComponent {
 
       contributors: [
         {
-          name: "Dr. O'Neil",
+          name: 'Dr. O\'Neil',
           image:
             '//www.gravatar.com/avatar/f95828f4e92f1befebabfb7f65cdc8f2?s=250&amp;d=mm&amp;r=x',
           link: '/'
@@ -81,7 +83,8 @@ export class StoriesComponent {
     {
       author: 'Peter Giles',
       description:
-        'Ever wanted to connect external services to your Ghost site and create seamless automation between them? Now you can, with our new and official integration with Zapier.',
+        'Ever wanted to connect external services to your Ghost site and create seamless automation between them? Now you can, ' +
+        'with our new and official integration with Zapier.',
       category: 'Physical',
       link: '/',
       image: 'https://blog.ghost.org/content/images/2018/04/codeinj--2-.jpg',
@@ -91,7 +94,7 @@ export class StoriesComponent {
 
       contributors: [
         {
-          name: "Dr. O'Neil",
+          name: 'Dr. O\'Neil',
           image:
             '//www.gravatar.com/avatar/f95828f4e92f1befebabfb7f65cdc8f2?s=250&amp;d=mm&amp;r=x',
           link: '/'
@@ -107,7 +110,8 @@ export class StoriesComponent {
     {
       author: 'Peter Giles',
       description:
-        'Ever wanted to connect external services to your Ghost site and create seamless automation between them? Now you can, with our new and official integration with Zapier.',
+        'Ever wanted to connect external services to your Ghost site and create seamless automation between them? Now you can, ' +
+        'with our new and official integration with Zapier.',
       category: 'Physical',
       link: '/',
       image: 'https://blog.ghost.org/content/images/2018/04/excerpts3.jpg',
@@ -117,7 +121,7 @@ export class StoriesComponent {
 
       contributors: [
         {
-          name: "Dr. O'Neil",
+          name: 'Dr. O\'Neil',
           image:
             '//www.gravatar.com/avatar/f95828f4e92f1befebabfb7f65cdc8f2?s=250&amp;d=mm&amp;r=x',
           link: '/'
@@ -133,7 +137,8 @@ export class StoriesComponent {
     {
       author: 'Peter Giles',
       description:
-        'Ever wanted to connect external services to your Ghost site and create seamless automation between them? Now you can, with our new and official integration with Zapier.',
+        'Ever wanted to connect external services to your Ghost site and create seamless automation between them? Now you can, ' +
+        'with our new and official integration with Zapier.',
       category: 'Physical',
       link: '/',
       image: 'https://blog.ghost.org/content/images/2017/07/hemingway.jpg',
@@ -143,7 +148,7 @@ export class StoriesComponent {
 
       contributors: [
         {
-          name: "Dr. O'Neil",
+          name: 'Dr. O\'Neil',
           image:
             '//www.gravatar.com/avatar/f95828f4e92f1befebabfb7f65cdc8f2?s=250&amp;d=mm&amp;r=x',
           link: '/'
@@ -159,18 +164,20 @@ export class StoriesComponent {
     {
       author: 'Peter Giles',
       description:
-        'Ever wanted to connect external services to your Ghost site and create seamless automation between them? Now you can, with our new and official integration with Zapier.',
+        'Ever wanted to connect external services to your Ghost site and create seamless automation between them? Now you can, ' +
+        'with our new and official integration with Zapier.',
       category: 'Physical',
       link: '/',
       image:
-        'https://images.unsplash.com/photo-1502888395188-799b90b43871?ixlib=rb-0.3.5&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=1080&amp;fit=max&amp;s=a27af800130b6bf7eba979e5bcd030b2',
+        'https://images.unsplash.com/photo-1502888395188-799b90b43871?ixlib=rb-0.3.5&amp;q=80&amp;fm=jpg&amp;crop=entropy' +
+        '&amp;cs=tinysrgb&amp;w=1080&amp;fit=max&amp;s=a27af800130b6bf7eba979e5bcd030b2',
 
       funded: 14900,
       fundGoal: 20000,
 
       contributors: [
         {
-          name: "Dr. O'Neil",
+          name: 'Dr. O\'Neil',
           image:
             '//www.gravatar.com/avatar/f95828f4e92f1befebabfb7f65cdc8f2?s=250&amp;d=mm&amp;r=x',
           link: '/'
@@ -186,7 +193,8 @@ export class StoriesComponent {
     {
       author: 'Peter Giles',
       description:
-        'Ever wanted to connect external services to your Ghost site and create seamless automation between them? Now you can, with our new and official integration with Zapier.',
+        'Ever wanted to connect external services to your Ghost site and create seamless automation between them? Now you can, ' +
+        'with our new and official integration with Zapier.',
       category: 'Physical',
       link: '/',
       image: 'https://blog.ghost.org/content/images/2017/08/social-main-1.jpg',
@@ -196,7 +204,7 @@ export class StoriesComponent {
 
       contributors: [
         {
-          name: "Dr. O'Neil",
+          name: 'Dr. O\'Neil',
           image:
             '//www.gravatar.com/avatar/f95828f4e92f1befebabfb7f65cdc8f2?s=250&amp;d=mm&amp;r=x',
           link: '/'
@@ -212,7 +220,8 @@ export class StoriesComponent {
     {
       author: 'Peter Giles',
       description:
-        'Ever wanted to connect external services to your Ghost site and create seamless automation between them? Now you can, with our new and official integration with Zapier.',
+        'Ever wanted to connect external services to your Ghost site and create seamless automation between them? Now you can, ' +
+        'with our new and official integration with Zapier.',
       category: 'Physical',
       link: '/',
       image:
@@ -223,7 +232,7 @@ export class StoriesComponent {
 
       contributors: [
         {
-          name: "Dr. O'Neil",
+          name: 'Dr. O\'Neil',
           image:
             '//www.gravatar.com/avatar/f95828f4e92f1befebabfb7f65cdc8f2?s=250&amp;d=mm&amp;r=x',
           link: '/'

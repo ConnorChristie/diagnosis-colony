@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { IStep } from '../../components/stepper/stepper.component';
 import { NewStoryService, Step } from '../../services/new-story/new-story.service';
-import { Router } from '@angular/router';
-import { startWith } from 'rxjs/operators';
+import { ActivationStart, Router } from '@angular/router';
+import { filter, startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'app-new-story',
@@ -38,7 +38,10 @@ export class NewStoryComponent implements OnInit {
 
   ngOnInit() {
     this.router.events
-      .pipe(startWith(null))
+      .pipe(
+        filter(x => x instanceof ActivationStart),
+        startWith(null)
+      )
       .subscribe(() => this.updateProgress());
   }
 
@@ -51,12 +54,14 @@ export class NewStoryComponent implements OnInit {
   }
 
   private updateProgress() {
-    this.newStoryService.getProgress().subscribe(progress => {
-      if (progress) {
-        for (let i in progress) {
-          this.steps[i].isActive = progress[i];
-        }
-      }
-    });
+    this.newStoryService.getProgress()
+      .pipe(
+        filter(x => !!x)
+      )
+      .subscribe(progress => {
+        NewStoryService.getSteps().forEach(step => {
+          this.steps[step].isActive = progress[step];
+        });
+      });
   }
 }

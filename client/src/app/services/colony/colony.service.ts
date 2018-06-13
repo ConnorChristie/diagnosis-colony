@@ -7,7 +7,7 @@ import { ITaskSpecification } from '../../models/task-specification';
   providedIn: 'root'
 })
 export class ColonyService {
-  private colonyId: number = 2;
+  private colonyId = 2;
 
   constructor(
     private colonyNetworkService: ColonyNetworkService,
