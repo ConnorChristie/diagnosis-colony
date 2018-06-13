@@ -13,12 +13,12 @@ import { filter, startWith } from 'rxjs/operators';
 export class NewStoryComponent implements OnInit {
   public steps: { [x: number]: IStep } = {
     [Step.STEP1]: {
-      name: 'Step 1: Story Details',
+      name: 'Step 1: Story',
       link: NewStoryService.ROUTES[Step.STEP1],
       isActive: false
     },
     [Step.STEP2]: {
-      name: 'Step 2: Condition Details',
+      name: 'Step 2: Condition',
       link: NewStoryService.ROUTES[Step.STEP2],
       isActive: false
     },

@@ -8,10 +8,15 @@ import { ActivatedRoute } from '@angular/router';
 export interface IStoryDetails {
   title: string;
   details: string;
-  fundingDuration: number;
+  mainImage: string;
 }
 
-export interface IConditionDetails {}
+export interface IConditionDetails {
+  category: string;
+  symptoms: string;
+  details: string;
+  images: string[];
+}
 
 export interface IFundingDetails {}
 

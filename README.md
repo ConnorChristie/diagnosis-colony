@@ -9,7 +9,7 @@ Not only could this be applicable to rare diseases, this could provide insight o
 ## Applications
 * Someone with a __rare unknown condition__ may post their story and allow contributions of both funds and knowledge to help them.
 * A __group or organization__ may come together to share a larger story about planned parenthood for example, where research can be funded and crowdsourced to learn more about the issues.
-* Organ donors, use this to find them!
+* Petition monetary support for possible organ donors or artificial limbs.
 
 ## Implementation
 There are three main parts of the Colony:

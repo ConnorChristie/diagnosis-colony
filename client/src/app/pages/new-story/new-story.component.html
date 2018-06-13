@@ -20,7 +20,7 @@
   <div class="inner">
     <section [ngSwitch]="activeStep | async" class="post-full-content">
       <app-story-details *ngSwitchCase="Step.STEP1"></app-story-details>
-      <div *ngSwitchCase="Step.STEP2"></div>
+      <app-condition-details *ngSwitchCase="Step.STEP2"></app-condition-details>
     </section>
   </div>
 </main>

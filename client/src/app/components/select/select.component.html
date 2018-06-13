@@ -1,0 +1,9 @@
+<span class="gh-select gh-input-icon">
+  <select [(ngModel)]="selectedValue" (change)="onChange($event)" [disabled]="isDisabled">
+    <option *ngFor="let option of options" [value]="option.value">
+      {{option.name}}
+    </option>
+  </select>
+
+  <svg viewBox="0 0 26 17" xmlns="http://www.w3.org/2000/svg"><path d="M.469.18l11.5 13.143L23.469.18" transform="translate(1 2)" stroke-width="3" stroke="#0B0B0A" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+</span>

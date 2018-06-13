@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { AppComponent } from './app.component';
@@ -15,6 +15,8 @@ import { AuthorListComponent } from './components/author-list/author-list.compon
 import { NewStoryComponent } from './pages/new-story/new-story.component';
 import { StepperComponent } from './components/stepper/stepper.component';
 import { StoryDetailsComponent } from './pages/new-story/story-details/story-details.component';
+import { ConditionDetailsComponent } from './pages/new-story/condition-details/condition-details.component';
+import { SelectComponent } from './components/select/select.component';
 
 @NgModule({
   declarations: [
@@ -28,11 +30,14 @@ import { StoryDetailsComponent } from './pages/new-story/story-details/story-det
     AuthorListComponent,
     NewStoryComponent,
     StepperComponent,
-    StoryDetailsComponent
+    StoryDetailsComponent,
+    ConditionDetailsComponent,
+    SelectComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    FormsModule,
     ReactiveFormsModule,
     FontAwesomeModule
   ],
