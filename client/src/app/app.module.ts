@@ -17,6 +17,7 @@ import { StepperComponent } from './components/stepper/stepper.component';
 import { StoryDetailsComponent } from './pages/new-story/story-details/story-details.component';
 import { ConditionDetailsComponent } from './pages/new-story/condition-details/condition-details.component';
 import { SelectComponent } from './components/select/select.component';
+import { FundingComponent } from './pages/new-story/funding/funding.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { SelectComponent } from './components/select/select.component';
     StepperComponent,
     StoryDetailsComponent,
     ConditionDetailsComponent,
-    SelectComponent
+    SelectComponent,
+    FundingComponent
   ],
   imports: [
     BrowserModule,

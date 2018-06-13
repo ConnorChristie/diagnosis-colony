@@ -39,7 +39,7 @@ export class StoriesComponent {
 
       contributors: [
         {
-          name: 'Dr. O\'Neil',
+          name: "Dr. O'Neil",
           image:
             '//www.gravatar.com/avatar/f95828f4e92f1befebabfb7f65cdc8f2?s=250&amp;d=mm&amp;r=x',
           link: '/'
@@ -67,7 +67,7 @@ export class StoriesComponent {
 
       contributors: [
         {
-          name: 'Dr. O\'Neil',
+          name: "Dr. O'Neil",
           image:
             '//www.gravatar.com/avatar/f95828f4e92f1befebabfb7f65cdc8f2?s=250&amp;d=mm&amp;r=x',
           link: '/'
@@ -94,7 +94,7 @@ export class StoriesComponent {
 
       contributors: [
         {
-          name: 'Dr. O\'Neil',
+          name: "Dr. O'Neil",
           image:
             '//www.gravatar.com/avatar/f95828f4e92f1befebabfb7f65cdc8f2?s=250&amp;d=mm&amp;r=x',
           link: '/'
@@ -121,7 +121,7 @@ export class StoriesComponent {
 
       contributors: [
         {
-          name: 'Dr. O\'Neil',
+          name: "Dr. O'Neil",
           image:
             '//www.gravatar.com/avatar/f95828f4e92f1befebabfb7f65cdc8f2?s=250&amp;d=mm&amp;r=x',
           link: '/'
@@ -148,7 +148,7 @@ export class StoriesComponent {
 
       contributors: [
         {
-          name: 'Dr. O\'Neil',
+          name: "Dr. O'Neil",
           image:
             '//www.gravatar.com/avatar/f95828f4e92f1befebabfb7f65cdc8f2?s=250&amp;d=mm&amp;r=x',
           link: '/'
@@ -177,7 +177,7 @@ export class StoriesComponent {
 
       contributors: [
         {
-          name: 'Dr. O\'Neil',
+          name: "Dr. O'Neil",
           image:
             '//www.gravatar.com/avatar/f95828f4e92f1befebabfb7f65cdc8f2?s=250&amp;d=mm&amp;r=x',
           link: '/'
@@ -204,7 +204,7 @@ export class StoriesComponent {
 
       contributors: [
         {
-          name: 'Dr. O\'Neil',
+          name: "Dr. O'Neil",
           image:
             '//www.gravatar.com/avatar/f95828f4e92f1befebabfb7f65cdc8f2?s=250&amp;d=mm&amp;r=x',
           link: '/'
@@ -232,7 +232,7 @@ export class StoriesComponent {
 
       contributors: [
         {
-          name: 'Dr. O\'Neil',
+          name: "Dr. O'Neil",
           image:
             '//www.gravatar.com/avatar/f95828f4e92f1befebabfb7f65cdc8f2?s=250&amp;d=mm&amp;r=x',
           link: '/'

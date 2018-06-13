@@ -24,10 +24,8 @@ export class StoryDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.newStoryService
-      .getDetails(Step.STEP1)
-      .pipe(
-        filter(x => !!x)
-      )
+      .getDetails<IStoryDetails>(Step.STEP1)
+      .pipe(filter(x => !!x))
       .subscribe(details => {
         this.detailsForm.patchValue(details);
       });
@@ -37,7 +35,8 @@ export class StoryDetailsComponent implements OnInit {
     const details = this.detailsForm.value as IStoryDetails;
     const isValid = this.detailsForm.valid;
 
-    this.newStoryService.setDetails(Step.STEP1, details, isValid)
+    this.newStoryService
+      .setDetails(Step.STEP1, details, isValid)
       .subscribe(success => {
         if (success && isValid) {
           this.router.navigate(NewStoryService.ROUTES[Step.STEP2]);

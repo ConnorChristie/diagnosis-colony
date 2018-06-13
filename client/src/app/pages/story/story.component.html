@@ -4,22 +4,20 @@
       <header class="post-full-header">
         <div class="post-full-meta">
           <time class="post-full-meta-date" datetime="2017-11-07">7 November 2017</time>
-          <span class="date-divider">/</span> <a href="/tag/new-things/">New Things</a>
+          <span class="date-divider">/</span> <a href="/tag/new-things/">{{story?.category}}</a>
         </div>
-        <h1 class="post-full-title">Ghost&nbsp;Android</h1>
+        <h1 class="post-full-title">{{story?.title}}</h1>
       </header>
 
-      <figure class="post-full-image" style="background-image: url(https://i.ytimg.com/vi/fEGt1KSlHxU/maxresdefault.jpg)">
+      <figure class="post-full-image" [style.backgroundImage]="'url(' + story?.mainImage + ')'">
         <div class="post-full-introauthors">
           <app-author-list [authors]="authors" [showDetailed]="true"></app-author-list>
         </div>
       </figure>
 
       <section class="post-full-content">
-        <div class="kg-card-markdown"><p>Ghost has always been a responsive web application, but today we're taking that a step further with an official native Android app!</p>
-          <p>We've always tried to make a solid mobile web experience for Ghost admin, but inevitably it has always been fairly limited in what it can do. Wrestling with mobile browsers in 2017 is still a lot more painful than it should be.</p>
-          <p>Having felt some of the same frustrations, last year <a href="https://github.com/vickychijwani">Vicky Chijwani</a> decided to create a completely independent Android app for Ghost. He named it Quill, and ever since its first release it has been wildly popular and gotten rave reviews across the Google Play store.</p>
-          <p>Vicky got in touch a few months back to ask if we'd be interested in supporting the project. So we asked him if he'd be interested in joining the Ghost core team and turning Quill into the official Android app for Ghost... And here we are!</p>
+        <div class="kg-card-markdown">
+          <p>{{story?.details}}</p>
         </div>
       </section>
 

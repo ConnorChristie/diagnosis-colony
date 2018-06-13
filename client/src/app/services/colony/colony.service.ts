@@ -1,12 +1,15 @@
 import { Injectable } from '@angular/core';
 import { ColonyNetworkService } from '../networks/colony-network/colony-network.service';
 import { IpfsNetworkService } from '../networks/ipfs-network/ipfs-network.service';
-import { ITaskSpecification } from '../../models/task-specification';
+import { IStory } from '../../models/story';
+import { ReplaySubject } from 'rxjs';
+import { flatMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ColonyService {
+  private initialized = new ReplaySubject<boolean>();
   private colonyId = 2;
 
   constructor(
@@ -22,25 +25,39 @@ export class ColonyService {
     if (!this.colonyId) {
       this.colonyId = await this.colonyNetworkService.createColony();
     }
+
+    this.initialized.next(true);
   }
 
-  async getColony() {
-    return await this.colonyNetworkService.getColony(this.colonyId);
+  getColony() {
+    return this.initialized.pipe(
+      flatMap(() => this.colonyNetworkService.getColony(this.colonyId))
+    );
   }
 
-  async createTask(): Promise<number> {
-    const colony = await this.getColony();
-    const spec: ITaskSpecification = {
-      name: 'First one',
-      description: 'way to be first!'
-    };
+  createStory(story: IStory) {
+    return this.getColony().pipe(
+      flatMap(async colony => {
+        const { hash } = await this.ipfsNetworkService.saveData(story);
 
-    const { hash } = await this.ipfsNetworkService.addTaskData(spec);
+        const {
+          eventData: { taskId }
+        } = await colony.createTask.send({ specificationHash: hash, domainId: 1 });
 
-    // const {
-    //   eventData: { taskId }
-    // } = await colony.createTask.send({ specificationHash: hash, domainId: 1 });
+        return taskId as number;
+      })
+    );
+  }
 
-    return 1; //taskId;
+  getStoryDetails(storyId: number) {
+    return this.getColony().pipe(
+      flatMap(async colony => {
+        const { specificationHash } = await colony.getTask.call({
+          taskId: storyId
+        });
+
+        return this.ipfsNetworkService.getData<IStory>(specificationHash);
+      })
+    );
   }
 }

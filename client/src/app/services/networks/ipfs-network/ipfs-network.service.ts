@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
-import { ITaskSpecification } from '../../../models/task-specification';
 import { Buffer } from 'buffer';
 
 import IPFS from 'ipfs';
+
+interface IFile {
+  hash: string;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -32,14 +35,14 @@ export class IpfsNetworkService {
     });
   }
 
-  async addTaskData(spec: ITaskSpecification) {
+  async saveData<T>(spec: T): Promise<IFile> {
     return (await this.ipfs.files.add({
       path: `/task-spec-${Math.random()}`,
       content: Buffer.from(JSON.stringify(spec))
     }))[0];
   }
 
-  async getTaskData(hash): Promise<ITaskSpecification> {
+  async getData<T>(hash: string): Promise<T> {
     return JSON.parse((await this.ipfs.files.cat(hash)).toString());
   }
 }

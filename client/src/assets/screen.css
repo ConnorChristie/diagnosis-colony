@@ -3968,7 +3968,7 @@ body:not(.gh-head-transparent) .highlight-feed .inner {
 }
 
 .post-full-content h2 {
-  margin: .5em 0 .2em -4px;
+  margin: .5em 0 .2em;
   font-size: 3.6rem;
   font-weight: 700
 }
@@ -3980,7 +3980,7 @@ body:not(.gh-head-transparent) .highlight-feed .inner {
 }
 
 .post-full-content h3 {
-  margin: .5em 0 .2em -4px;
+  margin: .5em 0 .2em;
   font-size: 2.8rem;
   font-weight: 700
 }

@@ -18,13 +18,16 @@ export class ConditionDetailsComponent implements OnInit {
     images: new FormArray([])
   });
 
-  public categories: IOption[] = [{
-    name: 'Physical',
-    value: 'physical'
-  }, {
-    name: 'Physiological',
-    value: 'physiological'
-  }];
+  public categories: IOption[] = [
+    {
+      name: 'Physical',
+      value: 'physical'
+    },
+    {
+      name: 'Physiological',
+      value: 'physiological'
+    }
+  ];
 
   constructor(
     private newStoryService: NewStoryService,
@@ -34,10 +37,8 @@ export class ConditionDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.newStoryService
-      .getDetails(Step.STEP2)
-      .pipe(
-        filter(x => !!x)
-      )
+      .getDetails<IConditionDetails>(Step.STEP2)
+      .pipe(filter(x => !!x))
       .subscribe(details => {
         this.detailsForm.patchValue(details);
       });
@@ -47,7 +48,8 @@ export class ConditionDetailsComponent implements OnInit {
     const details = this.detailsForm.value as IConditionDetails;
     const isValid = this.detailsForm.valid;
 
-    this.newStoryService.setDetails(Step.STEP2, details, isValid)
+    this.newStoryService
+      .setDetails(Step.STEP2, details, isValid)
       .subscribe(success => {
         if (success && isValid) {
           this.router.navigate(NewStoryService.ROUTES[Step.STEP3]);

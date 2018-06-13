@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { IAuthor } from '../../components/author-list/author-list.component';
+import { ColonyService } from '../../services/colony/colony.service';
+import { ActivatedRoute } from '@angular/router';
+import { filter, flatMap, map } from 'rxjs/operators';
+import { IStory } from '../../models/story';
 
 @Component({
   selector: 'app-story',
@@ -22,7 +26,22 @@ export class StoryComponent implements OnInit {
     }
   ];
 
-  constructor() {}
+  public story: IStory;
 
-  ngOnInit() {}
+  constructor(
+    private colonyService: ColonyService,
+    private route: ActivatedRoute
+  ) {}
+
+  async ngOnInit() {
+    this.route.paramMap
+      .pipe(
+        filter(x => x.has('id')),
+        map(x => +x.get('id')),
+        flatMap(id => this.colonyService.getStoryDetails(id))
+      )
+      .subscribe(story => {
+        this.story = story;
+      });
+  }
 }

@@ -10,11 +10,13 @@ export interface IOption {
   selector: 'app-select',
   templateUrl: './select.component.html',
   styleUrls: ['./select.component.scss'],
-  providers: [{
-    provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => SelectComponent),
-    multi: true
-  }]
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => SelectComponent),
+      multi: true
+    }
+  ]
 })
 export class SelectComponent implements ControlValueAccessor {
   @Input() public options: IOption[];
@@ -22,7 +24,7 @@ export class SelectComponent implements ControlValueAccessor {
   public selectedValue: string;
   public isDisabled: boolean;
 
-  private propagateChange = (_) => { };
+  private propagateChange = _ => {};
 
   registerOnChange(fn) {
     this.propagateChange = fn;
@@ -42,5 +44,5 @@ export class SelectComponent implements ControlValueAccessor {
     this.propagateChange(event.target.value);
   }
 
-  registerOnTouched(fn) { }
+  registerOnTouched(fn) {}
 }
