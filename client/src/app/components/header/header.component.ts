@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivationStart, Router } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-header',
@@ -6,7 +8,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-  constructor() {}
+  public mobileOpen: boolean;
 
-  ngOnInit() {}
+  constructor(private router: Router) {}
+
+  ngOnInit() {
+    this.router.events
+      .pipe(
+        filter(x => x instanceof ActivationStart),
+      )
+      .subscribe(() => this.mobileOpen = false);
+  }
 }

@@ -4,10 +4,14 @@
   background-color: map-get($background, primary);
 }
 
+.post-card {
+  flex-basis: 45%;
+}
+
 .flex-quarter {
-  flex: 1 1 25%;
+  flex: 2 2 300px;
 }
 
 .flex-half {
-  flex: 1 1 45%;
+  flex-grow: 2;
 }
