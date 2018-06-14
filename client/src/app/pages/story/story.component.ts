@@ -38,7 +38,7 @@ export class StoryComponent implements OnInit {
       .pipe(
         filter(x => x.has('id')),
         map(x => +x.get('id')),
-        flatMap(id => this.colonyService.getStoryDetails(id))
+        flatMap(id => this.colonyService.getStory(id))
       )
       .subscribe(story => {
         this.story = story;

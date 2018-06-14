@@ -9,6 +9,9 @@ import ColonyNetworkClient from '@colony/colony-js-client';
 
 declare const web3: Web3;
 
+// tslint:disable-next-line
+declare type IColonyClient = any;
+
 @Injectable({
   providedIn: 'root'
 })
@@ -40,7 +43,7 @@ export class ColonyNetworkService {
     await this.networkClient.init();
   }
 
-  async createColony() {
+  async createColony(): Promise<number> {
     const tokenAddress = await this.networkClient.createToken({
       name: 'Diagnosis Colony',
       symbol: 'DIAG'
@@ -53,11 +56,11 @@ export class ColonyNetworkService {
     return colonyId;
   }
 
-  async getColony(colonyId: number) {
+  async getColony(colonyId: number): Promise<IColonyClient> {
     return await this.networkClient.getColonyClient(colonyId);
   }
 
-  async getMetaColony() {
+  async getMetaColony(): Promise<IColonyClient> {
     return await this.networkClient.getMetaColonyClient();
   }
 }

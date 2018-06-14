@@ -22,9 +22,11 @@ export interface IPostCardDetails {
 export class PostCardComponent {
   @Input() public details: IPostCardDetails;
 
-  constructor() {}
+  get isLoaded() {
+    return !!this.details;
+  }
 
   get link() {
-    return ['/stories', this.details.id];
+    return this.isLoaded ? ['/stories', this.details.id] : [];
   }
 }

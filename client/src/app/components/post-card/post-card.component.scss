@@ -1,0 +1,26 @@
+.skeleton-shell {
+  background-color: hsl(0,0%,89%);
+  border-radius: 2px;
+
+  &.post-card-tags {
+    width: 70px;
+    height: 12px;
+  }
+
+  &.post-card-title {
+    width: 130px;
+    height: 25px;
+  }
+
+  &.post-card-excerpt {
+    width: 100%;
+    height: 50px;
+    margin-top: -10px;
+  }
+
+  &.reading-time {
+    width: 120px;
+    height: 15px;
+    margin-top: 10px;
+  }
+}

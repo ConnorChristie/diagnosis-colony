@@ -42,21 +42,38 @@ export class ColonyService {
 
         const {
           eventData: { taskId }
-        } = await colony.createTask.send({ specificationHash: hash, domainId: 1 });
+        } = await colony.createTask.send({
+          specificationHash: hash,
+          domainId: 1
+        });
 
         return taskId as number;
       })
     );
   }
 
-  getStoryDetails(storyId: number) {
+  getStory(id: number) {
     return this.getColony().pipe(
       flatMap(async colony => {
         const { specificationHash } = await colony.getTask.call({
-          taskId: storyId
+          taskId: id
         });
 
         return this.ipfsNetworkService.getData<IStory>(specificationHash);
+      })
+    );
+  }
+
+  getStories(skip: number, take: number) {
+    return Array.from({ length: take }, (v, k) => k + skip + 1).map(id =>
+      this.getStory(id)
+    );
+  }
+
+  getStoryCount() {
+    return this.getColony().pipe(
+      flatMap(async colony => {
+        return (await colony.getTaskCount.call()).count as number;
       })
     );
   }
