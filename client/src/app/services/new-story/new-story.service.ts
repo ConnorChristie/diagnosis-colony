@@ -70,12 +70,18 @@ export class NewStoryService {
    */
   saveStory() {
     return forkJoin(
-      NewStoryService.getSteps().map(step => this.getDetails(step))
+      this.getDetails<IStoryDetails>(Step.STEP1),
+      this.getDetails<IConditionDetails>(Step.STEP2),
+      this.getDetails<IFundingDetails>(Step.STEP3)
     ).pipe(
-      map((details: StoryDetails[]) =>
-        details.reduce<IStory>((prev, detail) => ({ ...prev, ...detail }), null)
-      ),
-      flatMap((story: IStory) => this.colonyService.createStory(story))
+      map(([details, condition, funding]): IStory => ({
+        storyDetails: details,
+        conditionDetails: condition,
+        fundingDetails: funding,
+        version: 1
+      })),
+      flatMap(story => this.colonyService.createStory(story)),
+      tap(() => this.clearAllDetails().subscribe())
     );
   }
 

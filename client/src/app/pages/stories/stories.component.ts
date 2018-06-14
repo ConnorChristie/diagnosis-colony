@@ -83,10 +83,10 @@ export class StoriesComponent implements OnInit {
   private storyToCard(story: IStory, index: number) {
     return {
       id: index,
-      title: story.title,
-      description: story.details,
-      category: story.category,
-      image: story.mainImage,
+      title: story.storyDetails.title,
+      description: story.storyDetails.details,
+      category: story.conditionDetails.category,
+      image: story.storyDetails.mainImage,
 
       metadata: `Raised ${this.currencyPipe.transform(1200, 'USD')}`,
       progress: (1200 / 1500) * 100,

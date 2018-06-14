@@ -4,20 +4,26 @@
       <header class="post-full-header">
         <div class="post-full-meta">
           <time class="post-full-meta-date" datetime="2017-11-07">7 November 2017</time>
-          <span class="date-divider">/</span> <a href="/tag/new-things/">{{story?.category}}</a>
+          <span class="date-divider">/</span> <a href="/tag/new-things/">{{story?.conditionDetails.category}}</a>
         </div>
-        <h1 class="post-full-title">{{story?.title}}</h1>
+        <h1 class="post-full-title">{{story?.storyDetails.title}}</h1>
       </header>
 
-      <figure class="post-full-image" [style.backgroundImage]="story && 'url(' + story?.mainImage + ')'">
+      <figure class="post-full-image" [style.backgroundImage]="story && 'url(' + story?.storyDetails.mainImage + ')'">
         <div class="post-full-introauthors">
           <app-author-list [authors]="authors" [showDetailed]="true"></app-author-list>
         </div>
       </figure>
 
       <section class="post-full-content">
+        <h2>Story</h2>
         <div class="kg-card-markdown">
-          <p>{{story?.details}}</p>
+          <p>{{story?.storyDetails.details}}</p>
+        </div>
+
+        <h2>Condition</h2>
+        <div class="kg-card-markdown">
+          <p>{{story?.conditionDetails.details}}</p>
         </div>
       </section>
 

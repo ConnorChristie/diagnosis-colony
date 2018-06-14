@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IFundingDetails, NewStoryService, Step } from '../../../services/new-story/new-story.service';
-import { filter, tap } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 @Component({
@@ -37,12 +37,9 @@ export class FundingComponent implements OnInit {
       .setDetails(Step.STEP3, details, isValid)
       .subscribe(success => {
         if (success && isValid) {
-          this.newStoryService
-            .saveStory()
-            .pipe(tap(() => this.newStoryService.clearAllDetails().subscribe()))
-            .subscribe(id => {
-              this.router.navigate(['/stories', id]);
-            });
+          this.newStoryService.saveStory().subscribe(id => {
+            this.router.navigate(['/stories', id]);
+          });
         }
       });
   }
