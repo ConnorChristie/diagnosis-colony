@@ -1,0 +1,18 @@
+language: node_js
+node_js:
+  - "8"
+dist: trusty
+sudo: false
+
+cache:
+  directories:
+    - client/node_modules
+
+addons:
+  chrome: stable
+
+script:
+  - npm --prefix client run lint
+  - npm --prefix client run test
+  - npm --prefix client run build
+  - xvfb-run npm --prefix client run e2e
