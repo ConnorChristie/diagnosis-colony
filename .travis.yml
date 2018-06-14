@@ -2,7 +2,6 @@ language: node_js
 node_js:
   - "8"
 dist: trusty
-sudo: false
 
 cache:
   directories:
@@ -11,8 +10,11 @@ cache:
 addons:
   chrome: stable
 
+before_script:
+  - npm install -g @angular/cli
+
 script:
   - npm --prefix client run lint
   - npm --prefix client run test
-  - npm --prefix client run build
+  - npm --prefix client run build --prod
   - xvfb-run npm --prefix client run e2e
