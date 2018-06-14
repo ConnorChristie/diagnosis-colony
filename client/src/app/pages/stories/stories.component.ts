@@ -60,7 +60,9 @@ export class StoriesComponent implements OnInit {
       .getStories(skip, take)
       .map((story$, index) => {
         return story$.pipe(
-          map(story => this.storyToCard(story, skip + index + 1))
+          map(story =>
+            this.storyToCard(story, ColonyService.toStoryId(skip, index))
+          )
         );
       });
   }

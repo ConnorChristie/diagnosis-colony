@@ -17,6 +17,10 @@ export class ColonyService {
     private ipfsNetworkService: IpfsNetworkService
   ) {}
 
+  static toStoryId(offset: number, index: number) {
+    return offset + index + 1;
+  }
+
   async init() {
     await this.colonyNetworkService.init();
     await this.ipfsNetworkService.init();
@@ -65,9 +69,9 @@ export class ColonyService {
   }
 
   getStories(skip: number, take: number) {
-    return Array.from({ length: take }, (v, k) => k + skip + 1).map(id =>
-      this.getStory(id)
-    );
+    return Array.from({ length: take }, (v, k) =>
+      ColonyService.toStoryId(skip, k)
+    ).map(id => this.getStory(id));
   }
 
   getStoryCount() {
