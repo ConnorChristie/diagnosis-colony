@@ -4,12 +4,12 @@
       <header class="post-full-header">
         <div class="post-full-meta">
           <time class="post-full-meta-date" datetime="2017-11-07">7 November 2017</time>
-          <span class="date-divider">/</span> <a href="/tag/new-things/">{{story?.conditionDetails.category}}</a>
+          <span class="date-divider">/</span> <a href="/tag/new-things/">{{story?.story.conditionDetails.category}}</a>
         </div>
-        <h1 class="post-full-title">{{story?.storyDetails.title}}</h1>
+        <h1 class="post-full-title">{{story?.story.storyDetails.title}}</h1>
       </header>
 
-      <figure class="post-full-image" [style.backgroundImage]="story && 'url(' + story?.storyDetails.mainImage + ')'">
+      <figure class="post-full-image" [style.backgroundImage]="story && 'url(' + story?.story.storyDetails.mainImage + ')'">
         <div class="post-full-introauthors">
           <app-author-list [authors]="authors" [showDetailed]="true"></app-author-list>
         </div>
@@ -18,43 +18,81 @@
       <section class="post-full-content">
         <h2>Story</h2>
         <div class="kg-card-markdown">
-          <p>{{story?.storyDetails.details}}</p>
+          <p>{{story?.story.storyDetails.details}}</p>
         </div>
-
-        <h2>Condition</h2>
-        <div class="kg-card-markdown">
-          <p>{{story?.conditionDetails.details}}</p>
-        </div>
-      </section>
-
-      <section class="subscribe-form">
-        <h3 class="subscribe-form-title">Fund this Story</h3>
-        <p>The funds raised for this story will be allocated to the researchers and medical professionals working on solving this mystery.</p>
-
-        <form [formGroup]="fundingForm" class="post-form">
-          <div class="gh-form-group amounts">
-            <div class="input-group">
-              <input type="number" formControlName="diagAmount" class="gh-input" placeholder="100.00">
-              <div class="input-group-append">
-                <span class="input-group-text">DIAG</span>
-              </div>
-            </div>
-
-            <img class="spacer-icon" src="/assets/convert-icon.svg" alt="≈">
-
-            <div class="input-group">
-              <input type="number" formControlName="currencyAmount" class="gh-input" placeholder="10.00">
-              <div class="input-group-append">
-                <span class="input-group-text">USD</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="gh-form-group">
-            <input type="submit" value="Contribute" (click)="onSubmitContribution()" class="gh-input gh-btn-blue">
-          </div>
-        </form>
       </section>
     </article>
   </div>
 </main>
+
+<aside class="read-next outer">
+  <div class="inner">
+    <div class="read-next-feed">
+      <article class="read-next-card">
+        <div class="post-card-content">
+          <div class="read-next-card-content-link">
+            <div>
+              <header class="post-card-header">
+                <h2 class="post-card-title">Fund this Story</h2>
+              </header>
+              <div class="post-card-excerpt">
+                <p>The funds raised for this story will be allocated to the researchers and medical professionals working on solving this mystery.</p>
+              </div>
+            </div>
+
+            <form [formGroup]="fundingForm" class="post-form">
+              <div class="gh-form-group amounts">
+                <div class="input-group">
+                  <input type="number" formControlName="diagAmount" class="gh-input" placeholder="100.00">
+                  <div class="input-group-append">
+                    <span class="input-group-text">DIAG</span>
+                  </div>
+                </div>
+
+                <img class="spacer-icon" src="/assets/convert-icon.svg" alt="≈">
+
+                <div class="input-group">
+                  <input type="number" formControlName="currencyAmount" class="gh-input" placeholder="10.00">
+                  <div class="input-group-append">
+                    <span class="input-group-text">USD</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="gh-form-group">
+                <input type="submit" value="Contribute" (click)="onSubmitContribution()" class="gh-input gh-btn-blue">
+              </div>
+            </form>
+          </div>
+        </div>
+      </article>
+
+      <article class="read-next-card research-card">
+        <div class="post-card-content">
+          <div class="read-next-card-content-link">
+            <div>
+              <header class="post-card-header">
+                <h2 class="post-card-title">Research this Condition</h2>
+              </header>
+              <div class="post-card-excerpt">
+                <p>
+                  We need students, medical professionals, and hobbyists alike who take a great interest in the
+                  medical field to provide expertise for this story.
+                </p>
+                <p>
+                  Researchers are compensated for working together and finding more information regarding this condition.
+                </p>
+              </div>
+            </div>
+
+            <form class="post-form">
+              <div class="gh-form-group">
+                <input type="button" value="Start Researching" (click)="onStartResearch()" class="gh-input gh-btn-blue">
+              </div>
+            </form>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</aside>

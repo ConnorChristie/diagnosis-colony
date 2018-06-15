@@ -1,4 +1,8 @@
-import { IConditionDetails, IFundingDetails, IStoryDetails } from '../services/new-story/new-story.service';
+import {
+  IConditionDetails,
+  IFundingDetails,
+  IStoryDetails
+} from '../services/new-story/new-story.service';
 
 export interface IStory {
   storyDetails: IStoryDetails;
@@ -6,4 +10,10 @@ export interface IStory {
   fundingDetails: IFundingDetails;
 
   version: number;
+}
+
+export interface IStoryTask {
+  story: IStory;
+  potId: number;
+  dueDate: number;
 }

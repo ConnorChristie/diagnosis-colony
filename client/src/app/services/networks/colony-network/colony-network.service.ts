@@ -11,7 +11,7 @@ import ColonyNetworkClient from '@colony/colony-js-client';
 declare const web3: Web3;
 
 // tslint:disable-next-line
-declare type IColonyClient = any;
+export declare type IColonyClient = any;
 
 @Injectable({
   providedIn: 'root'
@@ -53,6 +53,9 @@ export class ColonyNetworkService {
     const {
       eventData: { colonyId }
     } = await this.networkClient.createColony.send({ tokenAddress });
+
+    console.log(`Token addr: ${tokenAddress}`);
+    console.log(`Colony ID: ${colonyId}`);
 
     return colonyId;
   }

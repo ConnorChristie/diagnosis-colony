@@ -18,3 +18,36 @@
   display: flex;
   justify-content: space-between;
 }
+
+.read-next {
+  background: #f4f8fb;
+
+  .post-card-content-link {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .research-card {
+    color: #fff;
+    background: #15171a 50%;
+
+    &:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      display: block;
+      background: linear-gradient(135deg, rgba(0, 40, 60, .8), rgba(0, 20, 40, .7));
+      border-radius: 5px;
+      -webkit-backdrop-filter: blur(2px);
+      backdrop-filter: blur(2px);
+    }
+
+    .read-next-card-content-link {
+      color: #fff;
+    }
+  }
+}

@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { IStep } from '../../components/stepper/stepper.component';
-import { NewStoryService, Step } from '../../services/new-story/new-story.service';
+import {
+  NewStoryService,
+  Step
+} from '../../services/new-story/new-story.service';
 import { ActivationStart, Router } from '@angular/router';
 import { filter, startWith } from 'rxjs/operators';
 

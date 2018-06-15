@@ -14,9 +14,7 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.router.events
-      .pipe(
-        filter(x => x instanceof ActivationStart),
-      )
-      .subscribe(() => this.mobileOpen = false);
+      .pipe(filter(x => x instanceof ActivationStart))
+      .subscribe(() => (this.mobileOpen = false));
   }
 }

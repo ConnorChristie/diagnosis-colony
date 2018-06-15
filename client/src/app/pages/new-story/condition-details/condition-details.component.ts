@@ -1,6 +1,10 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { IConditionDetails, NewStoryService, Step } from '../../../services/new-story/new-story.service';
+import {
+  IConditionDetails,
+  NewStoryService,
+  Step
+} from '../../../services/new-story/new-story.service';
 import { Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { IOption } from '../../../components/select/select.component';

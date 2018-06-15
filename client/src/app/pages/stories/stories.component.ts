@@ -1,8 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { ColonyService } from '../../services/colony/colony.service';
-import { map } from 'rxjs/operators';
-import { IStory } from '../../models/story';
+import { flatMap, map, tap } from 'rxjs/operators';
+import { IStoryTask } from '../../models/story';
+import { Observable } from 'rxjs';
+
+enum CardSize {
+  THIRD = 1,
+  HALF = 2
+}
 
 @Component({
   selector: 'app-stories',
@@ -42,6 +48,7 @@ export class StoriesComponent implements OnInit {
   //   }
   // ];
 
+  public CardSize = CardSize;
   public stories$ = new Array(10);
 
   constructor(
@@ -55,43 +62,61 @@ export class StoriesComponent implements OnInit {
     });
   }
 
-  loadStories(skip: number, take: number) {
-    this.stories$ = this.colonyService
-      .getStories(skip, take)
-      .map((story$, index) => {
-        return story$.pipe(
-          map(story =>
-            this.storyToCard(story, ColonyService.toStoryId(skip, index))
-          )
-        );
-      });
-  }
-
-  calculateFlex(index: number) {
+  getCardSize(index: number) {
     const relative = index % 6;
 
     switch (relative) {
       case 1:
       case 4:
-        return 'flex-quarter';
+        return CardSize.THIRD;
     }
 
-    return 'flex-half';
+    return CardSize.HALF;
+  }
+
+  private loadStories(skip: number, take: number) {
+    this.stories$ = this.colonyService
+      .getStories(skip, take)
+      .map((story$, index) => this.loadStory(story$, skip, index));
+  }
+
+  private loadStory(
+    story$: Observable<IStoryTask>,
+    skip: number,
+    index: number
+  ) {
+    const storyId = ColonyService.toStoryId(skip, index);
+
+    return story$.pipe(
+      flatMap(story => this.storyToCard(storyId, story, index))
+    );
   }
 
   // TODO: Include authors / researchers working on the story
-  private storyToCard(story: IStory, index: number) {
-    return {
-      id: index,
-      title: story.storyDetails.title,
-      description: story.storyDetails.details,
-      category: story.conditionDetails.category,
-      image: story.storyDetails.mainImage,
+  private storyToCard(storyId: number, storyTask: IStoryTask, index: number) {
+    let characterLimit = 140;
 
-      metadata: `Raised ${this.currencyPipe.transform(1200, 'USD')}`,
-      progress: (1200 / 1500) * 100,
+    if (this.getCardSize(index) === CardSize.HALF) {
+      characterLimit = 200;
+    }
 
-      contributors: []
-    };
+    const { story, potId } = storyTask;
+
+    return this.colonyService.getPotBalance(potId).pipe(
+      map(potBalance => potBalance.toNumber()),
+      map(potBalance => ({
+        id: storyId,
+        title: story.storyDetails.title,
+        description:
+          story.storyDetails.details.substring(0, characterLimit) + '…',
+        category: story.conditionDetails.category,
+        image: story.storyDetails.mainImage,
+
+        metadata: `Raised ${potBalance} DIAG`,
+        progress: (1200 / 1500) * 100,
+
+        contributors: []
+      }))
+    );
   }
 }

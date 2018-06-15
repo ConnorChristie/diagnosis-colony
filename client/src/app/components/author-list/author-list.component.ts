@@ -1,4 +1,11 @@
-import { Component, ElementRef, Input, QueryList, Renderer2, ViewChildren } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Input,
+  QueryList,
+  Renderer2,
+  ViewChildren
+} from '@angular/core';
 
 export interface IAuthor {
   name: string;

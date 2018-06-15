@@ -36,7 +36,7 @@ export class IpfsNetworkService {
   }
 
   async saveData<T>(spec: T): Promise<IFile> {
-    const [ hash ] = await this.ipfs.files.add({
+    const [hash] = await this.ipfs.files.add({
       path: `/task-spec-${Math.random()}`,
       content: Buffer.from(JSON.stringify(spec))
     });

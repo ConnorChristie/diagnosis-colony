@@ -74,12 +74,14 @@ export class NewStoryService {
       this.getDetails<IConditionDetails>(Step.STEP2),
       this.getDetails<IFundingDetails>(Step.STEP3)
     ).pipe(
-      map(([details, condition, funding]): IStory => ({
-        storyDetails: details,
-        conditionDetails: condition,
-        fundingDetails: funding,
-        version: 1
-      })),
+      map(
+        ([details, condition, funding]): IStory => ({
+          storyDetails: details,
+          conditionDetails: condition,
+          fundingDetails: funding,
+          version: 1
+        })
+      ),
       flatMap(story => this.colonyService.createStory(story)),
       tap(() => this.clearAllDetails().subscribe())
     );

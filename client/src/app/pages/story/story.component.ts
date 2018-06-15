@@ -3,7 +3,7 @@ import { IAuthor } from '../../components/author-list/author-list.component';
 import { ColonyService } from '../../services/colony/colony.service';
 import { ActivatedRoute } from '@angular/router';
 import { filter, flatMap, map } from 'rxjs/operators';
-import { IStory } from '../../models/story';
+import { IStory, IStoryTask } from '../../models/story';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -27,7 +27,7 @@ export class StoryComponent implements OnInit {
     }
   ];
 
-  public story: IStory;
+  public story: IStoryTask;
 
   public fundingForm = new FormGroup({
     diagAmount: new FormControl(null, Validators.required),
@@ -50,10 +50,10 @@ export class StoryComponent implements OnInit {
   onSubmitContribution() {
     const valid = this.fundingForm.valid;
 
-    if (valid) {
-
-    }
+    // TODO: create txn to send funds to colony
   }
+
+  onStartResearch() {}
 
   private loadStory() {
     this.route.paramMap

@@ -1,7 +1,11 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { IStoryDetails, NewStoryService, Step } from '../../../services/new-story/new-story.service';
+import {
+  IStoryDetails,
+  NewStoryService,
+  Step
+} from '../../../services/new-story/new-story.service';
 import { filter } from 'rxjs/operators';
 
 @Component({
