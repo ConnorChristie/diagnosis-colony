@@ -16,6 +16,48 @@
     .gh-input, .gh-select select {
       font-size: 12pt;
     }
+
+    .spacer-icon {
+      margin: 0 12px;
+    }
+
+    .input-group {
+      position: relative;
+      display: flex;
+      flex-wrap: wrap;
+
+      .gh-input {
+        position: relative;
+        -ms-flex: 1 1 auto;
+        flex: 1 1 auto;
+        width: 1%;
+        margin-bottom: 0;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+
+      .input-group-append {
+        margin-left: -1px;
+      }
+
+      .input-group-text {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-align: center;
+        align-items: center;
+        padding: 12px;
+        margin-bottom: 0;
+        font-size: 12pt;
+        font-weight: 300;
+        line-height: 1.5;
+        color: #495057;
+        text-align: center;
+        white-space: nowrap;
+        background-color: #e9ecef;
+        border: 1px solid #ced4da;
+        border-radius: 0 .25rem .25rem 0;
+      }
+    }
   }
 
   textarea {

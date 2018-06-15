@@ -28,8 +28,32 @@
       </section>
 
       <section class="subscribe-form">
-        <h3 class="subscribe-form-title">Ghost Newsletter</h3>
-        <p>Stay up to date with the latest Ghost news, tutorials and resources. All the best bits, delivered every Sunday.</p>
+        <h3 class="subscribe-form-title">Fund this Story</h3>
+        <p>The funds raised for this story will be allocated to the researchers and medical professionals working on solving this mystery.</p>
+
+        <form [formGroup]="fundingForm" class="post-form">
+          <div class="gh-form-group amounts">
+            <div class="input-group">
+              <input type="number" formControlName="diagAmount" class="gh-input" placeholder="100.00">
+              <div class="input-group-append">
+                <span class="input-group-text">DIAG</span>
+              </div>
+            </div>
+
+            <img class="spacer-icon" src="/assets/convert-icon.svg" alt="≈">
+
+            <div class="input-group">
+              <input type="number" formControlName="currencyAmount" class="gh-input" placeholder="10.00">
+              <div class="input-group-append">
+                <span class="input-group-text">USD</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="gh-form-group">
+            <input type="submit" value="Contribute" (click)="onSubmitContribution()" class="gh-input gh-btn-blue">
+          </div>
+        </form>
       </section>
     </article>
   </div>

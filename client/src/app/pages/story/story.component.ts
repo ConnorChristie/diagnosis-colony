@@ -4,6 +4,7 @@ import { ColonyService } from '../../services/colony/colony.service';
 import { ActivatedRoute } from '@angular/router';
 import { filter, flatMap, map } from 'rxjs/operators';
 import { IStory } from '../../models/story';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-story',
@@ -28,12 +29,33 @@ export class StoryComponent implements OnInit {
 
   public story: IStory;
 
+  public fundingForm = new FormGroup({
+    diagAmount: new FormControl(null, Validators.required),
+    currencyAmount: new FormControl({ value: null, disabled: true })
+  });
+
   constructor(
     private colonyService: ColonyService,
     private route: ActivatedRoute
   ) {}
 
-  async ngOnInit() {
+  ngOnInit() {
+    this.loadStory();
+
+    this.fundingForm.controls.diagAmount.valueChanges.subscribe(value => {
+      this.fundingForm.controls.currencyAmount.setValue(value / 10);
+    });
+  }
+
+  onSubmitContribution() {
+    const valid = this.fundingForm.valid;
+
+    if (valid) {
+
+    }
+  }
+
+  private loadStory() {
     this.route.paramMap
       .pipe(
         filter(x => x.has('id')),

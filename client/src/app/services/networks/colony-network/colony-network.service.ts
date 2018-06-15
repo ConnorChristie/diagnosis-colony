@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { environment } from '../../../../environments/environment';
 
 import { providers, Wallet } from 'ethers';
 import { TrufflepigLoader } from '@colony/colony-js-contract-loader-http';
@@ -45,8 +46,8 @@ export class ColonyNetworkService {
 
   async createColony(): Promise<number> {
     const tokenAddress = await this.networkClient.createToken({
-      name: 'Diagnosis Colony',
-      symbol: 'DIAG'
+      name: environment.colony.token.name,
+      symbol: environment.colony.token.symbol
     });
 
     const {

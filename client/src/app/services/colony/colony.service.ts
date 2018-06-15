@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { environment } from '../../../environments/environment';
 import { ColonyNetworkService } from '../networks/colony-network/colony-network.service';
 import { IpfsNetworkService } from '../networks/ipfs-network/ipfs-network.service';
 import { IStory } from '../../models/story';
@@ -9,8 +10,10 @@ import { flatMap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class ColonyService {
+  private colonyId = environment.colony.id;
+  private domainId = 1;
+
   private initialized = new ReplaySubject<boolean>();
-  private colonyId = 2;
 
   constructor(
     private colonyNetworkService: ColonyNetworkService,
@@ -48,7 +51,7 @@ export class ColonyService {
           eventData: { taskId }
         } = await colony.createTask.send({
           specificationHash: hash,
-          domainId: 1
+          domainId: this.domainId
         });
 
         return taskId as number;
