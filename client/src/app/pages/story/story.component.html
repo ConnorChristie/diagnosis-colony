@@ -43,100 +43,59 @@
 <aside class="read-next outer">
   <div class="inner">
     <div class="read-next-feed">
-      <article class="read-next-card">
-        <div class="post-card-content">
-          <div class="read-next-card-content-link">
-            <header class="post-card-header">
-              <h2 class="post-card-title">Fund this Story</h2>
-            </header>
-            <div class="post-card-excerpt">
-              <p>The funds raised for this story will be allocated to the researchers and medical professionals working on solving this mystery.</p>
+      <app-post-card class="read-next-card" [details]="fundingCardDetails">
+        <form [formGroup]="fundingForm" class="post-form">
+          <div class="gh-form-group gh-form-group-horizontal">
+            <div class="input-group">
+              <input type="number" formControlName="diagAmount" class="gh-input" placeholder="100.00">
+              <div class="input-group-append">
+                <span class="input-group-text">DIAG</span>
+              </div>
+            </div>
+
+            <img class="spacer-icon" src="/assets/convert-icon.svg" alt="≈">
+
+            <div class="input-group">
+              <input type="number" formControlName="currencyAmount" class="gh-input" placeholder="10.00">
+              <div class="input-group-append">
+                <span class="input-group-text">USD</span>
+              </div>
             </div>
           </div>
 
-          <form [formGroup]="fundingForm" class="post-form">
-            <div class="gh-form-group gh-form-group-horizontal">
-              <div class="input-group">
-                <input type="number" formControlName="diagAmount" class="gh-input" placeholder="100.00">
-                <div class="input-group-append">
-                  <span class="input-group-text">DIAG</span>
-                </div>
-              </div>
+          <div class="gh-form-group">
+            <input type="submit" value="Contribute" (click)="onSubmitContribution()" class="gh-input gh-btn-blue">
+          </div>
+        </form>
+      </app-post-card>
 
-              <img class="spacer-icon" src="/assets/convert-icon.svg" alt="≈">
+      <app-post-card *ngIf="userRole !== TaskRole.MANAGER" class="read-next-card post-card-secondary" [details]="researchCardDetails">
+        <form class="post-form">
+          <div class="gh-form-group">
+            <input type="button" value="Start Researching" (click)="onRequestToResearch()" class="gh-input gh-btn-blue">
+          </div>
+        </form>
+      </app-post-card>
 
-              <div class="input-group">
-                <input type="number" formControlName="currencyAmount" class="gh-input" placeholder="10.00">
-                <div class="input-group-append">
-                  <span class="input-group-text">USD</span>
-                </div>
-              </div>
+      <app-post-card *ngIf="userRole === TaskRole.MANAGER" class="read-next-card post-card-secondary" [details]="rolesCardDetails">
+        <form [formGroup]="researcherForm" class="post-form">
+          <div class="gh-form-group-horizontal">
+            <div class="gh-form-group">
+              <label for="worker">Researcher</label>
+              <input type="text" formControlName="worker" id="worker" class="gh-input" placeholder="e.g. 0x90F8bf…">
             </div>
 
             <div class="gh-form-group">
-              <input type="submit" value="Contribute" (click)="onSubmitContribution()" class="gh-input gh-btn-blue">
-            </div>
-          </form>
-        </div>
-      </article>
-
-      <article *ngIf="!isManager" class="read-next-card research-card">
-        <div class="post-card-content">
-          <div class="read-next-card-content-link">
-            <header class="post-card-header">
-              <h2 class="post-card-title">Research this Condition</h2>
-            </header>
-            <div class="post-card-excerpt">
-              <p>
-                We need students, medical professionals, and hobbyists alike who take a great interest in the
-                medical field to provide expertise for this story.
-              </p>
-              <p>
-                Researchers are compensated for working together and finding more information regarding this condition.
-              </p>
+              <label for="evaluator">Evaluator</label>
+              <input type="text" formControlName="evaluator" id="evaluator" class="gh-input" placeholder="e.g. 0x6A479f…">
             </div>
           </div>
 
-          <form class="post-form">
-            <div class="gh-form-group">
-              <input type="button" value="Start Researching" (click)="onRequestToResearch()" class="gh-input gh-btn-blue">
-            </div>
-          </form>
-        </div>
-      </article>
-
-      <article *ngIf="isManager" class="read-next-card research-card">
-        <div class="post-card-content">
-          <div class="read-next-card-content-link">
-            <header class="post-card-header">
-              <h2 class="post-card-title">Assign Researcher and Evaluator</h2>
-            </header>
-            <div class="post-card-excerpt">
-              <p>
-                Supply an address for both the main story researcher and evaluator.
-              </p>
-            </div>
+          <div class="gh-form-group">
+            <input type="submit" value="Assign Roles" (click)="onAssignRoles()" class="gh-input gh-btn-blue">
           </div>
-
-          <form [formGroup]="researcherForm" class="post-form">
-            <div class="gh-form-group-horizontal">
-              <div class="gh-form-group">
-                <label for="worker">Researcher</label>
-                <input type="text" formControlName="worker" id="worker" class="gh-input" placeholder="e.g. 0x90F8bf…">
-              </div>
-
-              <div class="gh-form-group">
-                <label for="evaluator">Evaluator</label>
-                <input type="text" formControlName="evaluator" id="evaluator" class="gh-input" placeholder="e.g. 0x6A479f…">
-              </div>
-            </div>
-
-            <div class="gh-form-group">
-              <input type="submit" value="Assign Roles" (click)="onAssignRoles()" class="gh-input gh-btn-blue">
-            </div>
-          </form>
-        </div>
-      </article>
+        </form>
+      </app-post-card>
     </div>
   </div>
 </aside>

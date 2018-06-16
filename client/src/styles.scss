@@ -1,6 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
 @import 'assets/new-screen.css';
 
+p {
+  white-space: pre-wrap;
+}
+
 .post {
   h1, h2, h3 {
     font-weight: 500;

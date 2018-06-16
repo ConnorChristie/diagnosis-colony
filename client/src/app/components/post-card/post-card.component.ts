@@ -26,7 +26,11 @@ export class PostCardComponent {
     return !!this.details;
   }
 
+  get hasId() {
+    return this.isLoaded && !!this.details.id;
+  }
+
   get link() {
-    return this.isLoaded ? ['/stories', this.details.id] : [];
+    return this.isLoaded ? ['/stories', this.details.id] : null;
   }
 }

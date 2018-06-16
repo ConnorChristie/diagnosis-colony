@@ -24,6 +24,25 @@ export class StoryComponent implements OnInit {
   public authors: IAuthor[] = [];
   public userRole: TaskRole;
 
+  public TaskRole = TaskRole;
+
+  public fundingCardDetails = {
+    title: 'Fund this Story',
+    description:
+      'The funds raised for this story will be allocated to the researchers and medical professionals working on solving this mystery.'
+  };
+  public researchCardDetails = {
+    title: 'Assign Researcher and Evaluator',
+    description:
+      'We need students, medical professionals, and hobbyists alike who take a great interest in the medical field to provide ' +
+      'expertise for this story.\n\nResearchers are compensated for working together and finding more information regarding this condition.'
+  };
+  public rolesCardDetails = {
+    title: 'Assign Researcher and Evaluator',
+    description:
+      'Supply an address for both the main story researcher and evaluator.'
+  };
+
   public fundingForm = new FormGroup({
     diagAmount: new FormControl(null, Validators.required),
     currencyAmount: new FormControl({ value: null, disabled: true })

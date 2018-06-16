@@ -2410,10 +2410,6 @@ textarea.gh-input {
   min-height: 78px;
 }
 
-.post-card-excerpt.skeleton-shell {
-  min-height: 107px;
-}
-
 .post-card-excerpt p {
   letter-spacing: normal;
   line-height: 1.75em;
@@ -3445,6 +3441,29 @@ textarea.gh-input {
 }
 
 .read-next-card-footer a {
+  color: #fff;
+}
+
+.post-card-secondary {
+  color: #fff;
+  background: #15171a 50%;
+}
+
+.post-card-secondary:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: block;
+  background: linear-gradient(135deg, rgba(0, 40, 60, .8), rgba(0, 20, 40, .7));
+  border-radius: 5px;
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+}
+
+.post-card-secondary .post-card-content-link {
   color: #fff;
 }
 

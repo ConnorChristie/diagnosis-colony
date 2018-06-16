@@ -34,43 +34,12 @@
 .read-next {
   background: #f4f8fb;
 
-  .post-card-content-link {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
+  .post-form {
+    width: 100%;
+    margin: 0;
 
-  .post-card-content {
-    .post-form {
-      padding: 0 25px 0;
-      margin: 0;
-    }
-  }
-
-  .research-card {
-    color: #fff;
-    background: #15171a 50%;
-
-    &:before {
-      content: "";
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      display: block;
-      background: linear-gradient(135deg, rgba(0, 40, 60, .8), rgba(0, 20, 40, .7));
-      border-radius: 5px;
-      -webkit-backdrop-filter: blur(2px);
-      backdrop-filter: blur(2px);
-    }
-
-    .read-next-card-content-link {
-      color: #fff;
-
-      .post-card-excerpt {
-        min-height: 0;
-      }
+    .gh-form-group:last-child {
+      margin-bottom: 0;
     }
   }
 }

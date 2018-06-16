@@ -1,26 +1,38 @@
-<div>
-  <a class="post-card-image-link" [routerLink]="link">
-    <div class="post-card-image" [style.backgroundImage]="isLoaded && 'url(' + details.image + ')'"></div>
+<div class="post-card-container">
+  <a *ngIf="!isLoaded || details?.image" class="post-card-image-link" [routerLink]="link">
+    <div class="post-card-image" [style.backgroundImage]="isLoaded && 'url(' + details?.image + ')'"></div>
   </a>
 
   <div class="post-card-content">
-    <a class="post-card-content-link" [routerLink]="link">
-      <div *ngIf="details?.progress" class="progress-container">
-        <span class="progress-bar" [style.width]="details.progress + '%'"></span>
-      </div>
-
-      <header class="post-card-header">
-        <span class="post-card-tags" [class.skeleton-shell]="!isLoaded">{{details?.category}}</span>
-        <h2 class="post-card-title" [class.skeleton-shell]="!isLoaded">{{details?.title}}</h2>
-      </header>
-      <div class="post-card-excerpt" [class.skeleton-shell]="!isLoaded">
-        <p>{{details?.description}}</p>
-      </div>
+    <a *ngIf="hasId" class="post-card-content-link" [routerLink]="link">
+      <ng-container *ngTemplateOutlet="postContent"></ng-container>
     </a>
 
+    <div *ngIf="!hasId" class="post-card-content-link">
+      <ng-container *ngTemplateOutlet="postContent"></ng-container>
+    </div>
+
     <footer class="post-card-meta">
-      <app-author-list [authors]="details?.contributors || []"></app-author-list>
-      <span class="reading-time" [class.skeleton-shell]="!isLoaded">{{details?.metadata}}</span>
+      <ng-content></ng-content>
+
+      <app-author-list *ngIf="!isLoaded || details?.contributors" [authors]="details?.contributors"></app-author-list>
+      <span *ngIf="!isLoaded || details?.metadata" class="reading-time" [class.skeleton-shell]="!isLoaded">
+        {{details?.metadata}}
+      </span>
     </footer>
   </div>
 </div>
+
+<ng-template #postContent>
+  <div *ngIf="details?.progress" class="progress-container">
+    <span class="progress-bar" [style.width]="details?.progress + '%'"></span>
+  </div>
+
+  <header class="post-card-header">
+    <span class="post-card-tags" [class.skeleton-shell]="!isLoaded">{{details?.category}}</span>
+    <h2 class="post-card-title" [class.skeleton-shell]="!isLoaded">{{details?.title}}</h2>
+  </header>
+  <div class="post-card-excerpt" [class.skeleton-shell]="!isLoaded">
+    <p>{{details?.description}}</p>
+  </div>
+</ng-template>
