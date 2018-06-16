@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { IAuthor } from '../../components/author-list/author-list.component';
-import { ColonyService, ITaskRoles, TaskRole } from '../../services/colony/colony.service';
+import {
+  ColonyService,
+  ITaskRoles,
+  TaskRole
+} from '../../services/colony/colony.service';
 import { ActivatedRoute } from '@angular/router';
 import { filter, flatMap, map, tap } from 'rxjs/operators';
 import { IStory, IStoryTask } from '../../models/story';
@@ -57,8 +61,16 @@ export class StoryComponent implements OnInit {
 
     if (valid) {
       combineLatest(
-        this.colonyService.assignUserRole(this.story.id, data.worker, TaskRole.WORKER),
-        this.colonyService.assignUserRole(this.story.id, data.evaluator, TaskRole.EVALUATOR)
+        this.colonyService.assignUserRole(
+          this.story.id,
+          data.worker,
+          TaskRole.WORKER
+        ),
+        this.colonyService.assignUserRole(
+          this.story.id,
+          data.evaluator,
+          TaskRole.EVALUATOR
+        )
       ).subscribe(async () => {
         await this.updateParticipants({
           manager: this.roles.manager,
@@ -86,7 +98,8 @@ export class StoryComponent implements OnInit {
           .getStory(id)
           .subscribe(story => (this.story = story));
 
-        this.colonyService.getTaskRoles(id)
+        this.colonyService
+          .getTaskRoles(id)
           .subscribe(async roles => await this.updateParticipants(roles));
       });
   }

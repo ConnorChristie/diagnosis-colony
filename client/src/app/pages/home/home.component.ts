@@ -11,7 +11,7 @@ export class HomeComponent {
     id: 'unsplash-ghost-1',
     title: 'News Post',
     description:
-      "We've just released an official Unsplash integration for Ghost; Now you can find and use beautiful free photos from the world's " +
+      'We\'ve just released an official Unsplash integration for Ghost; Now you can find and use beautiful free photos from the world\'s ' +
       'most generous community of photographers! No matter what case study you look',
     category: 'New Things',
     metadata: 'Raised $12,940',
@@ -33,8 +33,8 @@ export class HomeComponent {
       id: 'unsplash-ghost-1',
       title: 'Unsplash x Ghost',
       description:
-        "We've just released an official Unsplash integration for Ghost; Now you can find and use beautiful free photos from the " +
-        "world's most generous community of photographers! No matter what case study you look",
+        'We\'ve just released an official Unsplash integration for Ghost; Now you can find and use beautiful free photos from the ' +
+        'world\'s most generous community of photographers! No matter what case study you look',
       category: 'New Things',
       contributors: [
         {
@@ -52,8 +52,8 @@ export class HomeComponent {
       id: 'unsplash-ghost-1',
       title: 'Unsplash x Ghost',
       description:
-        "We've just released an official Unsplash integration for Ghost; Now you can find and use beautiful free photos from the " +
-        "world's most generous community of photographers! No matter what case study you look",
+        'We\'ve just released an official Unsplash integration for Ghost; Now you can find and use beautiful free photos from the ' +
+        'world\'s most generous community of photographers! No matter what case study you look',
       category: 'New Things',
       contributors: [
         {
@@ -71,8 +71,8 @@ export class HomeComponent {
       id: 'unsplash-ghost-1',
       title: 'Unsplash x Ghost',
       description:
-        "We've just released an official Unsplash integration for Ghost; Now you can find and use beautiful free photos from the " +
-        "world's most generous community of photographers! No matter what case study you look",
+        'We\'ve just released an official Unsplash integration for Ghost; Now you can find and use beautiful free photos from the ' +
+        'world\'s most generous community of photographers! No matter what case study you look',
       category: 'New Things',
       contributors: [
         {
