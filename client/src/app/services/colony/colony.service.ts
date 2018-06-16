@@ -6,13 +6,23 @@ import {
 } from '../networks/colony-network/colony-network.service';
 import { IpfsNetworkService } from '../networks/ipfs-network/ipfs-network.service';
 import { IStory, IStoryTask } from '../../models/story';
-import { combineLatest, ReplaySubject } from 'rxjs';
-import { flatMap, map } from 'rxjs/operators';
+import { combineLatest, Observable, ReplaySubject } from 'rxjs';
+import { flatMap } from 'rxjs/operators';
 
-enum TaskRole {
+export enum TaskRole {
   MANAGER = 'MANAGER',
   EVALUATOR = 'EVALUATOR',
   WORKER = 'WORKER'
+}
+
+interface ITaskRole {
+  address: string;
+}
+
+export interface ITaskRoles {
+  manager: ITaskRole;
+  evaluator: ITaskRole;
+  worker: ITaskRole;
 }
 
 @Injectable({
@@ -123,7 +133,7 @@ export class ColonyService {
     );
   }
 
-  getTaskRoles(storyId: number) {
+  getTaskRoles(storyId: number): Observable<ITaskRoles> {
     return this.getColony().pipe(
       flatMap(async colony => ({
         manager: await colony.getTaskRole.call({
@@ -142,12 +152,12 @@ export class ColonyService {
     );
   }
 
-  setWorker(storyId: number, user: string) {
+  assignUserRole(storyId: number, user: string, role: TaskRole) {
     return this.getColony().pipe(
       flatMap(async colony => {
         return await colony.setTaskRoleUser.send({
           taskId: storyId,
-          role: TaskRole.WORKER,
+          role: role,
           user: user
         });
       })

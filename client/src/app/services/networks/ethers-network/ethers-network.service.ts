@@ -19,6 +19,8 @@ export class EthersNetworkService {
   private readonly signer: ISigner;
   private readonly adapter: EthersAdapter;
 
+  private address: string;
+
   constructor() {
     let provider;
 
@@ -38,7 +40,13 @@ export class EthersNetworkService {
   }
 
   async getUserAddress() {
-    return await this.signer.getAddress();
+    if (this.address) {
+      return Promise.resolve(this.address);
+    }
+
+    this.address = await this.signer.getAddress();
+
+    return this.address;
   }
 
   getAdapter() {

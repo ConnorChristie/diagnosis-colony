@@ -14,11 +14,6 @@
   }
 }
 
-.amounts {
-  display: flex;
-  justify-content: space-between;
-}
-
 .read-next {
   background: #f4f8fb;
 
@@ -26,6 +21,13 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+  }
+
+  .post-card-content {
+    .post-form {
+      padding: 0 25px 0;
+      margin: 0;
+    }
   }
 
   .research-card {
@@ -48,6 +50,10 @@
 
     .read-next-card-content-link {
       color: #fff;
+
+      .post-card-excerpt {
+        min-height: 0;
+      }
     }
   }
 }
