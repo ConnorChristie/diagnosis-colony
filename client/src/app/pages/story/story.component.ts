@@ -20,10 +20,9 @@ import { combineLatest } from 'rxjs';
 export class StoryComponent implements OnInit {
   private roles: ITaskRoles;
 
-  public isManager: boolean;
-
-  public authors: IAuthor[] = [];
   public story: IStoryTask;
+  public authors: IAuthor[] = [];
+  public userRole: TaskRole;
 
   public fundingForm = new FormGroup({
     diagAmount: new FormControl(null, Validators.required),
@@ -47,6 +46,10 @@ export class StoryComponent implements OnInit {
     this.fundingForm.controls.diagAmount.valueChanges.subscribe(value => {
       this.fundingForm.controls.currencyAmount.setValue(value / 10);
     });
+  }
+
+  shouldShowConditionDetails() {
+    return !!this.userRole;
   }
 
   onSubmitContribution() {
@@ -105,11 +108,13 @@ export class StoryComponent implements OnInit {
   }
 
   private async updateParticipants(roles: ITaskRoles) {
+    const userAddress = await this.ethersNetworkService.getUserAddress();
     const authors = [];
 
     if (roles.manager.address) {
-      const userAddress = await this.ethersNetworkService.getUserAddress();
-      this.isManager = userAddress === roles.manager.address;
+      if (userAddress === roles.manager.address) {
+        this.userRole = TaskRole.MANAGER;
+      }
 
       authors.push({
         name: roles.manager.address,
@@ -121,20 +126,11 @@ export class StoryComponent implements OnInit {
       });
     }
 
-    if (roles.evaluator.address) {
-      authors.push({
-        name: roles.evaluator.address,
-        subtitle: 'Story Evaluator',
-        description: 'Doctor at Yale Medical College',
-        image:
-          'https://www.gravatar.com/avatar/85a47a60d579572601ff74b72fe8b32d?s=250&d=mm&r=x',
-        link: '/'
-      });
-
-      this.researcherForm.controls.evaluator.setValue(roles.evaluator.address);
-    }
-
     if (roles.worker.address) {
+      if (userAddress === roles.worker.address) {
+        this.userRole = TaskRole.WORKER;
+      }
+
       authors.push({
         name: roles.worker.address,
         subtitle: 'Primary Researcher',
@@ -145,6 +141,23 @@ export class StoryComponent implements OnInit {
       });
 
       this.researcherForm.controls.worker.setValue(roles.worker.address);
+    }
+
+    if (roles.evaluator.address) {
+      if (userAddress === roles.evaluator.address) {
+        this.userRole = TaskRole.EVALUATOR;
+      }
+
+      authors.push({
+        name: roles.evaluator.address,
+        subtitle: 'Research Evaluator',
+        description: 'Doctor at Yale Medical College',
+        image:
+          'https://www.gravatar.com/avatar/85a47a60d579572601ff74b72fe8b32d?s=250&d=mm&r=x',
+        link: '/'
+      });
+
+      this.researcherForm.controls.evaluator.setValue(roles.evaluator.address);
     }
 
     this.roles = roles;

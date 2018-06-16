@@ -16,9 +16,24 @@
       </figure>
 
       <section class="post-full-content">
-        <h2>Story</h2>
         <div class="kg-card-markdown">
           <p>{{story?.story.storyDetails.details}}</p>
+        </div>
+
+        <div *ngIf="shouldShowConditionDetails()" class="condition-details">
+          <hr>
+          <h2>Condition Details</h2>
+          <div class="kg-card-markdown">
+            <p>{{story?.story.conditionDetails.details}}</p>
+          </div>
+          <h3>Symptoms</h3>
+          <div class="kg-card-markdown">
+            <p>{{story?.story.conditionDetails.symptoms}}</p>
+          </div>
+          <h3>Images</h3>
+          <div class="image-gallery">
+            <img *ngFor="let image of story?.story.conditionDetails.images" [src]="image">
+          </div>
         </div>
       </section>
     </article>
