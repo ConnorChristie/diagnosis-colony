@@ -2678,7 +2678,7 @@ textarea.gh-input {
 
 .post-full-content {
   position: relative;
-  min-height: 230px;
+  min-height: 400px;
   margin: 0 auto;
   padding: 90px 140px 0;
   font-family: Mercury SSm A, Mercury SSm B, Georgia, serif;
@@ -3274,12 +3274,19 @@ textarea.gh-input {
   position: relative;
   z-index: 10;
   margin: 1em 0 .5em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 90%;
 }
 
 .author-card-bio {
   padding: 20px;
   color: #15171a;
   text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .author-card-bio p {

@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   colony: {
-    id: 2,
+    id: 6,
     token: {
       name: 'Diagnosis Colony',
       symbol: 'DIAG'

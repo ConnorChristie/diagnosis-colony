@@ -7,7 +7,13 @@ import {
 import { IpfsNetworkService } from '../networks/ipfs-network/ipfs-network.service';
 import { IStory, IStoryTask } from '../../models/story';
 import { combineLatest, ReplaySubject } from 'rxjs';
-import { flatMap } from 'rxjs/operators';
+import { flatMap, map } from 'rxjs/operators';
+
+enum TaskRole {
+  MANAGER = 'MANAGER',
+  EVALUATOR = 'EVALUATOR',
+  WORKER = 'WORKER'
+}
 
 @Injectable({
   providedIn: 'root'
@@ -47,9 +53,9 @@ export class ColonyService {
 
   getToken() {
     return this.getColony().pipe(
-      flatMap<IColonyClient, number>(async colony => {
-        return (await colony.getToken.call()).address;
-      })
+      flatMap<IColonyClient, number>(
+        async colony => (await colony.getToken.call()).address
+      )
     );
   }
 
@@ -80,6 +86,7 @@ export class ColonyService {
         );
 
         return {
+          id: id,
           story: await this.ipfsNetworkService.getData<IStory>(
             specificationHash
           ),
@@ -98,19 +105,51 @@ export class ColonyService {
 
   getStoryCount() {
     return this.getColony().pipe(
-      flatMap(async colony => {
-        return (await colony.getTaskCount.call()).count as number;
-      })
+      flatMap(
+        async colony => (await colony.getTaskCount.call()).count as number
+      )
     );
   }
 
   getPotBalance(potId: number) {
     return combineLatest(this.getColony(), this.getToken()).pipe(
-      flatMap(async ([colony, token]) => {
-        return (await colony.getPotBalance.call({
-          potId,
-          source: token
-        })).balance;
+      flatMap(
+        async ([colony, token]) =>
+          (await colony.getPotBalance.call({
+            potId,
+            source: token
+          })).balance
+      )
+    );
+  }
+
+  getTaskRoles(storyId: number) {
+    return this.getColony().pipe(
+      flatMap(async colony => ({
+        manager: await colony.getTaskRole.call({
+          taskId: storyId,
+          role: TaskRole.MANAGER
+        }),
+        evaluator: await colony.getTaskRole.call({
+          taskId: storyId,
+          role: TaskRole.EVALUATOR
+        }),
+        worker: await colony.getTaskRole.call({
+          taskId: storyId,
+          role: TaskRole.WORKER
+        })
+      }))
+    );
+  }
+
+  setWorker(storyId: number, user: string) {
+    return this.getColony().pipe(
+      flatMap(async colony => {
+        return await colony.setTaskRoleUser.send({
+          taskId: storyId,
+          role: TaskRole.WORKER,
+          user: user
+        });
       })
     );
   }

@@ -77,35 +77,25 @@ export class StoriesComponent implements OnInit {
   private loadStories(skip: number, take: number) {
     this.stories$ = this.colonyService
       .getStories(skip, take)
-      .map((story$, index) => this.loadStory(story$, skip, index));
-  }
-
-  private loadStory(
-    story$: Observable<IStoryTask>,
-    skip: number,
-    index: number
-  ) {
-    const storyId = ColonyService.toStoryId(skip, index);
-
-    return story$.pipe(
-      flatMap(story => this.storyToCard(storyId, story, index))
-    );
+      .map((story$, index) =>
+        story$.pipe(flatMap(story => this.storyToCard(story, index)))
+      );
   }
 
   // TODO: Include authors / researchers working on the story
-  private storyToCard(storyId: number, storyTask: IStoryTask, index: number) {
+  private storyToCard(storyTask: IStoryTask, index: number) {
     let characterLimit = 140;
 
     if (this.getCardSize(index) === CardSize.HALF) {
       characterLimit = 200;
     }
 
-    const { story, potId } = storyTask;
+    const { id, story, potId } = storyTask;
 
     return this.colonyService.getPotBalance(potId).pipe(
       map(potBalance => potBalance.toNumber()),
       map(potBalance => ({
-        id: storyId,
+        id: id,
         title: story.storyDetails.title,
         description:
           story.storyDetails.details.substring(0, characterLimit) + '…',

@@ -11,6 +11,9 @@ export interface IAuthor {
   name: string;
   image: string;
   link: string;
+
+  subtitle?: string;
+  description?: string;
 }
 
 @Component({
@@ -19,7 +22,7 @@ export interface IAuthor {
   styleUrls: ['./author-list.component.scss']
 })
 export class AuthorListComponent {
-  @Input() public authors;
+  @Input() public authors: IAuthor[];
   @Input() public showDetailed = false;
 
   @ViewChildren('authorItem') public authorItems: QueryList<ElementRef>;

@@ -13,6 +13,7 @@ export interface IStory {
 }
 
 export interface IStoryTask {
+  id: number;
   story: IStory;
   potId: number;
   dueDate: number;
