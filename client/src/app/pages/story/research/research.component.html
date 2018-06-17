@@ -1,0 +1,34 @@
+<h2>Submit Research</h2>
+<p>Please be as detailed and informative as possible. After submitting, the evaluator will look over your contribution
+  and determine if the supplied details and attached references indeed correlate with this condition.</p>
+<form [formGroup]="researchForm" class="post-form">
+  <div class="gh-form-group">
+    <label for="causes">Found Causes</label>
+    <textarea formControlName="causes" id="causes" class="gh-input"></textarea>
+    <p>The root causes or possible conjectures about what may be causing the condition.</p>
+  </div>
+
+  <div class="gh-form-group">
+    <label for="treatments">Treatments</label>
+    <textarea formControlName="treatments" id="treatments" class="gh-input"></textarea>
+    <p>Treatments that may work without harm or whether there are no treatment procedures yet.</p>
+  </div>
+
+  <div class="gh-form-group">
+    <label for="symptoms">Additional Symptoms</label>
+    <textarea formControlName="symptoms" id="symptoms" class="gh-input"></textarea>
+    <p>Any additional symptoms that may be present with this condition.</p>
+  </div>
+
+  <div class="gh-form-group">
+    <label for="references">References</label>
+    <textarea formControlName="references" id="references" class="gh-input"></textarea>
+    <p>We need the references you used to ascertain the validity of the presented information.</p>
+  </div>
+
+  <hr>
+
+  <div class="gh-form-group">
+    <input type="submit" value="Submit" (click)="onSubmit()" class="gh-input gh-btn-blue">
+  </div>
+</form>

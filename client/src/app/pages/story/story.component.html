@@ -19,23 +19,39 @@
         <form *ngIf="allowedConditionDetails()" class="post-form">
           <div class="gh-form-group-horizontal">
             <div class="gh-form-group">
-              <button (click)="isShowingCondition = !isShowingCondition" class="gh-input gh-btn-white">
-                {{isShowingCondition ? 'Read Story' : 'Read Condition Details'}}
+              <button *ngIf="viewState !== ViewState.STORY"
+                      (click)="viewState = ViewState.STORY" class="gh-input gh-btn-white">
+                Read Story
+              </button>
+              <button *ngIf="viewState === ViewState.STORY"
+                      (click)="viewState = ViewState.CONDITION" class="gh-input gh-btn-white">
+                Read Condition Details
               </button>
             </div>
 
             <div *ngIf="allowedSubmitResearch()" class="gh-form-group">
-              <button class="gh-input gh-btn-white">Submit Research</button>
+              <button *ngIf="viewState === ViewState.RESEARCH"
+                      (click)="viewState = ViewState.CONDITION" class="gh-input gh-btn-white">
+                Read Condition Details
+              </button>
+              <button *ngIf="viewState !== ViewState.RESEARCH"
+                      (click)="viewState = ViewState.RESEARCH" class="gh-input gh-btn-white">
+                Submit Research
+              </button>
             </div>
           </div>
         </form>
 
-        <div *ngIf="!isShowingCondition" class="kg-card-markdown">
+        <div *ngIf="viewState === ViewState.STORY" class="kg-card-markdown">
           <p>{{story?.story.storyDetails.details}}</p>
         </div>
 
-        <div *ngIf="isShowingCondition">
+        <div *ngIf="viewState === ViewState.CONDITION">
           <app-condition [details]="story?.story.conditionDetails"></app-condition>
+        </div>
+
+        <div *ngIf="viewState === ViewState.RESEARCH">
+          <app-research [storyId]="story?.id"></app-research>
         </div>
       </section>
     </article>

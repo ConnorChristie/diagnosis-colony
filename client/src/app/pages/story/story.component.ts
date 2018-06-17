@@ -13,6 +13,12 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { EthersNetworkService } from '../../services/networks/ethers-network/ethers-network.service';
 import { combineLatest } from 'rxjs';
 
+enum ViewState {
+  STORY = 1,
+  CONDITION = 2,
+  RESEARCH = 3
+}
+
 @Component({
   selector: 'app-story',
   templateUrl: './story.component.html',
@@ -23,9 +29,10 @@ export class StoryComponent implements OnInit {
 
   public story: IStoryTask;
   public participants: IAuthor[] = [];
-
-  public isShowingCondition: boolean;
   public userRoles: TaskRole[] = [];
+
+  public ViewState = ViewState;
+  public viewState: ViewState = ViewState.STORY;
 
   public fundingCardDetails = {
     title: 'Fund this Story',
@@ -41,7 +48,7 @@ export class StoryComponent implements OnInit {
   public rolesCardDetails = {
     title: 'Assign Researcher and Evaluator',
     description:
-      'Supply an address for both the main story researcher and evaluator.'
+      'Supply an address for both the primary researcher and evaluator.'
   };
 
   public fundingForm = new FormGroup({
@@ -136,6 +143,17 @@ export class StoryComponent implements OnInit {
       });
   }
 
+  private async updateParticipants(roles: ITaskRoles) {
+    this.userRoles = [];
+    this.participants = [];
+
+    await this.addParticipant(roles.manager, TaskRole.MANAGER);
+    await this.addParticipant(roles.worker, TaskRole.WORKER);
+    await this.addParticipant(roles.evaluator, TaskRole.EVALUATOR);
+
+    this.roles = roles;
+  }
+
   private async addParticipant(roleDetails: ITaskRole, role: TaskRole) {
     if (roleDetails.address) {
       const userAddress = await this.ethersNetworkService.getUserAddress();
@@ -164,13 +182,5 @@ export class StoryComponent implements OnInit {
         this.researcherForm.controls.evaluator.setValue(roleDetails.address);
         break;
     }
-  }
-
-  private async updateParticipants(roles: ITaskRoles) {
-    await this.addParticipant(roles.manager, TaskRole.MANAGER);
-    await this.addParticipant(roles.worker, TaskRole.WORKER);
-    await this.addParticipant(roles.evaluator, TaskRole.EVALUATOR);
-
-    this.roles = roles;
   }
 }

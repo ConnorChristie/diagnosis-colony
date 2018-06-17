@@ -19,6 +19,7 @@ import { ConditionDetailsComponent } from './pages/new-story/condition-details/c
 import { SelectComponent } from './components/select/select.component';
 import { FundingComponent } from './pages/new-story/funding/funding.component';
 import { ConditionComponent } from './pages/story/condition/condition.component';
+import { ResearchComponent } from './pages/story/research/research.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { ConditionComponent } from './pages/story/condition/condition.component'
     ConditionDetailsComponent,
     SelectComponent,
     FundingComponent,
-    ConditionComponent
+    ConditionComponent,
+    ResearchComponent
   ],
   imports: [
     BrowserModule,

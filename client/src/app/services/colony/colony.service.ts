@@ -8,6 +8,7 @@ import { IpfsNetworkService } from '../networks/ipfs-network/ipfs-network.servic
 import { IStory, IStoryTask } from '../../models/story';
 import { combineLatest, Observable, ReplaySubject } from 'rxjs';
 import { flatMap } from 'rxjs/operators';
+import { IResearch } from '../../models/research';
 
 export enum TaskRole {
   MANAGER = 'MANAGER',
@@ -82,6 +83,19 @@ export class ColonyService {
         });
 
         return taskId;
+      })
+    );
+  }
+
+  submitResearch(storyId: number, research: IResearch) {
+    return this.getColony().pipe(
+      flatMap<IColonyClient, void>(async colony => {
+        const { hash } = await this.ipfsNetworkService.saveData(research);
+
+        await colony.submitTaskDeliverable.send({
+          taskId: storyId,
+          deliverableHash: hash
+        });
       })
     );
   }
