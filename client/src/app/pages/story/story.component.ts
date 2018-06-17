@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IAuthor } from '../../components/author-list/author-list.component';
 import {
   ColonyService,
+  ITaskRole,
   ITaskRoles,
   TaskRole
 } from '../../services/colony/colony.service';
@@ -21,10 +22,10 @@ export class StoryComponent implements OnInit {
   private roles: ITaskRoles;
 
   public story: IStoryTask;
-  public authors: IAuthor[] = [];
-  public userRole: TaskRole;
+  public participants: IAuthor[] = [];
 
-  public TaskRole = TaskRole;
+  public isShowingCondition: boolean;
+  public userRoles: TaskRole[] = [];
 
   public fundingCardDetails = {
     title: 'Fund this Story',
@@ -67,8 +68,17 @@ export class StoryComponent implements OnInit {
     });
   }
 
-  shouldShowConditionDetails() {
-    return !!this.userRole;
+  allowedConditionDetails() {
+    // If the user has any role, they are allowed to see the details
+    return !!this.userRoles.length;
+  }
+
+  allowedSubmitResearch() {
+    return this.userRoles.some(x => x === TaskRole.WORKER);
+  }
+
+  allowedAssignRoles() {
+    return this.userRoles.some(x => x === TaskRole.MANAGER);
   }
 
   onSubmitContribution() {
@@ -126,60 +136,41 @@ export class StoryComponent implements OnInit {
       });
   }
 
-  private async updateParticipants(roles: ITaskRoles) {
-    const userAddress = await this.ethersNetworkService.getUserAddress();
-    const authors = [];
+  private async addParticipant(roleDetails: ITaskRole, role: TaskRole) {
+    if (roleDetails.address) {
+      const userAddress = await this.ethersNetworkService.getUserAddress();
 
-    if (roles.manager.address) {
-      if (userAddress === roles.manager.address) {
-        this.userRole = TaskRole.MANAGER;
+      if (roleDetails.address === userAddress) {
+        this.userRoles.push(role);
       }
 
-      authors.push({
-        name: roles.manager.address,
+      this.participants.push({
+        name: roleDetails.address,
         subtitle: 'Story Coordinator',
-        description: 'Doctor at Yale Medical College',
+        // subtitle: 'Primary Researcher',
+        // subtitle: 'Research Evaluator',
+        description: 'Teacher at Elementary School',
         image:
           '//www.gravatar.com/avatar/f95828f4e92f1befebabfb7f65cdc8f2?s=250&amp;d=mm&amp;r=x',
         link: '/'
       });
     }
 
-    if (roles.worker.address) {
-      if (userAddress === roles.worker.address) {
-        this.userRole = TaskRole.WORKER;
-      }
-
-      authors.push({
-        name: roles.worker.address,
-        subtitle: 'Primary Researcher',
-        description: 'Doctor at Yale Medical College',
-        image:
-          'https://www.gravatar.com/avatar/49ebcbbe9bb3ed1f5d5de91483de383c?s=250&d=mm&r=x',
-        link: '/'
-      });
-
-      this.researcherForm.controls.worker.setValue(roles.worker.address);
+    switch (role) {
+      case TaskRole.WORKER:
+        this.researcherForm.controls.worker.setValue(roleDetails.address);
+        break;
+      case TaskRole.EVALUATOR:
+        this.researcherForm.controls.evaluator.setValue(roleDetails.address);
+        break;
     }
+  }
 
-    if (roles.evaluator.address) {
-      if (userAddress === roles.evaluator.address) {
-        this.userRole = TaskRole.EVALUATOR;
-      }
-
-      authors.push({
-        name: roles.evaluator.address,
-        subtitle: 'Research Evaluator',
-        description: 'Doctor at Yale Medical College',
-        image:
-          'https://www.gravatar.com/avatar/85a47a60d579572601ff74b72fe8b32d?s=250&d=mm&r=x',
-        link: '/'
-      });
-
-      this.researcherForm.controls.evaluator.setValue(roles.evaluator.address);
-    }
+  private async updateParticipants(roles: ITaskRoles) {
+    await this.addParticipant(roles.manager, TaskRole.MANAGER);
+    await this.addParticipant(roles.worker, TaskRole.WORKER);
+    await this.addParticipant(roles.evaluator, TaskRole.EVALUATOR);
 
     this.roles = roles;
-    this.authors = authors;
   }
 }

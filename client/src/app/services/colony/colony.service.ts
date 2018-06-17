@@ -15,7 +15,7 @@ export enum TaskRole {
   WORKER = 'WORKER'
 }
 
-interface ITaskRole {
+export interface ITaskRole {
   address: string;
 }
 

@@ -11,29 +11,31 @@
 
       <figure class="post-full-image" [style.backgroundImage]="story && 'url(' + story?.story.storyDetails.mainImage + ')'">
         <div class="post-full-introauthors">
-          <app-author-list [authors]="authors" [showDetailed]="true"></app-author-list>
+          <app-author-list [authors]="participants" [showDetailed]="true"></app-author-list>
         </div>
       </figure>
 
       <section class="post-full-content">
-        <div class="kg-card-markdown">
+        <form *ngIf="allowedConditionDetails()" class="post-form">
+          <div class="gh-form-group-horizontal">
+            <div class="gh-form-group">
+              <button (click)="isShowingCondition = !isShowingCondition" class="gh-input gh-btn-white">
+                {{isShowingCondition ? 'Read Story' : 'Read Condition Details'}}
+              </button>
+            </div>
+
+            <div *ngIf="allowedSubmitResearch()" class="gh-form-group">
+              <button class="gh-input gh-btn-white">Submit Research</button>
+            </div>
+          </div>
+        </form>
+
+        <div *ngIf="!isShowingCondition" class="kg-card-markdown">
           <p>{{story?.story.storyDetails.details}}</p>
         </div>
 
-        <div *ngIf="shouldShowConditionDetails()" class="condition-details">
-          <hr>
-          <h2>Condition Details</h2>
-          <div class="kg-card-markdown">
-            <p>{{story?.story.conditionDetails.details}}</p>
-          </div>
-          <h3>Symptoms</h3>
-          <div class="kg-card-markdown">
-            <p>{{story?.story.conditionDetails.symptoms}}</p>
-          </div>
-          <h3>Images</h3>
-          <div class="image-gallery">
-            <img *ngFor="let image of story?.story.conditionDetails.images" [src]="image">
-          </div>
+        <div *ngIf="isShowingCondition">
+          <app-condition [details]="story?.story.conditionDetails"></app-condition>
         </div>
       </section>
     </article>
@@ -69,15 +71,15 @@
         </form>
       </app-post-card>
 
-      <app-post-card *ngIf="userRole !== TaskRole.MANAGER" class="read-next-card post-card-secondary" [details]="researchCardDetails">
+      <app-post-card *ngIf="!allowedAssignRoles()" class="read-next-card post-card-secondary" [details]="researchCardDetails">
         <form class="post-form">
           <div class="gh-form-group">
-            <input type="button" value="Start Researching" (click)="onRequestToResearch()" class="gh-input gh-btn-blue">
+            <input type="button" value="Start Researching" (click)="onRequestToResearch()" class="gh-input gh-btn-white">
           </div>
         </form>
       </app-post-card>
 
-      <app-post-card *ngIf="userRole === TaskRole.MANAGER" class="read-next-card post-card-secondary" [details]="rolesCardDetails">
+      <app-post-card *ngIf="allowedAssignRoles()" class="read-next-card post-card-secondary" [details]="rolesCardDetails">
         <form [formGroup]="researcherForm" class="post-form">
           <div class="gh-form-group-horizontal">
             <div class="gh-form-group">
@@ -92,7 +94,7 @@
           </div>
 
           <div class="gh-form-group">
-            <input type="submit" value="Assign Roles" (click)="onAssignRoles()" class="gh-input gh-btn-blue">
+            <input type="submit" value="Assign Roles" (click)="onAssignRoles()" class="gh-input gh-btn-white">
           </div>
         </form>
       </app-post-card>

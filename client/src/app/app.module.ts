@@ -18,6 +18,7 @@ import { StoryDetailsComponent } from './pages/new-story/story-details/story-det
 import { ConditionDetailsComponent } from './pages/new-story/condition-details/condition-details.component';
 import { SelectComponent } from './components/select/select.component';
 import { FundingComponent } from './pages/new-story/funding/funding.component';
+import { ConditionComponent } from './pages/story/condition/condition.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { FundingComponent } from './pages/new-story/funding/funding.component';
     StoryDetailsComponent,
     ConditionDetailsComponent,
     SelectComponent,
-    FundingComponent
+    FundingComponent,
+    ConditionComponent
   ],
   imports: [
     BrowserModule,

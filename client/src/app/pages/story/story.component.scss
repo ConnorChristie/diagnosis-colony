@@ -14,23 +14,6 @@
   }
 }
 
-.condition-details {
-  .image-gallery {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-
-    img {
-      max-height: 230px;
-      max-width: 230px;
-      border-radius: 5px;
-      box-shadow: 8px 14px 38px rgba(39, 44, 49, .06), 1px 3px 8px rgba(39, 44, 49, .03);
-      margin: 25px 0 0;
-    }
-  }
-}
-
 .read-next {
   background: #f4f8fb;
 
