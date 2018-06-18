@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
-import { ColonyService } from '../../services/colony/colony.service';
-import { flatMap, map, tap } from 'rxjs/operators';
+import { Component, OnInit } from '@angular/core';
+import { flatMap, map } from 'rxjs/operators';
 import { IStoryTask } from '../../models/story';
-import { Observable } from 'rxjs';
+import { ColonyService } from '../../services/colony/colony.service';
 
 enum CardSize {
   THIRD = 1,

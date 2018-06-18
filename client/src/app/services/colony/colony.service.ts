@@ -1,30 +1,15 @@
 import { Injectable } from '@angular/core';
+import { combineLatest, ReplaySubject } from 'rxjs';
+import { flatMap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
+import { IResearch } from '../../models/research';
+import { IStory, IStoryTask } from '../../models/story';
+import { ITaskRoles, TaskRole } from '../../models/task-role';
 import {
   ColonyNetworkService,
   IColonyClient
 } from '../networks/colony-network/colony-network.service';
 import { IpfsNetworkService } from '../networks/ipfs-network/ipfs-network.service';
-import { IStory, IStoryTask } from '../../models/story';
-import { combineLatest, Observable, ReplaySubject } from 'rxjs';
-import { flatMap } from 'rxjs/operators';
-import { IResearch } from '../../models/research';
-
-export enum TaskRole {
-  MANAGER = 'MANAGER',
-  EVALUATOR = 'EVALUATOR',
-  WORKER = 'WORKER'
-}
-
-export interface ITaskRole {
-  address: string;
-}
-
-export interface ITaskRoles {
-  manager: ITaskRole;
-  evaluator: ITaskRole;
-  worker: ITaskRole;
-}
 
 @Injectable({
   providedIn: 'root'
@@ -129,15 +114,15 @@ export class ColonyService {
 
   getStoryCount() {
     return this.getColony().pipe(
-      flatMap(
-        async colony => (await colony.getTaskCount.call()).count as number
+      flatMap<IColonyClient, number>(
+        async colony => (await colony.getTaskCount.call()).count
       )
     );
   }
 
   getPotBalance(potId: number) {
     return combineLatest(this.getColony(), this.getToken()).pipe(
-      flatMap(
+      flatMap<IColonyClient, number>(
         async ([colony, token]) =>
           (await colony.getPotBalance.call({
             potId,
@@ -147,9 +132,9 @@ export class ColonyService {
     );
   }
 
-  getTaskRoles(storyId: number): Observable<ITaskRoles> {
+  getTaskRoles(storyId: number) {
     return this.getColony().pipe(
-      flatMap(async colony => ({
+      flatMap<IColonyClient, ITaskRoles>(async colony => ({
         manager: await colony.getTaskRole.call({
           taskId: storyId,
           role: TaskRole.MANAGER
@@ -168,8 +153,8 @@ export class ColonyService {
 
   assignUserRole(storyId: number, user: string, role: TaskRole) {
     return this.getColony().pipe(
-      flatMap(async colony => {
-        return await colony.setTaskRoleUser.send({
+      flatMap<IColonyClient, void>(async colony => {
+        await colony.setTaskRoleUser.send({
           taskId: storyId,
           role: role,
           user: user

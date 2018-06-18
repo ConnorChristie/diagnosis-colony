@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { filter } from 'rxjs/operators';
 import {
   IFundingDetails,
   NewStoryService,
   Step
 } from '../../../services/new-story/new-story.service';
-import { filter } from 'rxjs/operators';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-funding',

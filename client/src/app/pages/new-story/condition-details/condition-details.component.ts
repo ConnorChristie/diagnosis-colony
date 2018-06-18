@@ -1,13 +1,13 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { filter } from 'rxjs/operators';
+import { IOption } from '../../../components/select/select.component';
 import {
   IConditionDetails,
   NewStoryService,
   Step
 } from '../../../services/new-story/new-story.service';
-import { Router } from '@angular/router';
-import { filter } from 'rxjs/operators';
-import { IOption } from '../../../components/select/select.component';
 
 @Component({
   selector: 'app-condition-details',

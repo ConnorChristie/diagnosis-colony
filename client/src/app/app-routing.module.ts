@@ -2,9 +2,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { HomeComponent } from './pages/home/home.component';
+import { NewStoryComponent } from './pages/new-story/new-story.component';
 import { StoriesComponent } from './pages/stories/stories.component';
 import { StoryComponent } from './pages/story/story.component';
-import { NewStoryComponent } from './pages/new-story/new-story.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },

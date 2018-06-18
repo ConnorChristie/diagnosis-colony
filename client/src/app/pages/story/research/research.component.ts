@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ColonyService } from '../../../services/colony/colony.service';
 import { IResearch } from '../../../models/research';
+import { ColonyService } from '../../../services/colony/colony.service';
 
 @Component({
   selector: 'app-research',

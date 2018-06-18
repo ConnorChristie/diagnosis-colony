@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { LocalStorage } from '@ngx-pwa/local-storage';
 
-import { filter, flatMap, map, switchMap, tap } from 'rxjs/operators';
-import { forkJoin, Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { ColonyService } from '../colony/colony.service';
+import { forkJoin, Observable } from 'rxjs';
+import { filter, flatMap, map, switchMap, tap } from 'rxjs/operators';
 import { IStory } from '../../models/story';
+import { ColonyService } from '../colony/colony.service';
 
 export interface IStoryDetails {
   title: string;

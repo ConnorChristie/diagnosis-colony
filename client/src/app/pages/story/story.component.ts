@@ -1,17 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { IAuthor } from '../../components/author-list/author-list.component';
-import {
-  ColonyService,
-  ITaskRole,
-  ITaskRoles,
-  TaskRole
-} from '../../services/colony/colony.service';
-import { ActivatedRoute } from '@angular/router';
-import { filter, flatMap, map, tap } from 'rxjs/operators';
-import { IStory, IStoryTask } from '../../models/story';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { EthersNetworkService } from '../../services/networks/ethers-network/ethers-network.service';
+import { ActivatedRoute } from '@angular/router';
 import { combineLatest } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
+import { IAuthor } from '../../components/author-list/author-list.component';
+import { IStoryTask } from '../../models/story';
+import { ITaskRole, ITaskRoles, TaskRole } from '../../models/task-role';
+import { ColonyService } from '../../services/colony/colony.service';
+import { EthersNetworkService } from '../../services/networks/ethers-network/ethers-network.service';
 
 enum ViewState {
   STORY = 1,

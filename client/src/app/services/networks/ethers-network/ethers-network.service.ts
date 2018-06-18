@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 
-import { providers } from 'ethers';
 import { TrufflepigLoader } from '@colony/colony-js-contract-loader-http';
+import { providers } from 'ethers';
 
-import Web3 from 'web3';
 import EthersAdapter from '@colony/colony-js-adapter-ethers';
+import Web3 from 'web3';
 
 declare const web3: Web3;
 
