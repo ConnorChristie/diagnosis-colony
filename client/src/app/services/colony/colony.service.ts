@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import BigNumber from 'bn.js';
 import { combineLatest, ReplaySubject } from 'rxjs';
 import { flatMap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
@@ -122,7 +123,7 @@ export class ColonyService {
 
   getPotBalance(potId: number) {
     return combineLatest(this.getColony(), this.getToken()).pipe(
-      flatMap<IColonyClient, number>(
+      flatMap<IColonyClient, BigNumber>(
         async ([colony, token]) =>
           (await colony.getPotBalance.call({
             potId,

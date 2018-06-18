@@ -16,37 +16,6 @@ enum CardSize {
   providers: [CurrencyPipe]
 })
 export class StoriesComponent implements OnInit {
-  // public stories: IStoryHeader[] = [
-  //   {
-  //     author: 'Peter Giles',
-  //     description:
-  //       'Ever wanted to connect external services to your Ghost site and create seamless automation between them? Now you can, ' +
-  //       'with our new and official integration with Zapier.',
-  //     category: 'Physical',
-  //     link: '/',
-  //     image:
-  //       'https://blog.ghost.org/content/images/2018/01/ghostzapimg--3-.jpg',
-  //
-  //     funded: 14900,
-  //     fundGoal: 20000,
-  //
-  //     contributors: [
-  //       {
-  //         name: 'Dr. O\'Neil',
-  //         image:
-  //           '//www.gravatar.com/avatar/f95828f4e92f1befebabfb7f65cdc8f2?s=250&amp;d=mm&amp;r=x',
-  //         link: '/'
-  //       },
-  //       {
-  //         name: 'Hannah Wolfe',
-  //         image:
-  //           '//www.gravatar.com/avatar/49ebcbbe9bb3ed1f5d5de91483de383c?s=250&amp;d=mm&amp;r=x',
-  //         link: '/'
-  //       }
-  //     ]
-  //   }
-  // ];
-
   public CardSize = CardSize;
   public stories$ = new Array(10);
 
