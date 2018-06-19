@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
-import BigNumber from 'bn.js';
 import { combineLatest, ReplaySubject } from 'rxjs';
 import { flatMap } from 'rxjs/operators';
+
 import { environment } from '../../../environments/environment';
 import { IResearch } from '../../models/research';
 import { IStory, IStoryTask } from '../../models/story';
 import { ITaskRoles, TaskRole } from '../../models/task-role';
+
+import BigNumber from 'bn.js';
 import {
   ColonyNetworkService,
   IColonyClient
@@ -94,6 +96,10 @@ export class ColonyService {
             taskId: id
           }
         );
+
+        if (specificationHash === null) {
+          throw new Error(`Could not find story with id ${id}`);
+        }
 
         return {
           id: id,

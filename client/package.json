@@ -29,6 +29,7 @@
     "@colony/colony-js-adapter-ethers": "^1.4.0",
     "@colony/colony-js-client": "^1.4.0",
     "@colony/colony-js-contract-loader-http": "^1.4.0",
+    "@colony/colony-js-contract-loader-network": "^1.0.3",
     "@fortawesome/angular-fontawesome": "0.1.0-10",
     "@fortawesome/fontawesome-svg-core": "^1.2.0-11",
     "@fortawesome/free-regular-svg-icons": "^5.1.0-11",

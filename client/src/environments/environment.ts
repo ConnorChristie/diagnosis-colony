@@ -5,11 +5,20 @@
 export const environment = {
   production: false,
   colony: {
-    id: 6,
+    id: 2,
     token: {
       name: 'Diagnosis Colony',
       symbol: 'DIAG'
     }
+  },
+  ethereum: {
+    network: null
+  },
+  ipfs: {
+    swarm: [
+      '/ip4/127.0.0.1/tcp/4003/ws/ipfs/QmXeGoXuCuirE9NNJjhfovq76eJ7iT7EaJVUQWpDhV9AMY',
+      '/dns4/ws-star.discovery.libp2p.io/tcp/443/wss/p2p-websocket-star'
+    ]
   }
 };
 

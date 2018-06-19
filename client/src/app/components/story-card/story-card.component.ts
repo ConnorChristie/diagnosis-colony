@@ -13,7 +13,7 @@ import { IPostCardDetails } from '../post-card/post-card.component';
 export class StoryCardComponent {
   public cardDetails: Observable<IPostCardDetails>;
 
-  constructor(private colonyService: ColonyService) { }
+  constructor(private colonyService: ColonyService) {}
 
   // TODO: Include authors / researchers working on the story
   @Input()

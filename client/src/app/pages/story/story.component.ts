@@ -125,7 +125,7 @@ export class StoryComponent implements OnInit {
     this.colonyService
       .assignUserRole(this.story.id, user, role)
       .subscribe(async () => {
-        const roles: ITaskRoles = {...this.roles};
+        const roles: ITaskRoles = { ...this.roles };
 
         switch (role) {
           case TaskRole.WORKER:
@@ -152,19 +152,22 @@ export class StoryComponent implements OnInit {
 
     this.apiService
       .submitResearchInterest(this.story.id, userAddress)
-      .subscribe(() => {
-        alert('Request sent to story coordinator.');
-      }, err => {
-        alert('Could not complete your request to become a researcher at this moment.');
+      .subscribe(
+        () => {
+          alert('Request sent to story coordinator.');
+        },
+        err => {
+          alert(
+            'Could not complete your request to become a researcher at this moment.'
+          );
 
-        console.log(err);
-      });
+          console.log(err);
+        }
+      );
   }
 
   private loadStory(id: number) {
-    this.colonyService
-      .getStory(id)
-      .subscribe(story => (this.story = story));
+    this.colonyService.getStory(id).subscribe(story => (this.story = story));
 
     this.colonyService
       .getTaskRoles(id)
@@ -192,16 +195,19 @@ export class StoryComponent implements OnInit {
 
       // TODO: Replace placeholder info with uPort identity details
       let subtitle = 'Story Coordinator';
-      let image = '//www.gravatar.com/avatar/f95828f4e92f1befebabfb7f65cdc8f2?s=250&amp;d=mm&amp;r=x';
+      let image =
+        '//www.gravatar.com/avatar/f95828f4e92f1befebabfb7f65cdc8f2?s=250&amp;d=mm&amp;r=x';
 
       switch (role) {
         case TaskRole.WORKER:
           subtitle = 'Primary Researcher';
-          image = 'https://www.gravatar.com/avatar/49ebcbbe9bb3ed1f5d5de91483de383c?s=250&d=mm&r=x';
+          image =
+            'https://www.gravatar.com/avatar/49ebcbbe9bb3ed1f5d5de91483de383c?s=250&d=mm&r=x';
           break;
         case TaskRole.EVALUATOR:
           subtitle = 'Research Evaluator';
-          image = 'https://www.gravatar.com/avatar/85a47a60d579572601ff74b72fe8b32d?s=250&d=mm&r=x';
+          image =
+            'https://www.gravatar.com/avatar/85a47a60d579572601ff74b72fe8b32d?s=250&d=mm&r=x';
           break;
       }
 
@@ -227,6 +233,6 @@ export class StoryComponent implements OnInit {
   private loadResearchRequests(id: number) {
     this.apiService
       .getResearchInterests(id)
-      .subscribe(interested => this.researchRequests = interested);
+      .subscribe(interested => (this.researchRequests = interested));
   }
 }

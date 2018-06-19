@@ -14,7 +14,7 @@ export class HomeComponent implements OnInit {
     id: 0,
     title: 'News Post',
     description:
-      'We\'ve just released an official Unsplash integration for Ghost; Now you can find and use beautiful free photos from the world\'s ' +
+      "We've just released an official Unsplash integration for Ghost; Now you can find and use beautiful free photos from the world's " +
       'most generous community of photographers! No matter what case study you look',
     category: 'New Things',
     contributors: [
@@ -35,9 +35,15 @@ export class HomeComponent implements OnInit {
   constructor(private colonyService: ColonyService) {}
 
   ngOnInit() {
-    this.colonyService.getStoryCount().subscribe(x => {
-      this.stories$ = this.colonyService
-        .getStories(x - 3, 3);
+    this.colonyService.getStoryCount().subscribe(count => {
+      if (count === 0) {
+        return;
+      }
+
+      const skip = Math.max(0, count - 3);
+      const take = Math.min(3, count);
+
+      this.stories$ = this.colonyService.getStories(skip, take);
     });
   }
 }

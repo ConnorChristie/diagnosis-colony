@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Buffer } from 'buffer';
+import { environment } from '../../../../environments/environment';
 
 import IPFS from 'ipfs';
 
@@ -17,10 +18,7 @@ export class IpfsNetworkService {
     const options = {
       config: {
         Addresses: {
-          Swarm: [
-            '/ip4/127.0.0.1/tcp/4003/ws/ipfs/QmXeGoXuCuirE9NNJjhfovq76eJ7iT7EaJVUQWpDhV9AMY',
-            '/dns4/ws-star.discovery.libp2p.io/tcp/443/wss/p2p-websocket-star'
-          ]
+          Swarm: environment.ipfs.swarm
         }
       }
     };

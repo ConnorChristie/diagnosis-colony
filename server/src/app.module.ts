@@ -6,13 +6,7 @@ import { StoriesService } from './services/stories.service';
 
 @Module({
   imports: [],
-  controllers: [
-    AppController,
-    StoriesController
-  ],
-  providers: [
-    AppService,
-    StoriesService
-  ]
+  controllers: [AppController, StoriesController],
+  providers: [AppService, StoriesService]
 })
 export class AppModule {}

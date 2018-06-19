@@ -6,25 +6,17 @@ export class StoriesController {
   constructor(private storiesService: StoriesService) {}
 
   @Get(':id/researchers')
-  getResearchInterests(
-    @Param('id') id: number
-  ) {
+  getResearchInterests(@Param('id') id: number) {
     return this.storiesService.getResearchInterests(id);
   }
 
   @Post(':id/researchers')
-  submitResearchInterest(
-    @Param('id') id: number,
-    @Body('user') user: string
-  ) {
+  submitResearchInterest(@Param('id') id: number, @Body('user') user: string) {
     this.storiesService.addResearchInterest(id, user);
   }
 
   @Delete(':id/researchers/:user')
-  removeResearchInterest(
-    @Param('id') id: number,
-    @Param('user') user: string
-  ) {
+  removeResearchInterest(@Param('id') id: number, @Param('user') user: string) {
     this.storiesService.removeResearchInterest(id, user);
   }
 }

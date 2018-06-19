@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
-
-import { TrufflepigLoader } from '@colony/colony-js-contract-loader-http';
 import { providers } from 'ethers';
+import { environment } from '../../../../environments/environment';
 
 import EthersAdapter from '@colony/colony-js-adapter-ethers';
+import { TrufflepigLoader } from '@colony/colony-js-contract-loader-http';
+import NetworkLoader from '@colony/colony-js-contract-loader-network';
+
 import Web3 from 'web3';
 
 declare const web3: Web3;
@@ -22,20 +24,30 @@ export class EthersNetworkService {
   private address: string;
 
   constructor() {
+    const { network } = environment.ethereum;
+
+    let loader;
     let provider;
 
     if (typeof web3 !== 'undefined') {
-      provider = new providers.Web3Provider(web3.currentProvider);
+      provider = new providers.Web3Provider(web3.currentProvider, network);
       this.signer = provider.getSigner();
+    } else if (!network) {
+      provider = new providers.JsonRpcProvider('http://localhost:8545/');
     } else {
-      provider = providers.getDefaultProvider();
+      provider = providers.getDefaultProvider(network);
     }
 
-    const loader = new TrufflepigLoader();
+    if (network === null) {
+      loader = new TrufflepigLoader();
+    } else {
+      loader = new NetworkLoader({ network });
+    }
+
     this.adapter = new EthersAdapter({
       loader,
       provider,
-      wallet: this.signer
+      wallet: this.signer || provider
     });
   }
 
