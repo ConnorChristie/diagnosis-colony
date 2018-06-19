@@ -1,8 +1,7 @@
 import { CurrencyPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { flatMap, map } from 'rxjs/operators';
-import { IStoryTask } from '../../models/story';
 import { ColonyService } from '../../services/colony/colony.service';
+import { tap } from 'rxjs/operators';
 
 enum CardSize {
   THIRD = 1,
@@ -19,12 +18,10 @@ export class StoriesComponent implements OnInit {
   public CardSize = CardSize;
   public stories$ = new Array(10);
 
-  constructor(
-    private colonyService: ColonyService,
-    private currencyPipe: CurrencyPipe
-  ) {}
+  constructor(private colonyService: ColonyService) {}
 
   ngOnInit() {
+    // TODO: Don't load every single story at once
     this.colonyService.getStoryCount().subscribe(x => {
       this.loadStories(0, x);
     });
@@ -45,36 +42,21 @@ export class StoriesComponent implements OnInit {
   private loadStories(skip: number, take: number) {
     this.stories$ = this.colonyService
       .getStories(skip, take)
-      .map((story$, index) =>
-        story$.pipe(flatMap(story => this.storyToCard(story, index)))
-      );
-  }
+      .map((story$, index) => story$.pipe(
+        tap(story => {
+          let characterLimit = 140;
 
-  // TODO: Include authors / researchers working on the story
-  private storyToCard(storyTask: IStoryTask, index: number) {
-    let characterLimit = 140;
+          if (this.getCardSize(index) === CardSize.HALF) {
+            characterLimit = 200;
+          }
 
-    if (this.getCardSize(index) === CardSize.HALF) {
-      characterLimit = 200;
-    }
+          if (story.story.storyDetails.details.length <= characterLimit) {
+            return;
+          }
 
-    const { id, story, potId } = storyTask;
-
-    return this.colonyService.getPotBalance(potId).pipe(
-      map(potBalance => potBalance.toNumber()),
-      map(potBalance => ({
-        id: id,
-        title: story.storyDetails.title,
-        description:
-          story.storyDetails.details.substring(0, characterLimit) + '…',
-        category: story.conditionDetails.category,
-        image: story.storyDetails.mainImage,
-
-        metadata: `Raised ${potBalance} DIAG`,
-        progress: (1200 / 1500) * 100,
-
-        contributors: []
-      }))
-    );
+          // TODO: Smarter truncation
+          story.story.storyDetails.details = story.story.storyDetails.details.substring(0, characterLimit) + '…';
+        })
+      ));
   }
 }

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { combineLatest } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { IAuthor } from '../../components/author-list/author-list.component';
 import { IStoryTask } from '../../models/story';

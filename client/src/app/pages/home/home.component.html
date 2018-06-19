@@ -21,7 +21,7 @@
         </div>
 
         <div class="post-feed highlight-feed-secondary">
-          <app-post-card *ngFor="let card of cards" class="post-card post" [details]="card"></app-post-card>
+          <app-story-card *ngFor="let story of stories$" class="post-card post" [story]="story | async"></app-story-card>
         </div>
       </div>
     </div>

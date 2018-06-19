@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { IAuthor } from '../author-list/author-list.component';
 
 export interface IPostCardDetails {
-  id: string;
+  id: number;
   title: string;
   description: string;
   category: string;

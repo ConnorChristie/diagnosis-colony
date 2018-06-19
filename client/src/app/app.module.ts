@@ -13,6 +13,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { PostCardComponent } from './components/post-card/post-card.component';
 import { SelectComponent } from './components/select/select.component';
 import { StepperComponent } from './components/stepper/stepper.component';
+import { StoryCardComponent } from './components/story-card/story-card.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ConditionDetailsComponent } from './pages/new-story/condition-details/condition-details.component';
 import { FundingComponent } from './pages/new-story/funding/funding.component';
@@ -40,7 +41,8 @@ import { StoryComponent } from './pages/story/story.component';
     SelectComponent,
     FundingComponent,
     ConditionComponent,
-    ResearchComponent
+    ResearchComponent,
+    StoryCardComponent
   ],
   imports: [
     BrowserModule,
