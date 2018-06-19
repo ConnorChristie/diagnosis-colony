@@ -16,7 +16,7 @@
       </figure>
 
       <section class="post-full-content">
-        <form *ngIf="allowedConditionDetails()" class="post-form">
+        <form *ngIf="canSeeConditionDetails()" class="post-form">
           <div class="gh-form-group-horizontal">
             <div class="gh-form-group">
               <button *ngIf="viewState !== ViewState.STORY"
@@ -29,7 +29,7 @@
               </button>
             </div>
 
-            <div *ngIf="allowedSubmitResearch()" class="gh-form-group">
+            <div *ngIf="canSubmitResearch()" class="gh-form-group">
               <button *ngIf="viewState === ViewState.RESEARCH"
                       (click)="viewState = ViewState.CONDITION" class="gh-input gh-btn-white">
                 Read Condition Details
@@ -87,15 +87,37 @@
         </form>
       </app-post-card>
 
-      <app-post-card *ngIf="!allowedAssignRoles()" class="read-next-card post-card-secondary" [details]="researchCardDetails">
+      <app-post-card *ngIf="!canAssignRoles()" class="read-next-card post-card-secondary" [details]="researchCardDetails">
         <form class="post-form">
           <div class="gh-form-group">
-            <input type="button" value="Start Researching" (click)="onRequestToResearch()" class="gh-input gh-btn-white">
+            <input type="button" value="Submit Research Request" (click)="onRequestToResearch()" class="gh-input gh-btn-white">
           </div>
         </form>
       </app-post-card>
 
-      <app-post-card *ngIf="allowedAssignRoles()" class="read-next-card post-card-secondary" [details]="rolesCardDetails">
+      <app-post-card *ngIf="canAssignRoles() && hasResearchRequests()" class="read-next-card post-card-secondary" [details]="selectRolesCardDetails">
+        <div class="post-form">
+          <div *ngFor="let user of researchRequests" class="gh-form-group">
+            <div class="input-group">
+              <input type="text" [value]="user" class="gh-input" disabled>
+
+              <div ngbDropdown class="input-group-append">
+                <button ngbDropdownToggle class="input-group-text gh-input gh-btn-white">Assign Role</button>
+                <div class="dropdown">
+                  <ul ngbDropdownMenu class="dropdown-menu">
+                    <li>
+                      <button (click)="onAssignRole(user, TaskRole.WORKER)">Assign as Researcher</button>
+                      <button (click)="onAssignRole(user, TaskRole.EVALUATOR)">Assign as Evaluator</button>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </app-post-card>
+
+      <app-post-card *ngIf="canAssignRoles() && !hasResearchRequests()" class="read-next-card post-card-secondary" [details]="inputRolesCardDetails">
         <form [formGroup]="researcherForm" class="post-form">
           <div class="gh-form-group-horizontal">
             <div class="gh-form-group">

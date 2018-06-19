@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --proxy-config proxy.conf.json",
     "build": "ng build",
     "build:prod": "ng build --prod",
     "test": "ng test",
@@ -33,6 +33,7 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.0-11",
     "@fortawesome/free-regular-svg-icons": "^5.1.0-11",
     "@fortawesome/free-solid-svg-icons": "^5.1.0-11",
+    "@ng-bootstrap/ng-bootstrap": "^2.1.1",
     "@ngx-pwa/local-storage": "^6.0.0-rc.0",
     "buffer": "^5.1.0",
     "core-js": "^2.5.4",

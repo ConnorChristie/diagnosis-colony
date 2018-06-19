@@ -757,6 +757,10 @@ textarea.gh-input {
   background: #fff;
 }
 
+.gh-btn-white:active,.gh-btn-white:focus,.gh-btn-white:hover {
+  background: #edf1f3 !important;
+}
+
 .gh-btn-white span {
   height: 38px;
 }
@@ -814,10 +818,126 @@ textarea.gh-input {
   font-size: 1.4rem;
 }
 
-.gh-drop {
+.dropdown {
   position: relative;
+  z-index: 1100;
+}
+
+.dropdown-toggle:focus {
+  outline: 0;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100% !important;
+  left: 0 !important;
+  float: left;
+  margin: 2px 0 0;
+  padding: 10px 0;
+  min-width: 200px;
+  background-color: #fff;
+  background-clip: padding-box;
+  border-radius: 4px;
+  box-shadow: 0 0 0 1px rgba(99,114,130,0.16), 0 8px 16px rgba(27,39,51,0.08);
+  list-style: none;
+  text-align: left;
+  text-transform: none;
+  font-size: 1.4rem;
+  font-weight: normal;
+  display: none;
+}
+
+.dropdown-menu.pull-right {
+  right: 0;
+  left: auto;
+}
+
+.dropdown-menu .divider {
+  overflow: hidden;
+  margin: 8px 0;
+  height: 1px;
+  background: #eceef0;
+}
+
+.dropdown-menu li {
+  margin: 0;
+  padding: 0;
+}
+
+.dropdown-menu > li > a,
+.dropdown-menu > li > button {
+  display: flex;
+  align-items: center;
+  clear: both;
+  padding: 0.5rem 1.5rem;
+  width: 100%;
+  color: #687e87;
+  text-align: left;
+  white-space: nowrap;
+  font-size: 1.4rem;
+  line-height: 1.5;
+  font-weight: 400;
+  transition: none;
+}
+
+@media (max-width: 500px) {
+  .dropdown-menu > li > a,
+  .dropdown-menu > li > button {
+    padding: 7px 8px;
+    font-size: 1.5rem;
+  }
+  .dropdown-menu svg {
+    height: 16px;
+  }
+}
+
+/* Hover/Focus */
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus,
+.dropdown-menu > li > button:hover,
+.dropdown-menu > li > button:focus {
+  background-color: #f8f9fa;
+  text-decoration: none;
   outline: none;
-  cursor: pointer;
+}
+
+/* Active */
+.dropdown-menu > .active > a,
+.dropdown-menu > .active > a:hover,
+.dropdown-menu > .active > a:focus,
+.dropdown-menu > .active > button,
+.dropdown-menu > .active > button:hover,
+.dropdown-menu > .active > button:focus {
+  outline: 0;
+  background-color: #f8f9fa;
+  text-decoration: none;
+}
+
+/* Disabled */
+.dropdown-menu > .disabled > a,
+.dropdown-menu > .disabled > a:hover,
+.dropdown-menu > .disabled > a:focus,
+.dropdown-menu > .disabled > button,
+.dropdown-menu > .disabled > button:hover,
+.dropdown-menu > .disabled > button:focus {
+  color: #738a94;
+}
+
+.dropdown-menu > .disabled > a:hover,
+.dropdown-menu > .disabled > a:focus,
+.dropdown-menu > .disabled > button:hover,
+.dropdown-menu > .disabled > button:focus {
+  background: transparent none;
+  text-decoration: none;
+  cursor: not-allowed;
+}
+
+.show.dropdown-menu {
+  display: block;
+}
+
+.show > a {
+  outline: 0;
 }
 
 .hamburger {
@@ -3334,7 +3454,6 @@ textarea.gh-input {
   flex: 1 1 300px;
   -ms-flex-direction: column;
   flex-direction: column;
-  overflow: hidden;
   margin: 0 20px 40px;
   padding: 25px;
   background: #fff 50%;

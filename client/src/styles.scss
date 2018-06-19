@@ -30,8 +30,9 @@ p {
       position: relative;
       display: flex;
       flex-wrap: wrap;
+      width: 100%;
 
-      .gh-input {
+      & > .gh-input {
         position: relative;
         -ms-flex: 1 1 auto;
         flex: 1 1 auto;
@@ -50,11 +51,11 @@ p {
         display: flex;
         -ms-flex-align: center;
         align-items: center;
-        padding: 12px;
+        padding: 13px;
         margin-bottom: 0;
         font-size: 12pt;
         font-weight: 300;
-        line-height: 1.5;
+        line-height: 1em;
         color: #495057;
         text-align: center;
         white-space: nowrap;
