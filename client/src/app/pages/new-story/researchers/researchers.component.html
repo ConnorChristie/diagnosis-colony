@@ -19,7 +19,7 @@
 
   <div class="gh-form-group-horizontal">
     <div class="gh-form-group">
-      <input type="button" value="Skip" (click)="onSubmit()" class="gh-input gh-btn-white">
+      <input type="button" value="Skip" [routerLink]="['/stories', storyId]" class="gh-input gh-btn-white">
     </div>
     <div class="gh-form-group">
       <input type="submit" value="Finish" (click)="onSubmit()" class="gh-input gh-btn-blue">

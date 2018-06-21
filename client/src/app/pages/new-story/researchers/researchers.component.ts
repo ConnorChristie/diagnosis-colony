@@ -23,6 +23,8 @@ export class ResearchersComponent implements OnInit {
     evaluator: new FormControl(null)
   });
 
+  public storyId: number;
+
   constructor(
     private newStoryService: NewStoryService,
     private colonyService: ColonyService,
@@ -31,6 +33,15 @@ export class ResearchersComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.route.paramMap
+      .pipe(
+        filter(x => x.has('id')),
+        map(x => +x.get('id'))
+      )
+      .subscribe(id => {
+        this.storyId = id;
+      });
+
     this.newStoryService
       .getDetails<IResearcherDetails>(Step.STEP3)
       .pipe(filter(x => !!x))
@@ -43,23 +54,18 @@ export class ResearchersComponent implements OnInit {
     const details = this.detailsForm.value as IResearcherDetails;
     const isValid = this.detailsForm.valid;
 
-    this.route.paramMap
-      .pipe(
-        filter(x => x.has('id')),
-        map(x => +x.get('id'))
-      )
-      .subscribe(id => {
-        this.newStoryService
-          .setDetails(Step.STEP3, details, isValid)
-          .pipe(
-            filter(success => success && isValid),
-            flatMap(() => this.assignUserRoles(id, details)),
-            flatMap(() => this.newStoryService.clearAllDetails())
-          )
-          .subscribe(async () => {
-            await this.router.navigate(['/stories', id]);
-          });
-      });
+    if (this.storyId) {
+      this.newStoryService
+        .setDetails(Step.STEP3, details, isValid)
+        .pipe(
+          filter(success => success && isValid),
+          flatMap(() => this.assignUserRoles(this.storyId, details)),
+          flatMap(() => this.newStoryService.clearAllDetails())
+        )
+        .subscribe(async () => {
+          await this.router.navigate(['/stories', this.storyId]);
+        });
+    }
   }
 
   private assignUserRoles(storyId: number, details: IResearcherDetails) {

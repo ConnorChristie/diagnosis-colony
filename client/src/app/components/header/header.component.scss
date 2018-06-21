@@ -6,9 +6,10 @@ $colors: (
 .gh-nav-logo-title {
   text-decoration: none;
 
-  h2 {
+  h5 {
     color: map-get($colors, title-primary);
     font-weight: 500;
+    font-size: 1rem;
     margin: 0;
 
     .title-secondary {

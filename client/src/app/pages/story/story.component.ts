@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { filter, map } from 'rxjs/operators';
+
 import { IAuthor } from '../../components/author-list/author-list.component';
 import { IStoryTask } from '../../models/story';
 import { ITaskRole, ITaskRoles, TaskRole } from '../../models/task-role';
@@ -66,9 +68,12 @@ export class StoryComponent implements OnInit {
     evaluator: new FormControl(null, Validators.required)
   });
 
+  @ViewChild('researchRequestModal') private researchRequestModal;
+
   constructor(
     private colonyService: ColonyService,
     private ethersNetworkService: EthersNetworkService,
+    private modalService: NgbModal,
     private apiService: ApiService,
     private route: ActivatedRoute
   ) {}
@@ -154,22 +159,24 @@ export class StoryComponent implements OnInit {
       return;
     }
 
-    const userAddress = await this.ethersNetworkService.getUserAddress();
+    this.modalService.open(this.researchRequestModal);
 
-    this.apiService
-      .submitResearchInterest(this.story.id, userAddress)
-      .subscribe(
-        () => {
-          alert('Request sent to story coordinator.');
-        },
-        err => {
-          alert(
-            'Could not complete your request to become a researcher at this moment.'
-          );
-
-          console.log(err);
-        }
-      );
+    // const userAddress = await this.ethersNetworkService.getUserAddress();
+    //
+    // this.apiService
+    //   .submitResearchInterest(this.story.id, userAddress)
+    //   .subscribe(
+    //     () => {
+    //       alert('Request sent to story coordinator.');
+    //     },
+    //     err => {
+    //       alert(
+    //         'Could not complete your request to become a researcher at this moment.'
+    //       );
+    //
+    //       console.log(err);
+    //     }
+    //   );
   }
 
   private loadStory(id: number) {
