@@ -9,8 +9,8 @@ $colors: (
   h5 {
     color: map-get($colors, title-primary);
     font-weight: 500;
-    font-size: 1rem;
-    margin: 0;
+    font-size: 1.2rem;
+    margin: -3px 0 0;
 
     .title-secondary {
       color: map-get($colors, title-secondary);

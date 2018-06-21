@@ -1571,6 +1571,7 @@ textarea.gh-input {
 
 .gh-foot {
   background: #fff;
+  font-size: 90%;
 }
 
 .gh-foot-support {
@@ -1611,11 +1612,13 @@ textarea.gh-input {
 .gh-foot-support h4 {
   margin-top: 0;
   color: #343f44;
+  font-size: 1rem;
 }
 
 .gh-foot-support p {
   margin-bottom: 0;
   line-height: 1.65em;
+  font-size: 0.9rem;
 }
 
 .gh-foot-support strong {
@@ -2789,7 +2792,7 @@ textarea.gh-input {
   margin: 0 auto;
   padding: 90px 140px 0;
   font-family: Mercury SSm A, Mercury SSm B, Georgia, serif;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   line-height: 1.75em;
   background: #fff;
 }
@@ -3015,7 +3018,7 @@ textarea.gh-input {
 
 .post-full-content h3 {
   margin: .5em 0 .2em;
-  font-size: 2.8rem;
+  font-size: 2rem;
   font-weight: 700;
 }
 

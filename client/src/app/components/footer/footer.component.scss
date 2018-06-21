@@ -1,0 +1,19 @@
+$colors: (
+  title-primary: black,
+  title-secondary: #4fd685
+);
+
+.gh-foot-min-logo {
+  text-decoration: none;
+
+  h5 {
+    color: map-get($colors, title-primary);
+    font-weight: 500;
+    font-size: 1.2rem;
+    margin: -3px 0 0;
+
+    .title-secondary {
+      color: map-get($colors, title-secondary);
+    }
+  }
+}
