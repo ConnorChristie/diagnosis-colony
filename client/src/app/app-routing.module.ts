@@ -9,6 +9,7 @@ import { StoryComponent } from './pages/story/story.component';
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'story/:step', component: NewStoryComponent },
+  { path: 'story/:step/:id', component: NewStoryComponent },
   { path: 'stories', component: StoriesComponent },
   { path: 'stories/:id', component: StoryComponent }
 ];

@@ -21,7 +21,7 @@
     <section [ngSwitch]="activeStep | async" class="post-full-content">
       <app-story-details *ngSwitchCase="Step.STEP1"></app-story-details>
       <app-condition-details *ngSwitchCase="Step.STEP2"></app-condition-details>
-      <app-funding *ngSwitchCase="Step.STEP3"></app-funding>
+      <app-researchers *ngSwitchCase="Step.STEP3"></app-researchers>
     </section>
   </div>
 </main>

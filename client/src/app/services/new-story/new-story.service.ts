@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { LocalStorage } from '@ngx-pwa/local-storage';
 
 import { ActivatedRoute } from '@angular/router';
-import { forkJoin, Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { filter, flatMap, map, switchMap, tap } from 'rxjs/operators';
 import { IStory } from '../../models/story';
 import { ColonyService } from '../colony/colony.service';
@@ -20,12 +20,12 @@ export interface IConditionDetails {
   images: string[];
 }
 
-export interface IFundingDetails {
-  duration: number;
-  initialFunds: number;
+export interface IResearcherDetails {
+  researcher: string;
+  evaluator: string;
 }
 
-type StoryDetails = IStoryDetails | IConditionDetails | IFundingDetails;
+type StoryDetails = IStoryDetails | IConditionDetails | IResearcherDetails;
 
 export enum Step {
   STEP1 = 1,
@@ -44,7 +44,7 @@ export class NewStoryService {
   public static ROUTES = {
     [Step.STEP1]: ['/story', 'details'],
     [Step.STEP2]: ['/story', 'condition'],
-    [Step.STEP3]: ['/story', 'funding']
+    [Step.STEP3]: ['/story', 'researchers']
   };
 
   private static DETAILS_KEY = 'new-story';
@@ -69,21 +69,18 @@ export class NewStoryService {
    * @returns {Observable<number>} The generated id
    */
   saveStory() {
-    return forkJoin(
+    return combineLatest(
       this.getDetails<IStoryDetails>(Step.STEP1),
-      this.getDetails<IConditionDetails>(Step.STEP2),
-      this.getDetails<IFundingDetails>(Step.STEP3)
+      this.getDetails<IConditionDetails>(Step.STEP2)
     ).pipe(
       map(
-        ([details, condition, funding]): IStory => ({
+        ([details, condition]): IStory => ({
           storyDetails: details,
           conditionDetails: condition,
-          fundingDetails: funding,
           version: 1
         })
       ),
-      flatMap(story => this.colonyService.createStory(story)),
-      tap(() => this.clearAllDetails().subscribe())
+      flatMap(story => this.colonyService.createStory(story))
     );
   }
 
@@ -144,7 +141,7 @@ export class NewStoryService {
       this.localStorage.removeItem(NewStoryService.getStepKey(step))
     );
 
-    return forkJoin<boolean>([
+    return combineLatest<boolean>([
       ...stepClear$,
       this.localStorage.removeItem(NewStoryService.PROGRESS_KEY)
     ]);

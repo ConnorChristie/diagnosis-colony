@@ -16,7 +16,7 @@ import { StepperComponent } from './components/stepper/stepper.component';
 import { StoryCardComponent } from './components/story-card/story-card.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ConditionDetailsComponent } from './pages/new-story/condition-details/condition-details.component';
-import { FundingComponent } from './pages/new-story/funding/funding.component';
+import { ResearchersComponent } from './pages/new-story/researchers/researchers.component';
 import { NewStoryComponent } from './pages/new-story/new-story.component';
 import { StoryDetailsComponent } from './pages/new-story/story-details/story-details.component';
 import { StoriesComponent } from './pages/stories/stories.component';
@@ -39,7 +39,7 @@ import { StoryComponent } from './pages/story/story.component';
     StoryDetailsComponent,
     ConditionDetailsComponent,
     SelectComponent,
-    FundingComponent,
+    ResearchersComponent,
     ConditionComponent,
     ResearchComponent,
     StoryCardComponent

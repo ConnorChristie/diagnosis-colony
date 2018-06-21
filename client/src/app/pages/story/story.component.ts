@@ -47,7 +47,8 @@ export class StoryComponent implements OnInit {
   public inputRolesCardDetails = {
     title: 'Assign Researcher and Evaluator',
     description:
-      'Supply an address for both the primary researcher and evaluator.'
+      "Either supply an address for both the primary researcher and evaluator if you know who you'd like to research this story " +
+      'otherwise you may wait for submissions to appear here.'
   };
   public selectRolesCardDetails = {
     title: 'Select Researcher and Evaluator',
@@ -109,6 +110,11 @@ export class StoryComponent implements OnInit {
     const valid = this.fundingForm.valid && this.story;
 
     // TODO: create txn to send funds to colony
+    if (valid) {
+      alert(
+        'Thank you for your interest although this feature is not yet implemented...'
+      );
+    }
   }
 
   onAssignRoles() {
