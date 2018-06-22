@@ -12,12 +12,6 @@ import { ApiService, IResearchRequest } from '../../services/api/api.service';
 import { ColonyService } from '../../services/colony/colony.service';
 import { EthersNetworkService } from '../../services/networks/ethers-network/ethers-network.service';
 
-enum ViewState {
-  STORY = 1,
-  CONDITION = 2,
-  RESEARCH = 3
-}
-
 @Component({
   selector: 'app-story',
   templateUrl: './story.component.html',
@@ -33,8 +27,6 @@ export class StoryComponent implements OnInit {
   public researchRequests: { [user: string]: IResearchRequest };
 
   public TaskRole = TaskRole;
-  public ViewState = ViewState;
-  public viewState: ViewState = ViewState.STORY;
 
   public researchCardDetails = {
     title: 'Research this Condition',

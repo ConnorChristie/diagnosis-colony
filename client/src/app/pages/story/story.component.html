@@ -18,27 +18,18 @@
       <section class="post-full-content">
         <div *ngIf="canSeeConditionDetails()" class="action-buttons">
           <div class="btn-group d-flex w-100" role="group">
-            <button *ngIf="viewState !== ViewState.STORY"
-                    (click)="viewState = ViewState.STORY" class="btn btn-outline-primary flex-fill w-50">
-              Read Story
-            </button>
-            <button *ngIf="viewState === ViewState.STORY"
-                    (click)="viewState = ViewState.CONDITION" class="btn btn-outline-primary flex-fill w-50">
+            <button *ngIf="canSubmitResearch()"
+                    routerLink="research" class="btn btn-outline-primary flex-fill w-50">
               Read Condition Details
             </button>
-
-            <button *ngIf="canSubmitResearch() && viewState === ViewState.RESEARCH"
-                    (click)="viewState = ViewState.CONDITION" class="btn btn-outline-primary flex-fill w-50">
-              Read Condition Details
-            </button>
-            <button *ngIf="canSubmitResearch() && viewState !== ViewState.RESEARCH"
+            <button *ngIf="canSubmitResearch()"
                     routerLink="research" class="btn btn-outline-success flex-fill w-50">
               Submit Research
             </button>
           </div>
         </div>
 
-        <div *ngIf="viewState === ViewState.STORY" class="kg-card-markdown">
+        <div class="kg-card-markdown">
           <p>{{story?.story.storyDetails.details}}</p>
         </div>
       </section>
