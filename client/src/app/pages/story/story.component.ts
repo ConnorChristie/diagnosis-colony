@@ -29,7 +29,7 @@ export class StoryComponent implements OnInit {
   public participants: IAuthor[] = [];
   public userRoles: TaskRole[] = [];
 
-  public researchRequests: string[];
+  public researchRequests: {};
 
   public TaskRole = TaskRole;
   public ViewState = ViewState;
@@ -108,7 +108,7 @@ export class StoryComponent implements OnInit {
   }
 
   hasResearchRequests() {
-    return !!this.researchRequests.length;
+    return !!this.getObjectKeys(this.researchRequests).length;
   }
 
   onSubmitContribution() {
@@ -147,7 +147,7 @@ export class StoryComponent implements OnInit {
             break;
         }
 
-        this.researchRequests.splice(this.researchRequests.indexOf(user), 1);
+        delete this.researchRequests[user];
 
         await this.updateParticipants(roles);
         await this.apiService.removeResearchInterest(this.story.id, user);
@@ -159,24 +159,27 @@ export class StoryComponent implements OnInit {
       return;
     }
 
-    this.modalService.open(this.researchRequestModal);
+    const duration: number = await this.modalService.open(this.researchRequestModal).result;
+    const userAddress = await this.ethersNetworkService.getUserAddress();
 
-    // const userAddress = await this.ethersNetworkService.getUserAddress();
-    //
-    // this.apiService
-    //   .submitResearchInterest(this.story.id, userAddress)
-    //   .subscribe(
-    //     () => {
-    //       alert('Request sent to story coordinator.');
-    //     },
-    //     err => {
-    //       alert(
-    //         'Could not complete your request to become a researcher at this moment.'
-    //       );
-    //
-    //       console.log(err);
-    //     }
-    //   );
+    this.apiService
+      .submitResearchInterest(this.story.id, userAddress, duration)
+      .subscribe(
+        () => {
+          alert('Request sent to story coordinator.');
+        },
+        err => {
+          alert(
+            'Could not complete your request to become a researcher at this moment.'
+          );
+
+          console.log(err);
+        }
+      );
+  }
+
+  getObjectKeys(obj) {
+    return Object.keys(obj);
   }
 
   private loadStory(id: number) {

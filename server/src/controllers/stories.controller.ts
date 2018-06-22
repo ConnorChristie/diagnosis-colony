@@ -11,8 +11,8 @@ export class StoriesController {
   }
 
   @Post(':id/researchers')
-  submitResearchInterest(@Param('id') id: number, @Body('user') user: string) {
-    this.storiesService.addResearchInterest(id, user);
+  submitResearchInterest(@Param('id') id: number, @Body('user') user: string, @Body('duration') duration: number) {
+    this.storiesService.addResearchInterest(id, user, duration);
   }
 
   @Delete(':id/researchers/:user')

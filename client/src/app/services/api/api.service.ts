@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
@@ -8,12 +8,13 @@ export class ApiService {
   constructor(private http: HttpClient) {}
 
   getResearchInterests(storyId: number) {
-    return this.http.get<string[]>(`/api/stories/${storyId}/researchers`);
+    return this.http.get<{}>(`/api/stories/${storyId}/researchers`);
   }
 
-  submitResearchInterest(storyId: number, user: string) {
+  submitResearchInterest(storyId: number, user: string, duration: number) {
     return this.http.post(`/api/stories/${storyId}/researchers`, {
-      user
+      user,
+      duration
     });
   }
 

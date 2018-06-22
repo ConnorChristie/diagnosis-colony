@@ -2,30 +2,26 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class StoriesService {
-  private researchInterests: { [story: number]: string[] } = {};
+  private researchInterests: { [story: number]: {} } = {};
 
-  getResearchInterests(storyId: number): string[] {
-    return this.researchInterests[storyId] || [];
+  getResearchInterests(storyId: number) {
+    return this.researchInterests[storyId] || {};
   }
 
-  addResearchInterest(storyId: number, user: string) {
+  addResearchInterest(storyId: number, user: string, duration: number) {
     const userLowered = user.toLowerCase();
-    const users = this.researchInterests[storyId] || [];
+    const users = this.getResearchInterests(storyId);
 
-    if (!users.some(x => x === userLowered)) {
-      users.push(userLowered);
-    }
+    users[userLowered] = { duration };
 
     this.researchInterests[storyId] = users;
   }
 
   removeResearchInterest(storyId: number, user: string) {
     const userLowered = user.toLowerCase();
-    const users = this.researchInterests[storyId] || [];
+    const users = this.getResearchInterests(storyId);
 
-    if (users.some(x => x === userLowered)) {
-      users.splice(users.indexOf(userLowered), 1);
-    }
+    delete users[userLowered];
 
     this.researchInterests[storyId] = users;
   }

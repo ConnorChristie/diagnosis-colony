@@ -1,16 +1,20 @@
 /* You can add global styles to this file, and also import other style files */
+@import 'assets/theme';
 @import '~bootstrap/scss/bootstrap';
 @import 'assets/new-screen.css';
 
-p {
-  white-space: pre-wrap;
-  text-align: justify;
+:not(.d-inline-flex) > .form-group:last-of-type {
+  margin-bottom: 0;
 }
 
 .post {
   h1, h2, h3 {
     font-weight: 500;
   }
+}
+
+.modal-title {
+  font-size: 1.3rem;
 }
 
 .post-form {

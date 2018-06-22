@@ -1,28 +1,30 @@
 <h2>Researchers</h2>
-<p>You may either directly assign a researcher and evaluator (if you already know who you'd like to help perform the research)
-  or skip this step and allow requests from the community to assist with the research (preferred).</p>
+<p>
+  You may either directly assign a researcher and evaluator (if you already know who you'd like to help perform the research)
+  or skip this step and allow requests from the community to assist with the research (preferred).
+</p>
 
-<form [formGroup]="detailsForm" class="post-form">
-  <div class="gh-form-group">
+<form [formGroup]="detailsForm">
+  <div class="form-group">
     <label for="researcher">Researcher (Optional)</label>
-    <input type="text" formControlName="researcher" id="researcher" class="gh-input" placeholder="e.g. 0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1">
-    <p>The Ethereum address of the individual who will be performing the research.</p>
+    <input type="text" formControlName="researcher" id="researcher" class="form-control" placeholder="e.g. 0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1">
+    <small class="form-text text-muted">The Ethereum address of the individual who will be performing the research.</small>
   </div>
 
-  <div class="gh-form-group">
+  <div class="form-group">
     <label for="evaluator">Evaluator (Optional)</label>
-    <input type="text" formControlName="evaluator" id="evaluator" class="gh-input" placeholder="e.g. 0x3134f954aff7f5f8eb849a80fb85447e5b2a3696">
-    <p>The Ethereum address of the individual who will be evaluating the researchers findings.</p>
+    <input type="text" formControlName="evaluator" id="evaluator" class="form-control" placeholder="e.g. 0x3134f954aff7f5f8eb849a80fb85447e5b2a3696">
+    <small class="form-text text-muted">The Ethereum address of the individual who will be evaluating the researchers findings.</small>
   </div>
 
   <hr>
 
-  <div class="gh-form-group-horizontal">
-    <div class="gh-form-group">
-      <input type="button" value="Skip" [routerLink]="['/stories', storyId]" class="gh-input gh-btn-white">
+  <div class="form-row">
+    <div class="form-group col">
+      <input type="button" value="Skip" [routerLink]="['/stories', storyId]" class="btn btn-light btn-block">
     </div>
-    <div class="gh-form-group">
-      <input type="submit" value="Finish" (click)="onSubmit()" class="gh-input gh-btn-blue">
+    <div class="form-group col">
+      <input type="submit" value="Finish" (click)="onSubmit()" class="btn btn-primary btn-block">
     </div>
   </div>
 </form>

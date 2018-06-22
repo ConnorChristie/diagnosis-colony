@@ -1,34 +1,36 @@
 <h2>Condition Details</h2>
 
-<form [formGroup]="detailsForm" class="post-form">
-  <div class="gh-form-group">
+<form [formGroup]="detailsForm">
+  <div class="form-group">
     <label>Category</label>
-    <app-select formControlName="category" [options]="categories"></app-select>
-    <p>This category will help researchers find stories related to their specialities.</p>
+    <select formControlName="category" class="form-control">
+      <option *ngFor="let category of categories" [value]="category.value">{{category.name}}</option>
+    </select>
+    <small class="form-text text-muted">This category will help researchers find stories related to their specialities.</small>
   </div>
 
-  <div class="gh-form-group">
+  <div class="form-group">
     <label for="symptoms">Symptoms</label>
-    <input type="text" formControlName="symptoms" id="symptoms" class="gh-input"
+    <input type="text" formControlName="symptoms" id="symptoms" class="form-control"
            placeholder="(e.g. Rash on arms, easily sunburnt)">
-    <p>A comma separated list of symptoms related to the condition.</p>
+    <small class="form-text text-muted">A comma separated list of symptoms related to the condition.</small>
   </div>
 
-  <div class="gh-form-group">
+  <div class="form-group">
     <label for="details">Details</label>
-    <textarea id="details" formControlName="details" class="gh-input"></textarea>
-    <p>What effects does the condition have or anything that you have already learned about the condition?</p>
+    <textarea id="details" formControlName="details" class="form-control" rows="5"></textarea>
+    <small class="form-text text-muted">What effects does the condition have or anything that you have already learned about the condition?</small>
   </div>
 
-  <div class="gh-form-group">
+  <div class="form-group">
     <label for="images">Images</label>
-    <input type="file" multiple (change)="onFileChange($event)" id="images" class="gh-input">
-    <p>These images will only be shown to the researchers assigned to your story.</p>
+    <input type="file" multiple (change)="onFileChange($event)" id="images" class="form-control">
+    <small class="form-text text-muted">These images will only be shown to the researchers assigned to your story.</small>
   </div>
 
   <hr>
 
-  <div class="gh-form-group">
-    <input type="submit" value="Submit Story" (click)="onSubmit()" class="gh-input gh-btn-blue">
+  <div class="form-group">
+    <input type="submit" value="Submit Story" (click)="onSubmit()" class="btn btn-primary btn-block">
   </div>
 </form>

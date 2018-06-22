@@ -107,10 +107,6 @@ button {
   border: none;
 }
 
-button,select {
-  text-transform: none;
-}
-
 button,html input[type=button],input[type=reset],input[type=submit] {
   cursor: pointer;
   -webkit-appearance: button;
@@ -387,7 +383,7 @@ h5,h6 {
   }
 }
 
-.gh-input,.gh-select,select {
+.gh-input {
   display: block;
   padding: 12px;
   width: 100%;
@@ -417,20 +413,6 @@ h5,h6 {
 :-ms-input-placeholder {
   color: #a9b6bc;
   font-weight: 200;
-}
-
-textarea {
-  min-width: 250px;
-  min-height: 10rem;
-  max-width: 500px;
-  width: 100%;
-  height: auto;
-  line-height: 1.5;
-  -webkit-user-select: text;
-  -moz-user-select: text;
-  -ms-user-select: text;
-  user-select: text;
-  resize: vertical;
 }
 
 textarea.gh-input {

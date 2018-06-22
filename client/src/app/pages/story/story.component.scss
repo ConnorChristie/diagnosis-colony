@@ -16,13 +16,10 @@
 
 .read-next {
   background: #f4f8fb;
+}
 
-  .post-form {
-    width: 100%;
-    margin: 0;
-
-    .gh-form-group:last-child {
-      margin-bottom: 0;
-    }
+.post-full-content {
+  .form-row {
+    margin-bottom: 1rem;
   }
 }

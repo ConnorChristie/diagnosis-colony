@@ -16,31 +16,29 @@
       </figure>
 
       <section class="post-full-content">
-        <form *ngIf="canSeeConditionDetails()" class="post-form">
-          <div class="gh-form-group-horizontal">
-            <div class="gh-form-group">
-              <button *ngIf="viewState !== ViewState.STORY"
-                      (click)="viewState = ViewState.STORY" class="gh-input gh-btn-white">
-                Read Story
-              </button>
-              <button *ngIf="viewState === ViewState.STORY"
-                      (click)="viewState = ViewState.CONDITION" class="gh-input gh-btn-white">
-                Read Condition Details
-              </button>
-            </div>
-
-            <div *ngIf="canSubmitResearch()" class="gh-form-group">
-              <button *ngIf="viewState === ViewState.RESEARCH"
-                      (click)="viewState = ViewState.CONDITION" class="gh-input gh-btn-white">
-                Read Condition Details
-              </button>
-              <button *ngIf="viewState !== ViewState.RESEARCH"
-                      (click)="viewState = ViewState.RESEARCH" class="gh-input gh-btn-white">
-                Submit Research
-              </button>
-            </div>
+        <div *ngIf="canSeeConditionDetails()" class="form-row">
+          <div class="form-group col">
+            <button *ngIf="viewState !== ViewState.STORY"
+                    (click)="viewState = ViewState.STORY" class="btn btn-outline-primary btn-block">
+              Read Story
+            </button>
+            <button *ngIf="viewState === ViewState.STORY"
+                    (click)="viewState = ViewState.CONDITION" class="btn btn-outline-primary btn-block">
+              Read Condition Details
+            </button>
           </div>
-        </form>
+
+          <div *ngIf="canSubmitResearch()" class="form-group col">
+            <button *ngIf="viewState === ViewState.RESEARCH"
+                    (click)="viewState = ViewState.CONDITION" class="btn btn-outline-primary btn-block">
+              Read Condition Details
+            </button>
+            <button *ngIf="viewState !== ViewState.RESEARCH"
+                    (click)="viewState = ViewState.RESEARCH" class="btn btn-outline-success btn-block">
+              Submit Research
+            </button>
+          </div>
+        </div>
 
         <div *ngIf="viewState === ViewState.STORY" class="kg-card-markdown">
           <p>{{story?.story.storyDetails.details}}</p>
@@ -62,55 +60,48 @@
   <div class="inner">
     <div class="read-next-feed">
       <app-post-card class="read-next-card" [details]="fundingCardDetails">
-        <form [formGroup]="fundingForm" class="post-form">
-          <div class="gh-form-group gh-form-group-horizontal">
-            <div class="input-group">
-              <input type="number" formControlName="diagAmount" class="gh-input" placeholder="100.00">
-              <div class="input-group-append">
-                <span class="input-group-text">DIAG</span>
+        <form [formGroup]="fundingForm">
+          <div class="d-inline-flex justify-content-between align-items-center">
+            <div class="form-group">
+              <div class="input-group">
+                <input type="number" formControlName="diagAmount" class="form-control form-control-lg" placeholder="100.00">
+                <div class="input-group-append">
+                  <span class="input-group-text">DIAG</span>
+                </div>
               </div>
             </div>
-
-            <img class="spacer-icon" src="/assets/convert-icon.svg" alt="≈">
-
-            <div class="input-group">
-              <input type="number" formControlName="currencyAmount" class="gh-input" placeholder="10.00">
-              <div class="input-group-append">
-                <span class="input-group-text">USD</span>
+            <div class="form-group mx-2">
+              <img class="spacer-icon" src="/assets/convert-icon.svg" alt="≈">
+            </div>
+            <div class="form-group">
+              <div class="input-group">
+                <input type="number" formControlName="currencyAmount" class="form-control form-control-lg" placeholder="10.00">
+                <div class="input-group-append">
+                  <span class="input-group-text">USD</span>
+                </div>
               </div>
             </div>
           </div>
 
-          <div class="gh-form-group">
-            <input type="submit" value="Contribute" (click)="onSubmitContribution()" class="gh-input gh-btn-blue">
+          <div class="form-group">
+            <input type="submit" value="Contribute" (click)="onSubmitContribution()" class="btn btn-primary btn-block">
           </div>
         </form>
       </app-post-card>
 
       <app-post-card *ngIf="!canAssignRoles()" class="read-next-card post-card-secondary" [details]="researchCardDetails">
-        <form class="post-form">
-          <div class="gh-form-group">
-            <input type="button" value="Submit Research Request" (click)="onRequestToResearch()" class="gh-input gh-btn-white">
-          </div>
-        </form>
+        <input type="button" value="Submit Research Request" (click)="onRequestToResearch()" class="form-control btn btn-light">
       </app-post-card>
 
       <app-post-card *ngIf="canAssignRoles() && hasResearchRequests()" class="read-next-card post-card-secondary" [details]="selectRolesCardDetails">
-        <div class="post-form">
-          <div *ngFor="let user of researchRequests" class="gh-form-group">
-            <div class="input-group">
-              <input type="text" [value]="user" class="gh-input" disabled>
-
-              <div ngbDropdown class="input-group-append">
-                <button ngbDropdownToggle class="input-group-text gh-input gh-btn-white">Assign Role</button>
-                <div class="dropdown">
-                  <ul ngbDropdownMenu class="dropdown-menu">
-                    <li>
-                      <button (click)="onAssignRole(user, TaskRole.WORKER)">Assign as Researcher</button>
-                      <button (click)="onAssignRole(user, TaskRole.EVALUATOR)">Assign as Evaluator</button>
-                    </li>
-                  </ul>
-                </div>
+        <div *ngFor="let user of getObjectKeys(researchRequests)" class="form-group w-100">
+          <div class="input-group">
+            <input type="text" [value]="user" class="form-control" disabled>
+            <div class="input-group-append" ngbDropdown>
+              <button id="assign-role" class="btn btn-secondary" type="button" ngbDropdownToggle>Assign Role</button>
+              <div aria-labelledby="assign-role" ngbDropdownMenu>
+                <button (click)="onAssignRole(user, TaskRole.WORKER)" class="dropdown-item">Assign as Researcher</button>
+                <button (click)="onAssignRole(user, TaskRole.EVALUATOR)" class="dropdown-item">Assign as Evaluator</button>
               </div>
             </div>
           </div>
@@ -118,21 +109,21 @@
       </app-post-card>
 
       <app-post-card *ngIf="canAssignRoles() && !hasResearchRequests()" class="read-next-card post-card-secondary" [details]="inputRolesCardDetails">
-        <form [formGroup]="researcherForm" class="post-form">
-          <div class="gh-form-group-horizontal">
-            <div class="gh-form-group">
+        <form [formGroup]="researcherForm">
+          <div class="form-row">
+            <div class="form-group col">
               <label for="worker">Researcher</label>
-              <input type="text" formControlName="worker" id="worker" class="gh-input" placeholder="e.g. 0x90F8bf…">
+              <input type="text" formControlName="worker" id="worker" class="form-control" placeholder="e.g. 0x90F8bf…">
             </div>
 
-            <div class="gh-form-group">
+            <div class="form-group col">
               <label for="evaluator">Evaluator</label>
-              <input type="text" formControlName="evaluator" id="evaluator" class="gh-input" placeholder="e.g. 0x6A479f…">
+              <input type="text" formControlName="evaluator" id="evaluator" class="form-control" placeholder="e.g. 0x6A479f…">
             </div>
           </div>
 
-          <div class="gh-form-group">
-            <input type="submit" value="Assign Roles" (click)="onAssignRoles()" class="gh-input gh-btn-white">
+          <div class="form-group">
+            <input type="submit" value="Assign Roles" (click)="onAssignRoles()" class="form-control btn btn-light btn-block">
           </div>
         </form>
       </app-post-card>
@@ -140,32 +131,25 @@
   </div>
 </aside>
 
-<ng-template #researchRequestModal>
+<ng-template #researchRequestModal let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h4 class="modal-title">Request to Help Research</h4>
-    <button type="button" class="close" aria-label="Close" (click)="dismiss()">
+    <button type="button" class="close" aria-label="Close" (click)="d()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    <p>Thank you for expressing interest in helping with the research for this story! All we need now is a rough approximation
-    of the time it will take to obtain sufficient information for this condition.</p>
+    <p>Thank you for expressing interest in helping with the research for this story! You will be notified if the story
+      coordinator chooses to have you help.</p>
 
-    <form class="form-inline">
-      <div class="form-group">
-        <div class="input-group">
-          <input class="form-control" placeholder="yyyy-mm-dd"
-                 name="dp" [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker">
-          <div class="input-group-append">
-            <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
-              <img src="img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;"/>
-            </button>
-          </div>
-        </div>
+    <form class="post-form">
+      <div class="gh-form-group">
+        <label for="duration">Approximate Duration (days)</label>
+        <input type="number" [(ngModel)]="duration" id="duration" name="duration" class="gh-input" min="1" placeholder="30">
       </div>
     </form>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="close()">Submit</button>
+    <button type="button" class="btn btn-outline-dark" (click)="c(duration)">Submit</button>
   </div>
 </ng-template>
