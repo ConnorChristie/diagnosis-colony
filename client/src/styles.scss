@@ -7,7 +7,7 @@ textarea {
   min-height: 8rem;
 }
 
-:not(.d-inline-flex) > .form-group:last-of-type {
+:not(.d-flex) > .form-group:last-of-type {
   margin-bottom: 0;
 }
 

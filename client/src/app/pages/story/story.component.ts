@@ -36,11 +36,6 @@ export class StoryComponent implements OnInit {
   public ViewState = ViewState;
   public viewState: ViewState = ViewState.STORY;
 
-  public fundingCardDetails = {
-    title: 'Fund this Story',
-    description:
-      'The funds raised for this story will be allocated to the researchers and medical professionals working on solving this mystery.'
-  };
   public researchCardDetails = {
     title: 'Research this Condition',
     description:
@@ -58,11 +53,6 @@ export class StoryComponent implements OnInit {
     description:
       'The following individuals have requested to research this story. You may assign them as either a researcher or an evaluator.'
   };
-
-  public fundingForm = new FormGroup({
-    diagAmount: new FormControl(null, Validators.required),
-    currencyAmount: new FormControl({ value: null, disabled: true })
-  });
 
   public researcherForm = new FormGroup({
     worker: new FormControl(null, Validators.required),
@@ -89,10 +79,6 @@ export class StoryComponent implements OnInit {
         this.loadStory(id);
         this.loadResearchRequests(id);
       });
-
-    this.fundingForm.controls.diagAmount.valueChanges.subscribe(value => {
-      this.fundingForm.controls.currencyAmount.setValue(value / 10);
-    });
   }
 
   canSeeConditionDetails() {
@@ -108,19 +94,12 @@ export class StoryComponent implements OnInit {
     return this.userRoles.some(x => x === TaskRole.MANAGER);
   }
 
-  hasResearchRequests() {
-    return !!this.getObjectKeys(this.researchRequests).length;
+  canSubmitResearchRequest() {
+    return !this.userRoles.some(x => x === TaskRole.WORKER || x === TaskRole.EVALUATOR);
   }
 
-  onSubmitContribution() {
-    const valid = this.fundingForm.valid && this.story;
-
-    // TODO: create txn to send funds to colony
-    if (valid) {
-      alert(
-        'Thank you for your interest although this feature is not yet implemented...'
-      );
-    }
+  hasResearchRequests() {
+    return !!this.getObjectKeys(this.researchRequests).length;
   }
 
   onAssignRoles() {

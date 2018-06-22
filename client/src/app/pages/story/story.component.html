@@ -16,25 +16,23 @@
       </figure>
 
       <section class="post-full-content">
-        <div *ngIf="canSeeConditionDetails()" class="form-row">
-          <div class="form-group col">
+        <div *ngIf="canSeeConditionDetails()" class="action-buttons">
+          <div class="btn-group d-flex w-100" role="group">
             <button *ngIf="viewState !== ViewState.STORY"
-                    (click)="viewState = ViewState.STORY" class="btn btn-outline-primary btn-block">
+                    (click)="viewState = ViewState.STORY" class="btn btn-outline-primary flex-fill w-50">
               Read Story
             </button>
             <button *ngIf="viewState === ViewState.STORY"
-                    (click)="viewState = ViewState.CONDITION" class="btn btn-outline-primary btn-block">
+                    (click)="viewState = ViewState.CONDITION" class="btn btn-outline-primary flex-fill w-50">
               Read Condition Details
             </button>
-          </div>
 
-          <div *ngIf="canSubmitResearch()" class="form-group col">
-            <button *ngIf="viewState === ViewState.RESEARCH"
-                    (click)="viewState = ViewState.CONDITION" class="btn btn-outline-primary btn-block">
+            <button *ngIf="canSubmitResearch() && viewState === ViewState.RESEARCH"
+                    (click)="viewState = ViewState.CONDITION" class="btn btn-outline-primary flex-fill w-50">
               Read Condition Details
             </button>
-            <button *ngIf="viewState !== ViewState.RESEARCH"
-                    (click)="viewState = ViewState.RESEARCH" class="btn btn-outline-success btn-block">
+            <button *ngIf="canSubmitResearch() && viewState !== ViewState.RESEARCH"
+                    (click)="viewState = ViewState.RESEARCH" class="btn btn-outline-success flex-fill w-50">
               Submit Research
             </button>
           </div>
@@ -59,37 +57,9 @@
 <aside class="read-next outer">
   <div class="inner">
     <div class="read-next-feed">
-      <app-post-card *ngIf="!canAssignRoles()" class="read-next-card" [details]="fundingCardDetails">
-        <form [formGroup]="fundingForm">
-          <div class="d-inline-flex justify-content-between align-items-center">
-            <div class="form-group">
-              <div class="input-group">
-                <input type="number" formControlName="diagAmount" class="form-control form-control-lg" placeholder="100.00">
-                <div class="input-group-append">
-                  <span class="input-group-text">DIAG</span>
-                </div>
-              </div>
-            </div>
-            <div class="form-group mx-2">
-              <img class="spacer-icon" src="/assets/convert-icon.svg" alt="≈">
-            </div>
-            <div class="form-group">
-              <div class="input-group">
-                <input type="number" formControlName="currencyAmount" class="form-control form-control-lg" placeholder="10.00">
-                <div class="input-group-append">
-                  <span class="input-group-text">USD</span>
-                </div>
-              </div>
-            </div>
-          </div>
+      <app-funding *ngIf="!canAssignRoles()" class="read-next-card"></app-funding>
 
-          <div class="form-group">
-            <input type="submit" value="Contribute" (click)="onSubmitContribution()" class="btn btn-primary btn-block">
-          </div>
-        </form>
-      </app-post-card>
-
-      <app-post-card *ngIf="!canAssignRoles()" class="read-next-card post-card-secondary" [details]="researchCardDetails">
+      <app-post-card *ngIf="!canAssignRoles() && canSubmitResearchRequest()" class="read-next-card post-card-secondary" [details]="researchCardDetails">
         <input type="button" value="Submit Research Request" (click)="onRequestToResearch()" class="form-control btn btn-light">
       </app-post-card>
 

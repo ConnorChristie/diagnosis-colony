@@ -1,0 +1,29 @@
+<app-post-card [details]="fundingCardDetails">
+  <form [formGroup]="fundingForm" class="w-100">
+    <div class="d-flex justify-content-between align-items-center">
+      <div class="form-group flex-grow-1">
+        <div class="input-group">
+          <input type="number" formControlName="diagAmount" class="form-control form-control-lg" placeholder="100.00">
+          <div class="input-group-append">
+            <span class="input-group-text">DIAG</span>
+          </div>
+        </div>
+      </div>
+      <div class="form-group mx-2">
+        <img class="spacer-icon" src="/assets/convert-icon.svg" alt="≈">
+      </div>
+      <div class="form-group flex-grow-1">
+        <div class="input-group">
+          <input type="number" formControlName="currencyAmount" class="form-control form-control-lg" placeholder="10.00">
+          <div class="input-group-append">
+            <span class="input-group-text">USD</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <input type="submit" value="Contribute" (click)="onSubmitContribution()" class="btn btn-primary btn-block">
+    </div>
+  </form>
+</app-post-card>
