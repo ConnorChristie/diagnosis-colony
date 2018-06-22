@@ -1,0 +1,9 @@
+@import '../../../assets/theme';
+
+.site-main {
+  background-color: map-get($background, primary);
+}
+
+.nav-link {
+  padding: 0;
+}

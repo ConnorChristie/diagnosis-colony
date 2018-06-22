@@ -27,6 +27,7 @@ import { StoryComponent } from './pages/story/story.component';
 import { SymptomsComponent } from './pages/research/symptoms/symptoms.component';
 import { ImagesComponent } from './pages/research/images/images.component';
 import { SubmitComponent } from './pages/research/submit/submit.component';
+import { QuestionsComponent } from './pages/research/questions/questions.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { SubmitComponent } from './pages/research/submit/submit.component';
     FundingComponent,
     SymptomsComponent,
     ImagesComponent,
-    SubmitComponent
+    SubmitComponent,
+    QuestionsComponent
   ],
   imports: [
     BrowserModule,

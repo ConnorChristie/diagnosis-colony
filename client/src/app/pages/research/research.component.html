@@ -33,6 +33,7 @@
             <app-research-symptoms *ngIf="viewState === ViewState.SYMPTOMS" [details]="story?.story.conditionDetails"></app-research-symptoms>
             <app-research-images *ngIf="viewState === ViewState.IMAGES" [details]="story?.story.conditionDetails"></app-research-images>
 
+            <app-research-questions *ngIf="viewState === ViewState.QUESTIONS"></app-research-questions>
             <app-research-submit *ngIf="viewState === ViewState.SUBMIT" [story]="story"></app-research-submit>
           </div>
         </div>
