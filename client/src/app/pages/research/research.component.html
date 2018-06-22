@@ -1,0 +1,42 @@
+<main class="site-main outer">
+  <div class="inner py-3">
+    <h1 class="display-4 mt-2">{{story?.story.storyDetails.title}}</h1>
+    <div class="row py-4">
+      <div class="col-sm-3">
+        <div class="card">
+          <ul class="nav list-group list-group-flush">
+            <li class="list-group-item font-weight-bold">Information</li>
+            <li class="nav-item list-group-item">
+              <a (click)="viewState = ViewState.CONDITION" [routerLink]="" class="nav-link card-link">Condition Details</a>
+            </li>
+            <li class="nav-item list-group-item">
+              <a (click)="viewState = ViewState.SYMPTOMS" [routerLink]="" class="nav-link card-link">Symptoms</a>
+            </li>
+            <li class="nav-item list-group-item">
+              <a (click)="viewState = ViewState.IMAGES" [routerLink]="" class="nav-link card-link">Images</a>
+            </li>
+
+            <li class="list-group-item font-weight-bold">Analysis</li>
+            <li class="nav-item list-group-item">
+              <a (click)="viewState = ViewState.QUESTIONS" [routerLink]="" class="nav-link card-link">Questions</a>
+            </li>
+            <li class="nav-item list-group-item">
+              <a (click)="viewState = ViewState.SUBMIT" [routerLink]="" class="nav-link card-link">Submit Research</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-sm-9">
+        <div class="card">
+          <div class="card-body">
+            <app-research-condition *ngIf="viewState === ViewState.CONDITION" [details]="story?.story.conditionDetails"></app-research-condition>
+            <app-research-symptoms *ngIf="viewState === ViewState.SYMPTOMS" [details]="story?.story.conditionDetails"></app-research-symptoms>
+            <app-research-images *ngIf="viewState === ViewState.IMAGES" [details]="story?.story.conditionDetails"></app-research-images>
+
+            <app-research-submit *ngIf="viewState === ViewState.SUBMIT" [story]="story"></app-research-submit>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

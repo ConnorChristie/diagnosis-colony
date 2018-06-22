@@ -32,7 +32,7 @@
               Read Condition Details
             </button>
             <button *ngIf="canSubmitResearch() && viewState !== ViewState.RESEARCH"
-                    (click)="viewState = ViewState.RESEARCH" class="btn btn-outline-success flex-fill w-50">
+                    routerLink="research" class="btn btn-outline-success flex-fill w-50">
               Submit Research
             </button>
           </div>
@@ -40,14 +40,6 @@
 
         <div *ngIf="viewState === ViewState.STORY" class="kg-card-markdown">
           <p>{{story?.story.storyDetails.details}}</p>
-        </div>
-
-        <div *ngIf="viewState === ViewState.CONDITION">
-          <app-condition [details]="story?.story.conditionDetails"></app-condition>
-        </div>
-
-        <div *ngIf="viewState === ViewState.RESEARCH">
-          <app-research [storyId]="story?.id"></app-research>
         </div>
       </section>
     </article>

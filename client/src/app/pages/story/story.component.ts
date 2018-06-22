@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { of } from 'rxjs';
 import { filter, flatMap, map } from 'rxjs/operators';
 
 import { IAuthor } from '../../components/author-list/author-list.component';
@@ -10,7 +11,6 @@ import { ITaskRole, ITaskRoles, TaskRole } from '../../models/task-role';
 import { ApiService, IResearchRequest } from '../../services/api/api.service';
 import { ColonyService } from '../../services/colony/colony.service';
 import { EthersNetworkService } from '../../services/networks/ethers-network/ethers-network.service';
-import { of } from 'rxjs';
 
 enum ViewState {
   STORY = 1,
@@ -184,7 +184,7 @@ export class StoryComponent implements OnInit {
   }
 
   private loadStory(id: number) {
-    this.colonyService.getStory(id).subscribe(story => (this.story = story));
+    this.colonyService.getStory(id).subscribe(story => this.story = story);
 
     this.colonyService
       .getStoryRoles(id)

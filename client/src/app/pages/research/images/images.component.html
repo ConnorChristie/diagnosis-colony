@@ -1,0 +1,4 @@
+<h5 class="card-title">Images</h5>
+<div *ngIf="details" class="image-gallery card-text">
+  <img *ngFor="let image of details.images" [src]="image">
+</div>

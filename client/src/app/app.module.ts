@@ -19,11 +19,14 @@ import { ConditionDetailsComponent } from './pages/new-story/condition-details/c
 import { NewStoryComponent } from './pages/new-story/new-story.component';
 import { ResearchersComponent } from './pages/new-story/researchers/researchers.component';
 import { StoryDetailsComponent } from './pages/new-story/story-details/story-details.component';
+import { ConditionComponent } from './pages/research/condition/condition.component';
+import { ResearchComponent } from './pages/research/research.component';
 import { StoriesComponent } from './pages/stories/stories.component';
-import { ConditionComponent } from './pages/story/condition/condition.component';
 import { FundingComponent } from './pages/story/funding/funding.component';
-import { ResearchComponent } from './pages/story/research/research.component';
 import { StoryComponent } from './pages/story/story.component';
+import { SymptomsComponent } from './pages/research/symptoms/symptoms.component';
+import { ImagesComponent } from './pages/research/images/images.component';
+import { SubmitComponent } from './pages/research/submit/submit.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +47,10 @@ import { StoryComponent } from './pages/story/story.component';
     ConditionComponent,
     ResearchComponent,
     StoryCardComponent,
-    FundingComponent
+    FundingComponent,
+    SymptomsComponent,
+    ImagesComponent,
+    SubmitComponent
   ],
   imports: [
     BrowserModule,

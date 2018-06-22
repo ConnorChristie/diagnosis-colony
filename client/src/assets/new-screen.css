@@ -212,11 +212,6 @@ blockquote,dl,ol,p,ul {
   letter-spacing: -.1px;
 }
 
-ol,ul {
-  padding-right: 1.5em;
-  padding-left: 1.3em;
-}
-
 ol ol,ol ul,ul ol,ul ul {
   margin: .5em 0 1em;
 }
@@ -231,12 +226,6 @@ ol {
 
 ol,ul {
   max-width: 100%;
-}
-
-li {
-  margin: .5em 0;
-  padding-left: .3em;
-  line-height: 1.6em;
 }
 
 dt {
@@ -1659,7 +1648,6 @@ textarea.gh-input {
   z-index: 100;
   -ms-flex-positive: 1;
   flex-grow: 1;
-  padding-bottom: 4vw;
 }
 
 .outer {
@@ -2770,9 +2758,9 @@ textarea.gh-input {
 
 .post-full-content {
   position: relative;
-  min-height: 400px;
+  min-height: 500px;
   margin: 0 auto;
-  padding: 90px 140px 0;
+  padding: 90px 140px 4vw;
   font-family: Mercury SSm A, Mercury SSm B, Georgia, serif;
   font-size: 1.2rem;
   line-height: 1.75em;
