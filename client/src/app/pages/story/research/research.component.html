@@ -1,34 +1,36 @@
 <h2>Submit Research</h2>
-<p>Please be as detailed and informative as possible. After submitting, the evaluator will look over your contribution
-  and determine if the supplied details and attached references indeed correlate with this condition.</p>
-<form [formGroup]="researchForm" class="post-form">
-  <div class="gh-form-group">
+<p>
+  Please be as detailed and informative as possible. After submitting, the evaluator will look over your contribution
+  and determine if the supplied details and attached references indeed correlate with this condition.
+</p>
+<form [formGroup]="researchForm">
+  <div class="form-group">
     <label for="causes">Found Causes</label>
-    <textarea formControlName="causes" id="causes" class="gh-input"></textarea>
-    <p>The root causes or possible conjectures about what may be causing the condition.</p>
+    <textarea formControlName="causes" id="causes" class="form-control"></textarea>
+    <small class="form-text text-muted">The root causes or possible conjectures about what may be causing the condition.</small>
   </div>
 
-  <div class="gh-form-group">
+  <div class="form-group">
     <label for="treatments">Treatments</label>
-    <textarea formControlName="treatments" id="treatments" class="gh-input"></textarea>
-    <p>Treatments that may help alleviate the condition or whether there are no treatment procedures yet.</p>
+    <textarea formControlName="treatments" id="treatments" class="form-control"></textarea>
+    <small class="form-text text-muted">Treatments that may help alleviate the condition or whether there are no treatment procedures yet.</small>
   </div>
 
-  <div class="gh-form-group">
+  <div class="form-group">
     <label for="symptoms">Additional Symptoms</label>
-    <textarea formControlName="symptoms" id="symptoms" class="gh-input"></textarea>
-    <p>Any additional symptoms that may be present with this condition.</p>
+    <textarea formControlName="symptoms" id="symptoms" class="form-control"></textarea>
+    <small class="form-text text-muted">Any additional symptoms that may be present with this condition.</small>
   </div>
 
-  <div class="gh-form-group">
+  <div class="form-group">
     <label for="references">References</label>
-    <textarea formControlName="references" id="references" class="gh-input"></textarea>
-    <p>We need the references you used to ascertain the validity of the presented information.</p>
+    <textarea formControlName="references" id="references" class="form-control"></textarea>
+    <small class="form-text text-muted">We need the references you used to ascertain the validity of the presented information.</small>
   </div>
 
   <hr>
 
-  <div class="gh-form-group">
-    <input type="submit" value="Submit" (click)="onSubmit()" class="gh-input gh-btn-blue">
+  <div class="form-group">
+    <input type="submit" value="Submit" (click)="onSubmit()" class="btn btn-primary btn-block">
   </div>
 </form>

@@ -3,6 +3,10 @@
 @import '~bootstrap/scss/bootstrap';
 @import 'assets/new-screen.css';
 
+textarea {
+  min-height: 8rem;
+}
+
 :not(.d-inline-flex) > .form-group:last-of-type {
   margin-bottom: 0;
 }

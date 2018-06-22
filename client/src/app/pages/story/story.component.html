@@ -59,7 +59,7 @@
 <aside class="read-next outer">
   <div class="inner">
     <div class="read-next-feed">
-      <app-post-card class="read-next-card" [details]="fundingCardDetails">
+      <app-post-card *ngIf="!canAssignRoles()" class="read-next-card" [details]="fundingCardDetails">
         <form [formGroup]="fundingForm">
           <div class="d-inline-flex justify-content-between align-items-center">
             <div class="form-group">
@@ -98,6 +98,9 @@
           <div class="input-group">
             <input type="text" [value]="user" class="form-control" disabled>
             <div class="input-group-append" ngbDropdown>
+              <span ngbTooltip="Quoted ~{{researchRequests[user].duration}} days for Research" placement="top" class="input-group-text">
+                {{researchRequests[user].duration}} days
+              </span>
               <button id="assign-role" class="btn btn-secondary" type="button" ngbDropdownToggle>Assign Role</button>
               <div aria-labelledby="assign-role" ngbDropdownMenu>
                 <button (click)="onAssignRole(user, TaskRole.WORKER)" class="dropdown-item">Assign as Researcher</button>
@@ -109,7 +112,7 @@
       </app-post-card>
 
       <app-post-card *ngIf="canAssignRoles() && !hasResearchRequests()" class="read-next-card post-card-secondary" [details]="inputRolesCardDetails">
-        <form [formGroup]="researcherForm">
+        <form [formGroup]="researcherForm" class="w-100">
           <div class="form-row">
             <div class="form-group col">
               <label for="worker">Researcher</label>
@@ -139,15 +142,15 @@
     </button>
   </div>
   <div class="modal-body">
-    <p>Thank you for expressing interest in helping with the research for this story! You will be notified if the story
-      coordinator chooses to have you help.</p>
+    <p>
+      Thank you for expressing interest in helping with the research for this story! You will be notified if the story
+      coordinator chooses to have you help.
+    </p>
 
-    <form class="post-form">
-      <div class="gh-form-group">
-        <label for="duration">Approximate Duration (days)</label>
-        <input type="number" [(ngModel)]="duration" id="duration" name="duration" class="gh-input" min="1" placeholder="30">
-      </div>
-    </form>
+    <div class="form-group">
+      <label for="duration">Approximate Duration (days)</label>
+      <input type="number" [(ngModel)]="duration" id="duration" name="duration" class="form-control" min="1" placeholder="30">
+    </div>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-outline-dark" (click)="c(duration)">Submit</button>

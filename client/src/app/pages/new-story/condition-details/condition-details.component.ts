@@ -57,7 +57,10 @@ export class ConditionDetailsComponent implements OnInit {
       .subscribe(success => {
         if (success && isValid) {
           this.newStoryService.saveStory().subscribe(async id => {
-            await this.router.navigate([...NewStoryService.ROUTES[Step.STEP3], id]);
+            await this.router.navigate([
+              ...NewStoryService.ROUTES[Step.STEP3],
+              id
+            ]);
           });
         }
       });

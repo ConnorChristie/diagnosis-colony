@@ -8,11 +8,11 @@ export class StoriesService {
     return this.researchInterests[storyId] || {};
   }
 
-  addResearchInterest(storyId: number, user: string, duration: number) {
+  addResearchInterest(storyId: number, user: string, properties) {
     const userLowered = user.toLowerCase();
     const users = this.getResearchInterests(storyId);
 
-    users[userLowered] = { duration };
+    users[userLowered] = properties;
 
     this.researchInterests[storyId] = users;
   }
@@ -21,8 +21,9 @@ export class StoriesService {
     const userLowered = user.toLowerCase();
     const users = this.getResearchInterests(storyId);
 
+    console.log(users);
     delete users[userLowered];
-
+    console.log(users);
     this.researchInterests[storyId] = users;
   }
 }

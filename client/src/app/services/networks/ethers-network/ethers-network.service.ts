@@ -44,6 +44,8 @@ export class EthersNetworkService {
       loader = new NetworkLoader({ network });
     }
 
+    this.applySyncAddress().then();
+
     this.adapter = new EthersAdapter({
       loader,
       provider,
@@ -63,5 +65,21 @@ export class EthersNetworkService {
 
   getAdapter() {
     return this.adapter;
+  }
+
+  private async applySyncAddress() {
+    const userAddress = await this.getUserAddress();
+
+    Object.defineProperty(this.signer, 'address', {
+      enumerable: true,
+      value: userAddress,
+      writable: false
+    });
+
+    Object.defineProperty(this.signer, '_syncAddress', {
+      enumerable: true,
+      value: true,
+      writable: false
+    });
   }
 }

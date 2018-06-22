@@ -2,14 +2,15 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { filter, map } from 'rxjs/operators';
+import { filter, flatMap, map } from 'rxjs/operators';
 
 import { IAuthor } from '../../components/author-list/author-list.component';
 import { IStoryTask } from '../../models/story';
 import { ITaskRole, ITaskRoles, TaskRole } from '../../models/task-role';
-import { ApiService } from '../../services/api/api.service';
+import { ApiService, IResearchRequest } from '../../services/api/api.service';
 import { ColonyService } from '../../services/colony/colony.service';
 import { EthersNetworkService } from '../../services/networks/ethers-network/ethers-network.service';
+import { of } from 'rxjs';
 
 enum ViewState {
   STORY = 1,
@@ -29,7 +30,7 @@ export class StoryComponent implements OnInit {
   public participants: IAuthor[] = [];
   public userRoles: TaskRole[] = [];
 
-  public researchRequests: {};
+  public researchRequests: { [user: string]: IResearchRequest };
 
   public TaskRole = TaskRole;
   public ViewState = ViewState;
@@ -135,6 +136,15 @@ export class StoryComponent implements OnInit {
   onAssignRole(user: string, role: TaskRole) {
     this.colonyService
       .assignUserRole(this.story.id, user, role)
+      .pipe(flatMap(() => {
+        const { durationSig } = this.researchRequests[user];
+
+        if (durationSig && role === TaskRole.WORKER) {
+          return this.colonyService.finishSetStoryDuration(durationSig);
+        }
+
+        return of();
+      }))
       .subscribe(async () => {
         const roles: ITaskRoles = { ...this.roles };
 
@@ -148,9 +158,9 @@ export class StoryComponent implements OnInit {
         }
 
         delete this.researchRequests[user];
-
         await this.updateParticipants(roles);
-        await this.apiService.removeResearchInterest(this.story.id, user);
+
+        this.apiService.removeResearchInterest(this.story.id, user).subscribe();
       });
   }
 
@@ -159,11 +169,23 @@ export class StoryComponent implements OnInit {
       return;
     }
 
-    const duration: number = await this.modalService.open(this.researchRequestModal).result;
+    const duration: number = await this.modalService.open(
+      this.researchRequestModal
+    ).result;
     const userAddress = await this.ethersNetworkService.getUserAddress();
 
-    this.apiService
-      .submitResearchInterest(this.story.id, userAddress, duration)
+    this.colonyService
+      .setStoryDuration(this.story.id, duration)
+      .pipe(
+        flatMap(op =>
+          this.apiService.submitResearchInterest(
+            this.story.id,
+            userAddress,
+            duration,
+            op.toJSON()
+          )
+        )
+      )
       .subscribe(
         () => {
           alert('Request sent to story coordinator.');
@@ -186,7 +208,7 @@ export class StoryComponent implements OnInit {
     this.colonyService.getStory(id).subscribe(story => (this.story = story));
 
     this.colonyService
-      .getTaskRoles(id)
+      .getStoryRoles(id)
       .subscribe(async roles => await this.updateParticipants(roles));
   }
 

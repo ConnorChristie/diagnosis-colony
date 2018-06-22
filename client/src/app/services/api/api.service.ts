@@ -1,6 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
+export interface IResearchRequest {
+  duration: number;
+  durationSig: {};
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -8,13 +13,19 @@ export class ApiService {
   constructor(private http: HttpClient) {}
 
   getResearchInterests(storyId: number) {
-    return this.http.get<{}>(`/api/stories/${storyId}/researchers`);
+    return this.http.get<{ [user: string]: IResearchRequest }>(`/api/stories/${storyId}/researchers`);
   }
 
-  submitResearchInterest(storyId: number, user: string, duration: number) {
+  submitResearchInterest(
+    storyId: number,
+    user: string,
+    duration: number,
+    durationSig: {}
+  ) {
     return this.http.post(`/api/stories/${storyId}/researchers`, {
       user,
-      duration
+      duration,
+      durationSig
     });
   }
 

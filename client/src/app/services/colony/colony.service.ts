@@ -139,7 +139,7 @@ export class ColonyService {
     );
   }
 
-  getTaskRoles(storyId: number) {
+  getStoryRoles(storyId: number) {
     return this.getColony().pipe(
       flatMap<IColonyClient, ITaskRoles>(async colony => ({
         manager: await colony.getTaskRole.call({
@@ -166,6 +166,37 @@ export class ColonyService {
           role: role,
           user: user
         });
+      })
+    );
+  }
+
+  setStoryDuration(storyId: number, duration: number) {
+    const dueDate = new Date();
+    dueDate.setDate(dueDate.getDate() + duration);
+
+    return this.getColony().pipe(
+      flatMap<IColonyClient, any>(async colony => {
+        const op = await colony.setTaskDueDate.startOperation({
+          taskId: storyId,
+          dueDate: dueDate
+        });
+
+        await op.sign();
+
+        return op;
+      })
+    );
+  }
+
+  finishSetStoryDuration(operation) {
+    return this.getColony().pipe(
+      flatMap<IColonyClient, boolean>(async colony => {
+        const op = await colony.setTaskDueDate.restoreOperation(operation);
+
+        await op.sign();
+        const { successful } = await op.send();
+
+        return successful;
       })
     );
   }
