@@ -9,9 +9,7 @@ import { IConditionDetails } from '../../../services/new-story/new-story.service
 export class SymptomsComponent implements OnInit {
   @Input() public details: IConditionDetails;
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

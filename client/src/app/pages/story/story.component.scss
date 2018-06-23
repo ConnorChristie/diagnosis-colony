@@ -27,3 +27,11 @@
     margin-bottom: 1rem;
   }
 }
+
+.container {
+  padding: 0;
+
+  .row+.row {
+    margin-top: 1rem;
+  }
+}

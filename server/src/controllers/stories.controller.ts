@@ -17,7 +17,10 @@ export class StoriesController {
     @Body('duration') duration: number,
     @Body('durationSig') durationSig: {}
   ) {
-    this.storiesService.addResearchInterest(id, user, { duration, durationSig });
+    this.storiesService.addResearchInterest(id, user, {
+      duration,
+      durationSig
+    });
   }
 
   @Delete(':id/researchers/:user')

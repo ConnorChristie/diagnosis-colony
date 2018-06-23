@@ -8,6 +8,8 @@ import { IStory, IStoryTask } from '../../models/story';
 import { ITaskRoles, TaskRole } from '../../models/task-role';
 
 import BigNumber from 'bn.js';
+import Web3 from 'web3';
+
 import {
   ColonyNetworkService,
   IColonyClient
@@ -30,6 +32,17 @@ export class ColonyService {
 
   static toStoryId(offset: number, index: number) {
     return offset + index + 1;
+  }
+
+  static generateSalt() {
+    return (
+      Math.random()
+        .toString(36)
+        .substring(2, 15) +
+      Math.random()
+        .toString(36)
+        .substring(2, 15)
+    );
   }
 
   async init() {
@@ -91,11 +104,14 @@ export class ColonyService {
   getStory(id: number) {
     return this.getColony().pipe(
       flatMap<IColonyClient, IStoryTask>(async colony => {
-        const { specificationHash, potId, dueDate } = await colony.getTask.call(
-          {
-            taskId: id
-          }
-        );
+        const {
+          specificationHash,
+          deliverableHash,
+          potId,
+          dueDate
+        } = await colony.getTask.call({
+          taskId: id
+        });
 
         if (specificationHash === null) {
           throw new Error(`Could not find story with id ${id}`);
@@ -107,8 +123,27 @@ export class ColonyService {
             specificationHash
           ),
           potId: potId,
-          dueDate: dueDate
+          dueDate: dueDate,
+          delivered: !!deliverableHash
         };
+      })
+    );
+  }
+
+  getStoryDeliverable(id: number) {
+    return this.getColony().pipe(
+      flatMap<IColonyClient, IResearch>(async colony => {
+        const { deliverableHash } = await colony.getTask.call({
+          taskId: id
+        });
+
+        if (deliverableHash === null) {
+          throw new Error(`Story ${id} has no deliverables submitted yet`);
+        }
+
+        return await this.ipfsNetworkService.getData<IResearch>(
+          deliverableHash
+        );
       })
     );
   }
@@ -197,6 +232,52 @@ export class ColonyService {
         const { successful } = await op.send();
 
         return successful;
+      })
+    );
+  }
+
+  submitRating(storyId: number, role: TaskRole, rating: number) {
+    return this.getColony().pipe(
+      flatMap<IColonyClient, string>(async colony => {
+        const salt = ColonyService.generateSalt();
+
+        const { secret } = await colony.generateSecret.call({
+          salt: salt,
+          value: new BigNumber(rating * 10)
+        });
+
+        await colony.submitTaskWorkRating.send({
+          taskId: storyId,
+          role: role,
+          ratingSecret: secret
+        });
+
+        return salt;
+      })
+    );
+  }
+
+  revealRating(storyId: number, role: TaskRole, rating: number, salt: string) {
+    return this.getColony().pipe(
+      flatMap<IColonyClient, void>(async colony => {
+        await colony.revealTaskWorkRating.send({
+          taskId: storyId,
+          role: role,
+          rating: rating * 10,
+          salt: salt
+        });
+      })
+    );
+  }
+
+  allRatingsSubmitted(storyId: number) {
+    return this.getColony().pipe(
+      flatMap<IColonyClient, boolean>(async colony => {
+        const { count } = await colony.getTaskWorkRatings.call({
+          taskId: storyId
+        });
+
+        return count >= 2;
       })
     );
   }

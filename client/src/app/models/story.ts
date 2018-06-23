@@ -15,4 +15,5 @@ export interface IStoryTask {
   story: IStory;
   potId: number;
   dueDate: number;
+  delivered: boolean;
 }

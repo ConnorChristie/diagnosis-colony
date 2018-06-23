@@ -1,9 +1,14 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Observable } from 'rxjs';
+import { flatMap, map } from 'rxjs/operators';
 
 import { IResearch } from '../../../models/research';
 import { IStoryTask } from '../../../models/story';
+import { TaskRole } from '../../../models/task-role';
 import { ColonyService } from '../../../services/colony/colony.service';
+import { RatingService } from '../../../services/rating/rating.service';
 
 @Component({
   selector: 'app-research-submit',
@@ -12,6 +17,13 @@ import { ColonyService } from '../../../services/colony/colony.service';
 })
 export class SubmitComponent implements OnInit {
   @Input() public story: IStoryTask;
+  @Input() public roles: TaskRole[] = [];
+
+  public didRate$: Observable<boolean>;
+
+  private delivered: boolean;
+
+  @ViewChild('evaluateResearchModal') private evaluateResearchModal;
 
   public researchForm = new FormGroup({
     causes: new FormControl(null, Validators.required),
@@ -20,9 +32,37 @@ export class SubmitComponent implements OnInit {
     references: new FormControl(null, Validators.required)
   });
 
-  constructor(private colonyService: ColonyService) { }
+  constructor(
+    private colonyService: ColonyService,
+    private ratingService: RatingService,
+    private modalService: NgbModal
+  ) {}
 
   ngOnInit() {
+    this.colonyService
+      .getStoryDeliverable(this.story.id)
+      .subscribe(deliverable => {
+        this.delivered = true;
+
+        this.researchForm.disable();
+        this.researchForm.patchValue(deliverable);
+      });
+
+    this.didRate$ = this.ratingService
+      .getRatingSecret(this.story.id, this.ratingRole())
+      .pipe(map(x => !!x));
+  }
+
+  isResearching() {
+    return this.roles.some(x => x === TaskRole.WORKER);
+  }
+
+  isEvaluating() {
+    return this.roles.some(x => x === TaskRole.EVALUATOR);
+  }
+
+  isDelivered() {
+    return this.delivered;
   }
 
   onSubmit() {
@@ -31,9 +71,37 @@ export class SubmitComponent implements OnInit {
 
     // TODO: Save intermittent research data
     if (valid) {
-      this.colonyService.submitResearch(this.story.id, details).subscribe(() => {
-        alert('Successfully submitted research.');
-      });
+      this.colonyService
+        .submitResearch(this.story.id, details)
+        .subscribe(() => {
+          this.delivered = true;
+          alert('Successfully submitted research.');
+        });
     }
+  }
+
+  async onEvaluate() {
+    const rating: number = await this.modalService.open(
+      this.evaluateResearchModal
+    ).result;
+
+    const role = this.ratingRole();
+
+    this.colonyService
+      .submitRating(this.story.id, role, rating)
+      .pipe(
+        flatMap(salt =>
+          this.ratingService.saveRatingSecret(this.story.id, role, rating, salt)
+        )
+      )
+      .subscribe(() => {
+        alert(
+          'Successfully sent rating. After all rating are in, we are going to ask you to reveal your rating.'
+        );
+      });
+  }
+
+  private ratingRole() {
+    return this.isResearching() ? TaskRole.MANAGER : TaskRole.WORKER;
   }
 }

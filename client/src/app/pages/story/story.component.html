@@ -18,13 +18,16 @@
       <section class="post-full-content">
         <div *ngIf="canSeeConditionDetails()" class="action-buttons">
           <div class="btn-group d-flex w-100" role="group">
-            <button *ngIf="canSubmitResearch()"
-                    routerLink="research" class="btn btn-outline-primary flex-fill w-50">
+            <button routerLink="research" class="btn btn-outline-primary flex-fill w-50">
               Read Condition Details
             </button>
             <button *ngIf="canSubmitResearch()"
                     routerLink="research" class="btn btn-outline-success flex-fill w-50">
               Submit Research
+            </button>
+            <button *ngIf="canEvaluateResearch()"
+                    routerLink="research" class="btn btn-outline-success flex-fill w-50">
+              Evaluate Research
             </button>
           </div>
         </div>
@@ -47,17 +50,23 @@
       </app-post-card>
 
       <app-post-card *ngIf="canAssignRoles() && hasResearchRequests()" class="read-next-card post-card-secondary" [details]="selectRolesCardDetails">
-        <div *ngFor="let user of getObjectKeys(researchRequests)" class="form-group w-100">
-          <div class="input-group">
-            <input type="text" [value]="user" class="form-control" disabled>
-            <div class="input-group-append" ngbDropdown>
-              <span ngbTooltip="Quoted ~{{researchRequests[user].duration}} days for Research" placement="top" class="input-group-text">
-                {{researchRequests[user].duration}} days
-              </span>
-              <button id="assign-role" class="btn btn-secondary" type="button" ngbDropdownToggle>Assign Role</button>
-              <div aria-labelledby="assign-role" ngbDropdownMenu>
-                <button (click)="onAssignRole(user, TaskRole.WORKER)" class="dropdown-item">Assign as Researcher</button>
-                <button (click)="onAssignRole(user, TaskRole.EVALUATOR)" class="dropdown-item">Assign as Evaluator</button>
+        <div class="container">
+          <div *ngFor="let user of getObjectKeys(researchRequests)" class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <div class="input-group">
+                  <input type="text" [value]="user" class="form-control" disabled>
+                  <div class="input-group-append" ngbDropdown placement="top-right">
+                    <span ngbTooltip="Quoted ~{{researchRequests[user].duration}} days for Research" placement="top" class="input-group-text">
+                      {{researchRequests[user].duration}} days
+                    </span>
+                    <button id="assign-role" class="btn btn-secondary" type="button" ngbDropdownToggle>Assign Role</button>
+                    <div aria-labelledby="assign-role" ngbDropdownMenu>
+                      <button (click)="onAssignRole(user, TaskRole.WORKER)" class="dropdown-item">Assign as Researcher</button>
+                      <button (click)="onAssignRole(user, TaskRole.EVALUATOR)" class="dropdown-item">Assign as Evaluator</button>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

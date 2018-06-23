@@ -13,7 +13,9 @@ export class ApiService {
   constructor(private http: HttpClient) {}
 
   getResearchInterests(storyId: number) {
-    return this.http.get<{ [user: string]: IResearchRequest }>(`/api/stories/${storyId}/researchers`);
+    return this.http.get<{ [user: string]: IResearchRequest }>(
+      `/api/stories/${storyId}/researchers`
+    );
   }
 
   submitResearchInterest(

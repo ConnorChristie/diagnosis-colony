@@ -82,12 +82,18 @@ export class StoryComponent implements OnInit {
     return this.userRoles.some(x => x === TaskRole.WORKER);
   }
 
+  canEvaluateResearch() {
+    return this.userRoles.some(x => x === TaskRole.EVALUATOR);
+  }
+
   canAssignRoles() {
     return this.userRoles.some(x => x === TaskRole.MANAGER);
   }
 
   canSubmitResearchRequest() {
-    return !this.userRoles.some(x => x === TaskRole.WORKER || x === TaskRole.EVALUATOR);
+    return !this.userRoles.some(
+      x => x === TaskRole.WORKER || x === TaskRole.EVALUATOR
+    );
   }
 
   hasResearchRequests() {
@@ -107,15 +113,17 @@ export class StoryComponent implements OnInit {
   onAssignRole(user: string, role: TaskRole) {
     this.colonyService
       .assignUserRole(this.story.id, user, role)
-      .pipe(flatMap(() => {
-        const { durationSig } = this.researchRequests[user];
+      .pipe(
+        flatMap(() => {
+          const { durationSig } = this.researchRequests[user];
 
-        if (durationSig && role === TaskRole.WORKER) {
-          return this.colonyService.finishSetStoryDuration(durationSig);
-        }
+          if (durationSig && role === TaskRole.WORKER) {
+            return this.colonyService.finishSetStoryDuration(durationSig);
+          }
 
-        return of();
-      }))
+          return of(null);
+        })
+      )
       .subscribe(async () => {
         const roles: ITaskRoles = { ...this.roles };
 
@@ -176,7 +184,7 @@ export class StoryComponent implements OnInit {
   }
 
   private loadStory(id: number) {
-    this.colonyService.getStory(id).subscribe(story => this.story = story);
+    this.colonyService.getStory(id).subscribe(story => (this.story = story));
 
     this.colonyService
       .getStoryRoles(id)

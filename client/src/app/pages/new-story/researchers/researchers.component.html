@@ -21,7 +21,7 @@
 
   <div class="form-row">
     <div class="form-group col">
-      <input type="button" value="Skip" [routerLink]="['/stories', storyId]" class="btn btn-light btn-block">
+      <input type="button" value="Skip" (click)="onSkip()" class="btn btn-light btn-block">
     </div>
     <div class="form-group col">
       <input type="submit" value="Finish" (click)="onSubmit()" class="btn btn-primary btn-block">

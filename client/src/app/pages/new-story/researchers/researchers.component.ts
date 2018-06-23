@@ -68,6 +68,12 @@ export class ResearchersComponent implements OnInit {
     }
   }
 
+  onSkip() {
+    this.newStoryService.clearAllDetails().subscribe(async () => {
+      await this.router.navigate(['/stories', this.storyId]);
+    });
+  }
+
   private assignUserRoles(storyId: number, details: IResearcherDetails) {
     const roleAssignment$ = [];
 

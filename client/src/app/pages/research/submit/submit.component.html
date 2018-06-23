@@ -1,36 +1,81 @@
-<h5 class="card-title">Submit Research</h5>
-<p class="card-text">
-  Please be as detailed and informative as possible. After submitting, the evaluator will look over your contribution
-  and determine if the supplied details and attached references indeed correlate with this condition.
-</p>
-<form [formGroup]="researchForm">
-  <div class="form-group">
-    <label for="causes">Found Causes</label>
-    <textarea formControlName="causes" id="causes" class="form-control"></textarea>
-    <small class="form-text text-muted">The root causes or possible conjectures about what may be causing the condition.</small>
-  </div>
+<h5 class="card-title">
+  <span *ngIf="isResearching()">Submit Research<span *ngIf="isDelivered()"> (Awaiting Evaluation)</span></span>
+  <span *ngIf="isEvaluating()">Evaluate Research</span>
+</h5>
+<div *ngIf="isResearching() || isDelivered()">
+  <p class="card-text">
+    Please be as detailed and informative as possible. After submitting, the evaluator will look over your contribution
+    and determine if the supplied details and attached references indeed correlate with this condition.
+  </p>
+  <form [formGroup]="researchForm">
+    <div class="form-group">
+      <label for="causes">Found Causes</label>
+      <textarea formControlName="causes" id="causes" class="form-control"></textarea>
+      <small class="form-text text-muted">The root causes or possible conjectures about what may be causing the condition.</small>
+    </div>
 
-  <div class="form-group">
-    <label for="treatments">Treatments</label>
-    <textarea formControlName="treatments" id="treatments" class="form-control"></textarea>
-    <small class="form-text text-muted">Treatments that may help alleviate the condition or whether there are no treatment procedures yet.</small>
-  </div>
+    <div class="form-group">
+      <label for="treatments">Treatments</label>
+      <textarea formControlName="treatments" id="treatments" class="form-control"></textarea>
+      <small class="form-text text-muted">Treatments that may help alleviate the condition or whether there are no treatment procedures yet.</small>
+    </div>
 
-  <div class="form-group">
-    <label for="symptoms">Additional Symptoms</label>
-    <textarea formControlName="symptoms" id="symptoms" class="form-control"></textarea>
-    <small class="form-text text-muted">Any additional symptoms that may be present with this condition.</small>
-  </div>
+    <div class="form-group">
+      <label for="symptoms">Additional Symptoms</label>
+      <textarea formControlName="symptoms" id="symptoms" class="form-control"></textarea>
+      <small class="form-text text-muted">Any additional symptoms that may be present with this condition.</small>
+    </div>
 
-  <div class="form-group">
-    <label for="references">References</label>
-    <textarea formControlName="references" id="references" class="form-control"></textarea>
-    <small class="form-text text-muted">We need the references you used to ascertain the validity of the presented information.</small>
-  </div>
+    <div class="form-group">
+      <label for="references">References</label>
+      <textarea formControlName="references" id="references" class="form-control"></textarea>
+      <small class="form-text text-muted">We need the references you used to ascertain the validity of the presented information.</small>
+    </div>
 
-  <hr>
+    <div *ngIf="isResearching() && !isDelivered()">
+      <hr>
 
-  <div class="form-group">
-    <input type="submit" value="Submit" (click)="onSubmit()" class="btn btn-primary btn-block">
+      <div class="form-group">
+        <input type="submit" value="Submit" (click)="onSubmit()" class="btn btn-primary btn-block">
+      </div>
+    </div>
+
+    <div *ngIf="isEvaluating() && !(didRate$ | async)">
+      <hr>
+
+      <div class="form-group">
+        <input type="submit" value="Rate Work" (click)="onEvaluate()" class="btn btn-primary btn-block">
+      </div>
+    </div>
+  </form>
+</div>
+
+<div *ngIf="isEvaluating() && !isDelivered()">
+  <p class="card-text">
+    The researcher has not submitted their work yet. You will be able to evaluate their research after it has been submitted.
+  </p>
+</div>
+
+<ng-template #evaluateResearchModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Rate Work</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d()">
+      <span aria-hidden="true">&times;</span>
+    </button>
   </div>
-</form>
+  <div class="modal-body">
+    <p>
+      Please rate the work done by the researcher. This rating will be used to determine if the story needs additional
+      research and also the researcher's payout.
+    </p>
+
+    <ngb-rating [(rate)]="rating" max="5" id="rating">
+      <ng-template let-fill="fill" let-index="index">
+        <span class="star" [class.filled]="fill === 100">&#9733;</span>
+      </ng-template>
+    </ngb-rating>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="c(rating)">Submit</button>
+  </div>
+</ng-template>
