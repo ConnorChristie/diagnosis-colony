@@ -151,6 +151,7 @@ export class StoryComponent implements OnInit {
     const duration: number = await this.modalService.open(
       this.researchRequestModal
     ).result;
+
     const userAddress = await this.ethersNetworkService.getUserAddress();
 
     this.colonyService
@@ -212,8 +213,7 @@ export class StoryComponent implements OnInit {
 
       // TODO: Replace placeholder info with uPort identity details
       let subtitle = 'Story Coordinator';
-      let image =
-        '//www.gravatar.com/avatar/f95828f4e92f1befebabfb7f65cdc8f2?s=250&amp;d=mm&amp;r=x';
+      let image = '/assets/profile-me.png';
 
       switch (role) {
         case TaskRole.WORKER:

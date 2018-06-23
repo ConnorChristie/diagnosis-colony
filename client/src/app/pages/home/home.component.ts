@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { IPostCardDetails } from '../../components/post-card/post-card.component';
-import { ColonyService } from '../../services/colony/colony.service';
 import { Observable } from 'rxjs';
+
+import { IPostCardDetails } from '../../components/post-card/post-card.component';
 import { IStoryTask } from '../../models/story';
+import { ColonyService } from '../../services/colony/colony.service';
 
 @Component({
   selector: 'app-home',
@@ -12,17 +13,16 @@ import { IStoryTask } from '../../models/story';
 export class HomeComponent implements OnInit {
   public featuredCard: IPostCardDetails = {
     id: 0,
-    title: 'News Post',
+    title: 'Initial Release of Diagnosis Colony',
     description:
-      "We've just released an official Unsplash integration for Ghost; Now you can find and use beautiful free photos from the world's " +
-      'most generous community of photographers! No matter what case study you look',
+      'We have just finished the first stages of colonyDiagnosis which includes the ability to create new stories along with the ' +
+      'ability for a researcher and evaluator to sign-up to help figure out the causes!',
     category: 'New Things',
     contributors: [
       {
         name: 'Connor Christie',
         link: '/',
-        image:
-          '//www.gravatar.com/avatar/f95828f4e92f1befebabfb7f65cdc8f2?s=250&amp;d=mm&amp;r=x'
+        image: '/assets/profile-me.png'
       }
     ],
     image:
