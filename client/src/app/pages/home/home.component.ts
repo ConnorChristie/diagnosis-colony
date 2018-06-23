@@ -13,10 +13,10 @@ import { ColonyService } from '../../services/colony/colony.service';
 export class HomeComponent implements OnInit {
   public featuredCard: IPostCardDetails = {
     id: 0,
-    title: 'Initial Release of Diagnosis Colony',
+    title: 'Research Colony - Introduction to Medical',
     description:
-      'We have just finished the first stages of colonyDiagnosis which includes the ability to create new stories along with the ' +
-      'ability for a researcher and evaluator to sign-up to help figure out the causes!',
+      'We have just added the Medical domain to our researchColony! This includes the ability to create new stories along with ' +
+      'allowing researchers and evaluators to sign-up to help figure out the causes!',
     category: 'New Things',
     contributors: [
       {

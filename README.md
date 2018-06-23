@@ -1,18 +1,25 @@
-# Diagnosis Colony
-Building a colony of individuals who solve medical mysteries
+# researchColony
+Building a colony where anyone can contribute research or funding
 
 ## Background
 What inspired me to come up with this idea was hearing stories about rare diseases that only a handful of people have in the world without there being any research or doctors knowing anything about the condition. This project aims to bring together the symptoms of unseen diseases with scientists, researchers, doctors, and the general public to find out more and reward them for their work in discovering more about the condition.
 
 Not only could this be applicable to rare diseases, this could provide insight on general diseases such as the flu to neighboring countries that don't have direct access to medical professionals.
 
+We plan on expanding this project beyond the Medical field and into other research intensive domains, such as cryptocurrency research or even education where individuals may be able to improve the standard ways in which we learn!
+
 ## Applications
+### Medical
 * Someone with a __rare unknown condition__ may post their story and allow contributions of both funds and knowledge to help them.
 * A __group or organization__ may come together to share a larger story about planned parenthood for example, where research can be funded and crowdsourced to learn more about the issues.
 * Petition monetary support for possible organ donors or artificial limbs.
 
+### Additional
+* Present problems among the different domains which require lots of collaboration and research. These will most likely be open source and community projects.
+* Allow individuals with different skill sets to provide insight for a story. Encouraging collaboration and diversity among the research projects. (The source of innovation)
+
 ## Implementation
-There are three main parts of the Colony:
+There are three main parts of the Medical Colony:
 * Condition (a task in Colony)
 * Diagnoses (task solutions)
 * Medical professionals, researchers, etc. (task evaluators and workers)
