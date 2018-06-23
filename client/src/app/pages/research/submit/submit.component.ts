@@ -1,7 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Observable } from 'rxjs';
 import { flatMap, map } from 'rxjs/operators';
 
 import { IResearch } from '../../../models/research';
@@ -19,8 +18,7 @@ export class SubmitComponent implements OnInit {
   @Input() public story: IStoryTask;
   @Input() public roles: TaskRole[] = [];
 
-  public didRate$: Observable<boolean>;
-
+  public didRate: boolean;
   private delivered: boolean;
 
   @ViewChild('evaluateResearchModal') private evaluateResearchModal;
@@ -48,9 +46,10 @@ export class SubmitComponent implements OnInit {
         this.researchForm.patchValue(deliverable);
       });
 
-    this.didRate$ = this.ratingService
+    this.ratingService
       .getRatingSecret(this.story.id, this.ratingRole())
-      .pipe(map(x => !!x));
+      .pipe(map(x => !!x))
+      .subscribe(didRate => (this.didRate = didRate));
   }
 
   isResearching() {
@@ -75,6 +74,7 @@ export class SubmitComponent implements OnInit {
         .submitResearch(this.story.id, details)
         .subscribe(() => {
           this.delivered = true;
+          this.researchForm.disable();
           alert('Successfully submitted research.');
         });
     }
@@ -95,6 +95,8 @@ export class SubmitComponent implements OnInit {
         )
       )
       .subscribe(() => {
+        this.didRate = true;
+
         alert(
           'Successfully sent rating. After all rating are in, we are going to ask you to reveal your rating.'
         );

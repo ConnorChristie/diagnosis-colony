@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { combineLatest, Observable } from 'rxjs';
-import { filter, flatMap, map, tap } from 'rxjs/operators';
+import { combineLatest } from 'rxjs';
+import { filter, flatMap, map } from 'rxjs/operators';
 
 import { IStoryTask } from '../../models/story';
 import { ITaskRoles, TaskRole } from '../../models/task-role';
@@ -30,8 +30,8 @@ export class ResearchComponent implements OnInit {
   public viewState = ViewState.CONDITION;
   public ViewState = ViewState;
 
-  public canRate$: Observable<boolean>;
-  public allRated$: Observable<boolean>;
+  public canRate: boolean;
+  public allRated: boolean;
 
   @ViewChild('ratingModal') private ratingModal;
 
@@ -78,6 +78,8 @@ export class ResearchComponent implements OnInit {
         )
       )
       .subscribe(() => {
+        this.canRate = false;
+
         alert(
           'Successfully sent rating. After all rating are in, we are going to ask you to reveal your rating.'
         );
@@ -101,6 +103,8 @@ export class ResearchComponent implements OnInit {
         flatMap(() => this.ratingService.removeRatingSecret(this.story.id, role))
       )
       .subscribe(() => {
+        this.allRated = false;
+
         alert(
           'Successfully revealed your rating.'
         );
@@ -109,29 +113,15 @@ export class ResearchComponent implements OnInit {
 
   private loadStory(id: number) {
     combineLatest(
-      this.colonyService.getStory(id).pipe(tap(story => (this.story = story))),
+      this.colonyService.getStory(id),
       this.colonyService
         .getStoryRoles(id)
-        .pipe(
-          flatMap(roles => this.toUserRoles(roles)),
-          tap(roles => (this.userRoles = roles))
-        )
-    ).subscribe(() => {
-      this.allRated$ = combineLatest(
-        this.didRate(),
-        this.colonyService.allRatingsSubmitted(id)
-      ).pipe(
-        map(([didRate, allRated]) => (didRate && allRated))
-      );
+        .pipe(flatMap(roles => this.toUserRoles(roles)))
+    ).subscribe(([story, userRoles]) => {
+      this.story = story;
+      this.userRoles = userRoles;
 
-      this.canRate$ = combineLatest(
-        this.didRate().pipe(
-          map(rated => !rated && this.story.delivered && this.isResearching())
-        ),
-        this.colonyService.allRatingsSubmitted(id)
-      ).pipe(
-        map(([canRate, ratingsSubmitted]) => (canRate && !ratingsSubmitted))
-      );
+      this.updateRatings();
     });
   }
 
@@ -152,6 +142,18 @@ export class ResearchComponent implements OnInit {
     }
 
     return userRoles;
+  }
+
+  private updateRatings() {
+    combineLatest(
+      this.didRate(),
+      this.colonyService.allRatingsSubmitted(this.story.id)
+    ).subscribe(([didRate, allRated]) => {
+      const canRate = !didRate && this.story.delivered && (this.isResearching() || this.isEvaluating());
+
+      this.canRate = canRate && !allRated;
+      this.allRated = didRate && allRated;
+    });
   }
 
   private didRate() {

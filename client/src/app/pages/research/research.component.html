@@ -1,13 +1,16 @@
 <main class="site-main outer">
   <div class="inner py-3">
     <div class="d-flex justify-content-between align-items-center my-2">
-      <h1 class="display-4">{{story?.story.storyDetails.title}}</h1>
+      <h1 class="display-4">{{story?.story.storyDetails.title || 'Loading...'}}</h1>
       <button [routerLink]="['/stories', story?.id]" class="btn btn-outline-primary">Back to Story</button>
     </div>
-    <div *ngIf="canRate$ | async" class="alert alert-info" role="alert">
-      We need your rating for the {{isResearching() ? 'Story Coordinator' : 'Researchers'}}, please <a (click)="onRate()" [routerLink]="" class="alert-link">click here</a> to submit your rating.
+    <div *ngIf="canRate && isResearching()" class="alert alert-info" role="alert">
+      We need your rating for the Story Coordinator, please <a (click)="onRate()" [routerLink]="" class="alert-link">click here</a> to submit your rating.
     </div>
-    <div *ngIf="allRated$ | async" class="alert alert-info" role="alert">
+    <div *ngIf="canRate && isEvaluating()" class="alert alert-info" role="alert">
+      We need your evaluation for the submitted research, please <a (click)="viewState = ViewState.SUBMIT" [routerLink]="" class="alert-link">click here</a> to review.
+    </div>
+    <div *ngIf="allRated" class="alert alert-info" role="alert">
       All ratings are in! We need you to reveal your rating for the {{isResearching() ? 'Story Coordinator' : 'Researchers'}}, please <a (click)="onRevealRating()" [routerLink]="" class="alert-link">click here</a> to reveal your rating.
     </div>
     <div *ngIf="canView()" class="row pt-2 pb-4">

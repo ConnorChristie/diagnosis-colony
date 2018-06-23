@@ -40,7 +40,7 @@
       </div>
     </div>
 
-    <div *ngIf="isEvaluating() && !(didRate$ | async)">
+    <div *ngIf="isEvaluating() && !didRate">
       <hr>
 
       <div class="form-group">
