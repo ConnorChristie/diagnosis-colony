@@ -35,10 +35,10 @@ export class StoryComponent implements OnInit {
       'expertise for this story.\n\nResearchers are compensated for working together and finding more information regarding this condition.'
   };
   public inputRolesCardDetails = {
-    title: 'Assign Researcher and Evaluator',
-    description:
-      "Either supply an address for both the primary researcher and evaluator if you know who you'd like to research this story " +
-      'otherwise you may wait for submissions to appear here.'
+    title: 'Researchers and Evaluators',
+    description: 'Requests for becoming a researcher will be shown here once this story begins to receive them. You may then appoint ' +
+      'different people as either a Researcher (performs the work) or an Evaluator (evaluates and rates the research work). Please be ' +
+      'patient as it may take some time to find the right people to perform the research!'
   };
   public selectRolesCardDetails = {
     title: 'Select Researcher and Evaluator',

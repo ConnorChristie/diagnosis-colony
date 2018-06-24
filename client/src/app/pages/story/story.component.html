@@ -40,7 +40,7 @@
   </div>
 </main>
 
-<aside class="read-next outer">
+<aside *ngIf="story" class="read-next outer">
   <div class="inner">
     <div class="read-next-feed">
       <app-funding *ngIf="!canAssignRoles()" class="read-next-card"></app-funding>
@@ -74,23 +74,23 @@
       </app-post-card>
 
       <app-post-card *ngIf="canAssignRoles() && !hasResearchRequests()" class="read-next-card post-card-secondary" [details]="inputRolesCardDetails">
-        <form [formGroup]="researcherForm" class="w-100">
-          <div class="form-row">
-            <div class="form-group col">
-              <label for="worker">Researcher</label>
-              <input type="text" formControlName="worker" id="worker" class="form-control" placeholder="e.g. 0x90F8bf…">
-            </div>
+        <!--<form [formGroup]="researcherForm" class="w-100">-->
+          <!--<div class="form-row">-->
+            <!--<div class="form-group col">-->
+              <!--<label for="worker">Researcher</label>-->
+              <!--<input type="text" formControlName="worker" id="worker" class="form-control" placeholder="e.g. 0x90F8bf…">-->
+            <!--</div>-->
 
-            <div class="form-group col">
-              <label for="evaluator">Evaluator</label>
-              <input type="text" formControlName="evaluator" id="evaluator" class="form-control" placeholder="e.g. 0x6A479f…">
-            </div>
-          </div>
+            <!--<div class="form-group col">-->
+              <!--<label for="evaluator">Evaluator</label>-->
+              <!--<input type="text" formControlName="evaluator" id="evaluator" class="form-control" placeholder="e.g. 0x6A479f…">-->
+            <!--</div>-->
+          <!--</div>-->
 
-          <div class="form-group">
-            <input type="submit" value="Assign Roles" (click)="onAssignRoles()" class="form-control btn btn-light btn-block">
-          </div>
-        </form>
+          <!--<div class="form-group">-->
+            <!--<input type="submit" value="Assign Roles" (click)="onAssignRoles()" class="form-control btn btn-light btn-block">-->
+          <!--</div>-->
+        <!--</form>-->
       </app-post-card>
     </div>
   </div>
