@@ -17,17 +17,17 @@ import { StoryCardComponent } from './components/story-card/story-card.component
 import { HomeComponent } from './pages/home/home.component';
 import { ConditionDetailsComponent } from './pages/new-story/condition-details/condition-details.component';
 import { NewStoryComponent } from './pages/new-story/new-story.component';
-import { ResearchersComponent } from './pages/new-story/researchers/researchers.component';
+import { PublishComponent } from './pages/new-story/publish/publish.component';
 import { StoryDetailsComponent } from './pages/new-story/story-details/story-details.component';
 import { ConditionComponent } from './pages/research/condition/condition.component';
+import { ImagesComponent } from './pages/research/images/images.component';
+import { QuestionsComponent } from './pages/research/questions/questions.component';
 import { ResearchComponent } from './pages/research/research.component';
+import { SubmitComponent } from './pages/research/submit/submit.component';
+import { SymptomsComponent } from './pages/research/symptoms/symptoms.component';
 import { StoriesComponent } from './pages/stories/stories.component';
 import { FundingComponent } from './pages/story/funding/funding.component';
 import { StoryComponent } from './pages/story/story.component';
-import { SymptomsComponent } from './pages/research/symptoms/symptoms.component';
-import { ImagesComponent } from './pages/research/images/images.component';
-import { SubmitComponent } from './pages/research/submit/submit.component';
-import { QuestionsComponent } from './pages/research/questions/questions.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +44,7 @@ import { QuestionsComponent } from './pages/research/questions/questions.compone
     StoryDetailsComponent,
     ConditionDetailsComponent,
     SelectComponent,
-    ResearchersComponent,
+    PublishComponent,
     ConditionComponent,
     ResearchComponent,
     StoryCardComponent,

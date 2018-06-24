@@ -4,28 +4,10 @@ import { LocalStorage } from '@ngx-pwa/local-storage';
 import { ActivatedRoute } from '@angular/router';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, flatMap, map, switchMap, tap } from 'rxjs/operators';
-import { IStory } from '../../models/story';
+import { IConditionDetails, IStory, IStoryDetails } from '../../models/story';
 import { ColonyService } from '../colony/colony.service';
 
-export interface IStoryDetails {
-  title: string;
-  details: string;
-  mainImage: string;
-}
-
-export interface IConditionDetails {
-  category: string;
-  symptoms: string;
-  details: string;
-  images: string[];
-}
-
-export interface IResearcherDetails {
-  researcher: string;
-  evaluator: string;
-}
-
-type StoryDetails = IStoryDetails | IConditionDetails | IResearcherDetails;
+type StoryDetails = IStoryDetails | IConditionDetails;
 
 export enum Step {
   STEP1 = 1,
@@ -44,7 +26,7 @@ export class NewStoryService {
   public static ROUTES = {
     [Step.STEP1]: ['/story', 'details'],
     [Step.STEP2]: ['/story', 'condition'],
-    [Step.STEP3]: ['/story', 'researchers']
+    [Step.STEP3]: ['/story', 'publish']
   };
 
   private static DETAILS_KEY = 'new-story';

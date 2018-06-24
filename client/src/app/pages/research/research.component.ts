@@ -100,14 +100,14 @@ export class ResearchComponent implements OnInit {
             rating.secret
           )
         ),
-        flatMap(() => this.ratingService.removeRatingSecret(this.story.id, role))
+        flatMap(() =>
+          this.ratingService.removeRatingSecret(this.story.id, role)
+        )
       )
       .subscribe(() => {
         this.allRated = false;
 
-        alert(
-          'Successfully revealed your rating.'
-        );
+        alert('Successfully revealed your rating.');
       });
   }
 
@@ -149,7 +149,10 @@ export class ResearchComponent implements OnInit {
       this.didRate(),
       this.colonyService.allRatingsSubmitted(this.story.id)
     ).subscribe(([didRate, allRated]) => {
-      const canRate = !didRate && this.story.delivered && (this.isResearching() || this.isEvaluating());
+      const canRate =
+        !didRate &&
+        this.story.delivered &&
+        (this.isResearching() || this.isEvaluating());
 
       this.canRate = canRate && !allRated;
       this.allRated = didRate && allRated;

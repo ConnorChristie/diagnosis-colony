@@ -1,0 +1,18 @@
+.close-icon {
+  width: 23px;
+  height: 23px;
+  color: white;
+  background-color: black;
+  box-shadow: none;
+  margin-left: -7px;
+
+  fa-icon {
+    position: absolute;
+    top: -4px;
+    left: 5px;
+  }
+
+  &:hover {
+    color: white;
+  }
+}

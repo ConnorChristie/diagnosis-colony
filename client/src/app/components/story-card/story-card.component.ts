@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+
 import { IStoryTask } from '../../models/story';
 import { ColonyService } from '../../services/colony/colony.service';
 import { IPostCardDetails } from '../post-card/post-card.component';
@@ -31,7 +32,7 @@ export class StoryCardComponent {
         title: story.storyDetails.title,
         description: story.storyDetails.details,
         category: story.conditionDetails.category,
-        image: story.storyDetails.mainImage,
+        image: story.storyDetails.mainImage.raw,
 
         metadata: `Raised ${potBalance} DIAG`,
         progress: (1200 / 1500) * 100,

@@ -26,7 +26,7 @@ export class NewStoryComponent implements OnInit {
       isActive: false
     },
     [Step.STEP3]: {
-      name: 'Step 3: Researchers',
+      name: 'Step 3: Publish',
       link: NewStoryService.ROUTES[Step.STEP3],
       isActive: false
     }

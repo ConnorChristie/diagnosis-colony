@@ -11,26 +11,40 @@
 
   <div class="form-group">
     <label for="symptoms">Symptoms</label>
-    <input type="text" formControlName="symptoms" id="symptoms" class="form-control"
+    <input type="text" formControlName="symptoms" id="symptoms" class="form-control" [class.is-invalid]="isInvalid(detailsForm.get('symptoms'))"
            placeholder="(e.g. Rash on arms, easily sunburnt)">
     <small class="form-text text-muted">A comma separated list of symptoms related to the condition.</small>
   </div>
 
   <div class="form-group">
     <label for="details">Details</label>
-    <textarea id="details" formControlName="details" class="form-control"></textarea>
+    <textarea id="details" formControlName="details" class="form-control" [class.is-invalid]="isInvalid(detailsForm.get('details'))"></textarea>
     <small class="form-text text-muted">What effects does the condition have or anything that you have already learned about the condition?</small>
   </div>
 
-  <div class="form-group">
+  <div class="form-group" formArrayName="images">
     <label for="images">Images</label>
     <input type="file" multiple (change)="onFileChange($event)" id="images" class="form-control">
     <small class="form-text text-muted">These images will only be shown to the researchers assigned to your story.</small>
+
+    <div class="d-flex flex-wrap justify-content-between mt-4">
+      <div *ngFor="let image of images.controls; let i = index" [formGroupName]="i">
+        <a (click)="deleteImage(i)" [routerLink]="" class="close-icon position-absolute rounded-circle" aria-label="Delete">
+          <fa-icon [icon]="faTimes" transform="shrink-2"></fa-icon>
+        </a>
+        <img [src]="image.get('raw').value" class="img-thumbnail m-2">
+      </div>
+    </div>
   </div>
 
   <hr>
 
-  <div class="form-group">
-    <input type="submit" value="Submit Story" (click)="onSubmit()" class="btn btn-primary btn-block">
+  <div class="form-row">
+    <div class="form-group col">
+      <input type="button" value="Save" (click)="onSave()" class="btn btn-light btn-block">
+    </div>
+    <div class="form-group col">
+      <input type="submit" value="Next" (click)="onSubmit()" class="btn btn-primary btn-block">
+    </div>
   </div>
 </form>

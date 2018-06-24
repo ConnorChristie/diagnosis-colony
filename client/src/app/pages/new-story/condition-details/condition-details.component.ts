@@ -1,10 +1,13 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl } from '@angular/forms/src/model';
 import { Router } from '@angular/router';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { filter } from 'rxjs/operators';
+
 import { IOption } from '../../../components/select/select.component';
+import { IConditionDetails } from '../../../models/story';
 import {
-  IConditionDetails,
   NewStoryService,
   Step
 } from '../../../services/new-story/new-story.service';
@@ -15,6 +18,8 @@ import {
   styleUrls: ['./condition-details.component.scss']
 })
 export class ConditionDetailsComponent implements OnInit {
+  public faTimes = faTimes;
+
   public detailsForm = new FormGroup({
     category: new FormControl('physical', Validators.required),
     symptoms: new FormControl(null, Validators.required),
@@ -45,7 +50,19 @@ export class ConditionDetailsComponent implements OnInit {
       .pipe(filter(x => !!x))
       .subscribe(details => {
         this.detailsForm.patchValue(details);
+
+        details.images.forEach(image => {
+          this.addImage(image.raw);
+        });
       });
+  }
+
+  onSave() {
+    const details = this.detailsForm.value as IConditionDetails;
+
+    this.newStoryService
+      .setDetails(Step.STEP2, details, false)
+      .subscribe(async () => alert('Successfully saved your story.'));
   }
 
   onSubmit() {
@@ -54,14 +71,9 @@ export class ConditionDetailsComponent implements OnInit {
 
     this.newStoryService
       .setDetails(Step.STEP2, details, isValid)
-      .subscribe(success => {
+      .subscribe(async success => {
         if (success && isValid) {
-          this.newStoryService.saveStory().subscribe(async id => {
-            await this.router.navigate([
-              ...NewStoryService.ROUTES[Step.STEP3],
-              id
-            ]);
-          });
+          await this.router.navigate(NewStoryService.ROUTES[Step.STEP3]);
         }
       });
   }
@@ -83,13 +95,33 @@ export class ConditionDetailsComponent implements OnInit {
 
       // tslint:disable-next-line
       const content: any[] = await Promise.all(contentPromises);
-      const imageControl = this.detailsForm.controls.images as FormArray;
 
       content.forEach(file => {
-        imageControl.push(new FormControl(file));
+        this.addImage(file);
       });
 
+      event.target.value = '';
       this.cd.markForCheck();
     }
+  }
+
+  deleteImage(index: number) {
+    this.images.removeAt(index);
+  }
+
+  get images() {
+    return this.detailsForm.controls.images as FormArray;
+  }
+
+  isInvalid(control: AbstractControl) {
+    return control.invalid && (control.dirty || control.touched);
+  }
+
+  private addImage(image: string) {
+    this.images.push(
+      new FormGroup({
+        raw: new FormControl(image)
+      })
+    );
   }
 }

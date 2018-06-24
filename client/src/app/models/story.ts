@@ -1,7 +1,19 @@
-import {
-  IConditionDetails,
-  IStoryDetails
-} from '../services/new-story/new-story.service';
+interface IImage {
+  raw: string;
+}
+
+export interface IStoryDetails {
+  title: string;
+  details: string;
+  mainImage: IImage;
+}
+
+export interface IConditionDetails {
+  category: string;
+  symptoms: string;
+  details: string;
+  images: IImage[];
+}
 
 export interface IStory {
   storyDetails: IStoryDetails;

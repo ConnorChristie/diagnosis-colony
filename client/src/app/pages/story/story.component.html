@@ -9,7 +9,7 @@
         <h1 class="post-full-title">{{story?.story.storyDetails.title}}</h1>
       </header>
 
-      <figure class="post-full-image" [style.backgroundImage]="story && 'url(' + story?.story.storyDetails.mainImage + ')'">
+      <figure class="post-full-image" [style.backgroundImage]="story && 'url(' + story?.story.storyDetails.mainImage.raw + ')'">
         <div class="post-full-introauthors">
           <app-author-list [authors]="participants" [showDetailed]="true"></app-author-list>
         </div>

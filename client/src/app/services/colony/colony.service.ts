@@ -8,7 +8,6 @@ import { IStory, IStoryTask } from '../../models/story';
 import { ITaskRoles, TaskRole } from '../../models/task-role';
 
 import BigNumber from 'bn.js';
-import Web3 from 'web3';
 
 import {
   ColonyNetworkService,
