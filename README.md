@@ -21,7 +21,7 @@ We plan on expanding this project beyond the Medical field and into other resear
 ![info graphic](info-graphic.png)
 
 ## Technical Design and Implementation
-Please refer to the [Setup Document](DESIGN.md)
+Please refer to the [Design Document](DESIGN.md)
 
 ## Developer Setup
 Please refer to the [Setup Document](SETUP.md)
