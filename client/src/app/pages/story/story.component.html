@@ -6,7 +6,7 @@
           <time class="post-full-meta-date" datetime="2017-11-07">7 November 2017</time>
           <span class="date-divider">/</span> <a href="/tag/new-things/">{{story?.story.conditionDetails.category}}</a>
         </div>
-        <h1 class="post-full-title">{{story?.story.storyDetails.title}}</h1>
+        <h1 class="post-full-title">{{story?.story.storyDetails.title || 'Loading...'}}</h1>
       </header>
 
       <figure class="post-full-image" [style.backgroundImage]="story && 'url(' + story?.story.storyDetails.mainImage.raw + ')'">
