@@ -1,4 +1,4 @@
-![researchColony Logo](researchColony.png)
+<img src="https://github.com/ConnorChristie/diagnosis-colony/blob/master/researchColony.png?raw=true" align="middle">
 
 # researchColony &mdash; Medical
 Building a colony where anyone can contribute research or funding
@@ -20,7 +20,7 @@ We plan on expanding this project beyond the Medical field and into other resear
 * Present problems among the different domains which require lots of collaboration and research. These will most likely be open source and community projects.
 * Allow individuals with different skill sets to provide insight for a story. Encouraging collaboration and diversity among the research projects. (The source of innovation)
 
-![info graphic](info-graphic.png)
+<img src="https://github.com/ConnorChristie/diagnosis-colony/blob/master/info-graphic.png?raw=true" align="middle">
 
 ## Technical Design and Implementation
 Please refer to the [Design Document](DESIGN.md)
