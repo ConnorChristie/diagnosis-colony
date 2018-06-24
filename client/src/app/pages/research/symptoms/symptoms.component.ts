@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { IConditionDetails } from '../../../services/new-story/new-story.service';
+import { IConditionDetails } from '../../../models/story';
 
 @Component({
   selector: 'app-research-symptoms',
