@@ -1,4 +1,6 @@
-# researchColony
+![researchColony Logo](researchColony.png)
+
+# researchColony &mdash; Medical
 Building a colony where anyone can contribute research or funding
 
 ## Background
