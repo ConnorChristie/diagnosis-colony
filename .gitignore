@@ -36,6 +36,9 @@ build/Release
 node_modules/
 jspm_packages/
 
+solidity/build/
+client/src/app/contracts/
+
 # TypeScript v1 declaration files
 typings/
 

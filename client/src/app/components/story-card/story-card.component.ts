@@ -23,9 +23,9 @@ export class StoryCardComponent {
       return;
     }
 
-    const { id, story, potId } = storyTask;
+    const { id, story } = storyTask;
 
-    this.cardDetails = this.colonyService.getPotBalance(potId).pipe(
+    this.cardDetails = this.colonyService.getStoryPayout(id).pipe(
       map(potBalance => potBalance.toNumber()),
       map<number, IPostCardDetails>(potBalance => ({
         id: id,

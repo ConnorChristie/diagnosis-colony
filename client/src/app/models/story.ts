@@ -24,6 +24,7 @@ export interface IStory {
 
 export interface IStoryTask {
   id: number;
+  author: string;
   story: IStory;
   potId: number;
   dueDate: number;

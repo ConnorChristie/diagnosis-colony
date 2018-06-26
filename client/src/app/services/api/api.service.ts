@@ -2,8 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 export interface IResearchRequest {
+  requestId: number;
+  user: string;
   duration: number;
-  durationSig: {};
 }
 
 @Injectable({
