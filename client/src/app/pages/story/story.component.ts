@@ -1,13 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { of } from 'rxjs';
-import { filter, flatMap, map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 
 import { IAuthor } from '../../components/author-list/author-list.component';
 import { IStoryTask } from '../../models/story';
-import { ITaskRole, ITaskRoles, TaskRole } from '../../models/task-role';
+import { IParticipant, ITaskRoles, StoryRole } from '../../models/story-role';
 import { ApiService, IResearchRequest } from '../../services/api/api.service';
 import { ColonyService } from '../../services/colony/colony.service';
 import { EthersNetworkService } from '../../services/networks/ethers-network/ethers-network.service';
@@ -18,15 +16,16 @@ import { EthersNetworkService } from '../../services/networks/ethers-network/eth
   styleUrls: ['./story.component.scss']
 })
 export class StoryComponent implements OnInit {
+  private isAuthor: boolean;
   private roles: ITaskRoles;
 
   public story: IStoryTask;
   public participants: IAuthor[] = [];
-  public userRoles: TaskRole[] = [];
+  public userRoles: StoryRole[] = [];
 
-  public researchRequests: { [user: string]: IResearchRequest };
+  public researchRequests: { [user: string]: IResearchRequest } = {};
 
-  public TaskRole = TaskRole;
+  public TaskRole = StoryRole;
 
   public researchCardDetails = {
     title: 'Research this Condition',
@@ -36,7 +35,8 @@ export class StoryComponent implements OnInit {
   };
   public inputRolesCardDetails = {
     title: 'Researchers and Evaluators',
-    description: 'Requests for becoming a researcher will be shown here once this story begins to receive them. You may then appoint ' +
+    description:
+      'Requests for becoming a researcher will be shown here once this story begins to receive them. You may then appoint ' +
       'different people as either a Researcher (performs the work) or an Evaluator (evaluates and rates the research work). Please be ' +
       'patient as it may take some time to find the right people to perform the research!'
   };
@@ -45,11 +45,6 @@ export class StoryComponent implements OnInit {
     description:
       'The following individuals have requested to research this story. You may assign them as either a researcher or an evaluator.'
   };
-
-  public researcherForm = new FormGroup({
-    worker: new FormControl(null, Validators.required),
-    evaluator: new FormControl(null, Validators.required)
-  });
 
   @ViewChild('researchRequestModal') private researchRequestModal;
 
@@ -67,9 +62,9 @@ export class StoryComponent implements OnInit {
         filter(x => x.has('id')),
         map(x => +x.get('id'))
       )
-      .subscribe(id => {
-        this.loadStory(id);
-        this.loadResearchRequests(id);
+      .subscribe(async id => {
+        await this.loadStory(id);
+        await this.loadResearchRequests(id);
       });
   }
 
@@ -79,20 +74,20 @@ export class StoryComponent implements OnInit {
   }
 
   canSubmitResearch() {
-    return this.userRoles.some(x => x === TaskRole.WORKER);
+    return this.userRoles.some(x => x === StoryRole.WORKER);
   }
 
   canEvaluateResearch() {
-    return this.userRoles.some(x => x === TaskRole.EVALUATOR);
+    return this.userRoles.some(x => x === StoryRole.EVALUATOR);
   }
 
   canAssignRoles() {
-    return this.userRoles.some(x => x === TaskRole.MANAGER);
+    return this.isAuthor;
   }
 
   canSubmitResearchRequest() {
     return !this.userRoles.some(
-      x => x === TaskRole.WORKER || x === TaskRole.EVALUATOR
+      x => x === StoryRole.WORKER || x === StoryRole.EVALUATOR
     );
   }
 
@@ -100,47 +95,19 @@ export class StoryComponent implements OnInit {
     return !!this.getObjectKeys(this.researchRequests).length;
   }
 
-  onAssignRoles() {
-    const valid = this.researcherForm.valid && this.story;
-    const data = this.researcherForm.value;
+  async onAssignRole(user: string, role: StoryRole) {
+    const { requestId } = this.researchRequests[user];
 
-    if (valid) {
-      this.onAssignRole(data.worker, TaskRole.WORKER);
-      this.onAssignRole(data.evaluator, TaskRole.EVALUATOR);
-    }
-  }
+    await this.colonyService.assignUserRole(
+      this.story.id,
+      requestId,
+      user,
+      role
+    );
 
-  onAssignRole(user: string, role: TaskRole) {
-    this.colonyService
-      .assignUserRole(this.story.id, user, role)
-      .pipe(
-        flatMap(() => {
-          const { durationSig } = this.researchRequests[user];
+    await this.addParticipant({ address: user }, role);
 
-          if (durationSig && role === TaskRole.WORKER) {
-            return this.colonyService.finishSetStoryDuration(durationSig);
-          }
-
-          return of(null);
-        })
-      )
-      .subscribe(async () => {
-        const roles: ITaskRoles = { ...this.roles };
-
-        switch (role) {
-          case TaskRole.WORKER:
-            roles.worker = { address: user };
-            break;
-          case TaskRole.EVALUATOR:
-            roles.evaluator = { address: user };
-            break;
-        }
-
-        delete this.researchRequests[user];
-        await this.updateParticipants(roles);
-
-        this.apiService.removeResearchInterest(this.story.id, user).subscribe();
-      });
+    delete this.researchRequests[user];
   }
 
   async onRequestToResearch() {
@@ -152,104 +119,91 @@ export class StoryComponent implements OnInit {
       this.researchRequestModal
     ).result;
 
-    const userAddress = await this.ethersNetworkService.getUserAddress();
+    await this.colonyService.submitResearchRequest(this.story.id, duration);
 
-    this.colonyService
-      .setStoryDuration(this.story.id, duration)
-      .pipe(
-        flatMap(op =>
-          this.apiService.submitResearchInterest(
-            this.story.id,
-            userAddress,
-            duration,
-            op.toJSON()
-          )
-        )
-      )
-      .subscribe(
-        () => {
-          alert('Request sent to story coordinator.');
-        },
-        err => {
-          alert(
-            'Could not complete your request to become a researcher at this moment.'
-          );
-
-          console.log(err);
-        }
-      );
+    alert('Request sent to story coordinator.');
   }
 
   getObjectKeys(obj) {
     return Object.keys(obj);
   }
 
-  private loadStory(id: number) {
-    this.colonyService.getStory(id).subscribe(story => (this.story = story));
+  private async loadStory(id: number) {
+    this.colonyService.getStory(id).subscribe(async story => {
+      this.story = story;
+      this.isAuthor =
+        story.author.toLowerCase() ===
+        (await this.ethersNetworkService.getUserAddress()).toLowerCase();
 
-    this.colonyService
-      .getStoryRoles(id)
-      .subscribe(async roles => await this.updateParticipants(roles));
+      await this.addParticipant(
+        { address: this.story.author },
+        StoryRole.MANAGER
+      );
+    });
+
+    (await this.colonyService.getStoryRoles(id)).subscribe(roles =>
+      this.updateParticipants(roles)
+    );
   }
 
-  private async updateParticipants(roles: ITaskRoles) {
+  private updateParticipants(roles: ITaskRoles) {
     this.userRoles = [];
     this.participants = [];
 
-    await this.addParticipant(roles.manager, TaskRole.MANAGER);
-    await this.addParticipant(roles.worker, TaskRole.WORKER);
-    await this.addParticipant(roles.evaluator, TaskRole.EVALUATOR);
+    this.addParticipants(roles.researchers, StoryRole.WORKER);
+    this.addParticipants(roles.evaluators, StoryRole.EVALUATOR);
 
     this.roles = roles;
   }
 
-  private async addParticipant(roleDetails: ITaskRole, role: TaskRole) {
-    if (roleDetails.address) {
-      const userAddress = await this.ethersNetworkService.getUserAddress();
+  private addParticipants(participants: IParticipant[], role: StoryRole) {
+    participants.forEach(
+      async participant => await this.addParticipant(participant, role)
+    );
+  }
 
-      if (roleDetails.address === userAddress) {
-        this.userRoles.push(role);
-      }
+  private async addParticipant(participant: IParticipant, role: StoryRole) {
+    const userAddress = await this.ethersNetworkService.getUserAddress();
 
-      // TODO: Replace placeholder info with uPort identity details
-      let subtitle = 'Story Coordinator';
-      let image = '/assets/profile-me.png';
-
-      switch (role) {
-        case TaskRole.WORKER:
-          subtitle = 'Primary Researcher';
-          image =
-            'https://www.gravatar.com/avatar/49ebcbbe9bb3ed1f5d5de91483de383c?s=250&d=mm&r=x';
-          break;
-        case TaskRole.EVALUATOR:
-          subtitle = 'Research Evaluator';
-          image =
-            'https://www.gravatar.com/avatar/85a47a60d579572601ff74b72fe8b32d?s=250&d=mm&r=x';
-          break;
-      }
-
-      this.participants.push({
-        name: roleDetails.address,
-        subtitle: subtitle,
-        description: 'Teacher at Elementary School',
-        image: image,
-        link: '/'
-      });
+    if (participant.address === userAddress) {
+      this.userRoles.push(role);
     }
 
+    // TODO: Replace placeholder info with uPort identity details
+    let subtitle = 'Story Coordinator';
+    let image = '/assets/profile-me.png';
+
     switch (role) {
-      case TaskRole.WORKER:
-        this.researcherForm.controls.worker.setValue(roleDetails.address);
+      case StoryRole.WORKER:
+        subtitle = 'Researcher';
+        image =
+          'https://www.gravatar.com/avatar/49ebcbbe9bb3ed1f5d5de91483de383c?s=250&d=mm&r=x';
         break;
-      case TaskRole.EVALUATOR:
-        this.researcherForm.controls.evaluator.setValue(roleDetails.address);
+      case StoryRole.EVALUATOR:
+        subtitle = 'Evaluator';
+        image =
+          'https://www.gravatar.com/avatar/85a47a60d579572601ff74b72fe8b32d?s=250&d=mm&r=x';
         break;
+    }
+
+    const user: IAuthor = {
+      name: participant.address,
+      subtitle: subtitle,
+      description: 'Teacher at Elementary School',
+      image: image,
+      link: '/'
+    };
+
+    if (role === StoryRole.MANAGER) {
+      this.participants = [user, ...this.participants];
+    } else {
+      this.participants.push(user);
     }
   }
 
-  private loadResearchRequests(id: number) {
-    this.apiService
-      .getResearchInterests(id)
-      .subscribe(interested => (this.researchRequests = interested));
+  private async loadResearchRequests(id: number) {
+    (await this.colonyService.getResearchRequests(id)).subscribe(
+      request => (this.researchRequests[request.user] = request)
+    );
   }
 }

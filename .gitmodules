@@ -1,0 +1,3 @@
+[submodule "solidity/lib/colonyNetwork"]
+	path = solidity/lib/colonyNetwork
+	url = git@github.com:JoinColony/colonyNetwork.git

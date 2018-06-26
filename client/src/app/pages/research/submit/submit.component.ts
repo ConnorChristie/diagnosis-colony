@@ -5,7 +5,7 @@ import { flatMap, map } from 'rxjs/operators';
 
 import { IResearch } from '../../../models/research';
 import { IStoryTask } from '../../../models/story';
-import { TaskRole } from '../../../models/task-role';
+import { StoryRole } from '../../../models/story-role';
 import { ColonyService } from '../../../services/colony/colony.service';
 import { RatingService } from '../../../services/rating/rating.service';
 
@@ -16,7 +16,7 @@ import { RatingService } from '../../../services/rating/rating.service';
 })
 export class SubmitComponent implements OnInit {
   @Input() public story: IStoryTask;
-  @Input() public roles: TaskRole[] = [];
+  @Input() public roles: StoryRole[] = [];
 
   public didRate: boolean;
   private delivered: boolean;
@@ -53,11 +53,11 @@ export class SubmitComponent implements OnInit {
   }
 
   isResearching() {
-    return this.roles.some(x => x === TaskRole.WORKER);
+    return this.roles.some(x => x === StoryRole.WORKER);
   }
 
   isEvaluating() {
-    return this.roles.some(x => x === TaskRole.EVALUATOR);
+    return this.roles.some(x => x === StoryRole.EVALUATOR);
   }
 
   isDelivered() {
@@ -104,6 +104,6 @@ export class SubmitComponent implements OnInit {
   }
 
   private ratingRole() {
-    return this.isResearching() ? TaskRole.MANAGER : TaskRole.WORKER;
+    return this.isResearching() ? StoryRole.MANAGER : StoryRole.WORKER;
   }
 }

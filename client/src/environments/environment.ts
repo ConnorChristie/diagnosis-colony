@@ -5,11 +5,14 @@
 export const environment = {
   production: false,
   colony: {
-    id: 2,
+    id: 4,
     token: {
       name: 'Diagnosis Colony',
       symbol: 'DIAG'
     }
+  },
+  arbiter: {
+    address: '0x0dffdbdddda1a71f2c18eaff33ca592334da9650'
   },
   ethereum: {
     network: null

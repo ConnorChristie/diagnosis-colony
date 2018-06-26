@@ -20,6 +20,7 @@ declare interface ISigner {
 export class EthersNetworkService {
   private readonly signer: ISigner;
   private readonly adapter: EthersAdapter;
+  private readonly web3: Web3;
 
   private address: string;
 
@@ -44,13 +45,17 @@ export class EthersNetworkService {
       loader = new NetworkLoader({ network });
     }
 
-    this.applySyncAddress().then();
+    // this.applySyncAddress().then();
+
+    const wallet = this.signer || provider;
 
     this.adapter = new EthersAdapter({
       loader,
       provider,
-      wallet: this.signer || provider
+      wallet
     });
+
+    this.web3 = new Web3(web3.currentProvider);
   }
 
   async getUserAddress() {
@@ -65,6 +70,10 @@ export class EthersNetworkService {
 
   getAdapter() {
     return this.adapter;
+  }
+
+  getWeb3() {
+    return this.web3;
   }
 
   private async applySyncAddress() {

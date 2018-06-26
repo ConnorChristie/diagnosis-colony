@@ -5,7 +5,7 @@ import { combineLatest } from 'rxjs';
 import { filter, flatMap, map } from 'rxjs/operators';
 
 import { IStoryTask } from '../../models/story';
-import { ITaskRoles, TaskRole } from '../../models/task-role';
+import { ITaskRoles, StoryRole } from '../../models/story-role';
 import { ColonyService } from '../../services/colony/colony.service';
 import { EthersNetworkService } from '../../services/networks/ethers-network/ethers-network.service';
 import { RatingService } from '../../services/rating/rating.service';
@@ -25,7 +25,7 @@ enum ViewState {
 })
 export class ResearchComponent implements OnInit {
   public story: IStoryTask;
-  public userRoles: TaskRole[] = [];
+  public userRoles: StoryRole[] = [];
 
   public viewState = ViewState.CONDITION;
   public ViewState = ViewState;
@@ -57,11 +57,11 @@ export class ResearchComponent implements OnInit {
   }
 
   isResearching() {
-    return this.userRoles.some(x => x === TaskRole.WORKER);
+    return this.userRoles.some(x => x === StoryRole.WORKER);
   }
 
   isEvaluating() {
-    return this.userRoles.some(x => x === TaskRole.EVALUATOR);
+    return this.userRoles.some(x => x === StoryRole.EVALUATOR);
   }
 
   async onRate() {
@@ -126,19 +126,19 @@ export class ResearchComponent implements OnInit {
   }
 
   private async toUserRoles(roles: ITaskRoles) {
-    const userRoles: TaskRole[] = [];
+    const userRoles: StoryRole[] = [];
     const userAddress = await this.ethersNetworkService.getUserAddress();
 
     if (roles.manager.address === userAddress) {
-      userRoles.push(TaskRole.MANAGER);
+      userRoles.push(StoryRole.MANAGER);
     }
 
     if (roles.worker.address === userAddress) {
-      userRoles.push(TaskRole.WORKER);
+      userRoles.push(StoryRole.WORKER);
     }
 
     if (roles.evaluator.address === userAddress) {
-      userRoles.push(TaskRole.EVALUATOR);
+      userRoles.push(StoryRole.EVALUATOR);
     }
 
     return userRoles;
@@ -166,6 +166,6 @@ export class ResearchComponent implements OnInit {
   }
 
   private ratingRole() {
-    return this.isResearching() ? TaskRole.MANAGER : TaskRole.WORKER;
+    return this.isResearching() ? StoryRole.MANAGER : StoryRole.WORKER;
   }
 }

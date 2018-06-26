@@ -1,0 +1,15 @@
+{
+  "name": "solidity",
+  "version": "1.0.0",
+  "description": "researchColony Smart Contracts",
+  "main": "truffle.js",
+  "scripts": {
+    "build": "truffle migrate --reset --compile-all && npm run typechain",
+    "test": "truffle test",
+    "typechain": "typechain './build/contracts/ResearchColony.json' --outDir '../client/src/app/contracts' --force",
+    "postinstall": "npm run build"
+  },
+  "devDependencies": {
+    "typechain": "^0.2.4"
+  }
+}
