@@ -63,7 +63,7 @@ export class EthersNetworkService {
       return Promise.resolve(this.address);
     }
 
-    this.address = await this.signer.getAddress();
+    this.address = (await this.signer.getAddress()).toLowerCase();
 
     return this.address;
   }

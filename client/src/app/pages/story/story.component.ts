@@ -4,7 +4,11 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { filter, map } from 'rxjs/operators';
 
 import { IAuthor } from '../../components/author-list/author-list.component';
-import { IStoryTask } from '../../models/story';
+import {
+  IConditionDetails,
+  IStoryDetails,
+  IStoryTask
+} from '../../models/story';
 import { IParticipant, ITaskRoles, StoryRole } from '../../models/story-role';
 import { ApiService, IResearchRequest } from '../../services/api/api.service';
 import { ColonyService } from '../../services/colony/colony.service';
@@ -16,10 +20,12 @@ import { EthersNetworkService } from '../../services/networks/ethers-network/eth
   styleUrls: ['./story.component.scss']
 })
 export class StoryComponent implements OnInit {
-  private isAuthor: boolean;
   private roles: ITaskRoles;
 
   public story: IStoryTask;
+  public storyDetails: IStoryDetails;
+  public conditionDetails: IConditionDetails;
+
   public participants: IAuthor[] = [];
   public userRoles: StoryRole[] = [];
 
@@ -74,7 +80,7 @@ export class StoryComponent implements OnInit {
   }
 
   canSubmitResearch() {
-    return this.userRoles.some(x => x === StoryRole.WORKER);
+    return this.userRoles.some(x => x === StoryRole.RESEARCHER);
   }
 
   canEvaluateResearch() {
@@ -82,12 +88,12 @@ export class StoryComponent implements OnInit {
   }
 
   canAssignRoles() {
-    return this.isAuthor;
+    return this.userRoles.some(x => x === StoryRole.AUTHOR);
   }
 
   canSubmitResearchRequest() {
     return !this.userRoles.some(
-      x => x === StoryRole.WORKER || x === StoryRole.EVALUATOR
+      x => x === StoryRole.RESEARCHER || x === StoryRole.EVALUATOR
     );
   }
 
@@ -131,26 +137,30 @@ export class StoryComponent implements OnInit {
   private async loadStory(id: number) {
     this.colonyService.getStory(id).subscribe(async story => {
       this.story = story;
-      this.isAuthor =
-        story.author.toLowerCase() ===
-        (await this.ethersNetworkService.getUserAddress()).toLowerCase();
 
       await this.addParticipant(
         { address: this.story.author },
-        StoryRole.MANAGER
+        StoryRole.AUTHOR
       );
     });
 
-    (await this.colonyService.getStoryRoles(id)).subscribe(roles =>
-      this.updateParticipants(roles)
-    );
+    this.colonyService
+      .getStoryDetails(id)
+      .subscribe(({ storyDetails, conditionDetails }) => {
+        this.storyDetails = storyDetails;
+        this.conditionDetails = conditionDetails;
+      });
+
+    this.colonyService
+      .getStoryRoles(id)
+      .subscribe(roles => this.updateParticipants(roles));
   }
 
   private updateParticipants(roles: ITaskRoles) {
     this.userRoles = [];
     this.participants = [];
 
-    this.addParticipants(roles.researchers, StoryRole.WORKER);
+    this.addParticipants(roles.researchers, StoryRole.RESEARCHER);
     this.addParticipants(roles.evaluators, StoryRole.EVALUATOR);
 
     this.roles = roles;
@@ -174,7 +184,7 @@ export class StoryComponent implements OnInit {
     let image = '/assets/profile-me.png';
 
     switch (role) {
-      case StoryRole.WORKER:
+      case StoryRole.RESEARCHER:
         subtitle = 'Researcher';
         image =
           'https://www.gravatar.com/avatar/49ebcbbe9bb3ed1f5d5de91483de383c?s=250&d=mm&r=x';
@@ -194,7 +204,7 @@ export class StoryComponent implements OnInit {
       link: '/'
     };
 
-    if (role === StoryRole.MANAGER) {
+    if (role === StoryRole.AUTHOR) {
       this.participants = [user, ...this.participants];
     } else {
       this.participants.push(user);

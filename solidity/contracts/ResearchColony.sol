@@ -35,7 +35,9 @@ contract ResearchColony {
   uint8 constant WORKER = 2;
 
   event Deposit(address indexed sender, uint storyId, uint value);
-  event StoryCreated(uint indexed storyId);
+
+  event StoryCreated(address indexed user, uint storyId);
+  event StoryClaimed(uint indexed storyId, address indexed user);
 
   event ResearcherInterested(uint indexed storyId, address user);
   event RoleAssigned(uint indexed storyId, address indexed user, uint8 role);
@@ -46,17 +48,24 @@ contract ResearchColony {
 
   function createStory(bytes32 _specificationHash, uint256 _domainId) public {
     colony.makeTask(_specificationHash, _domainId);
-
     uint storyId = colony.getTaskCount();
 
     Story memory story;
     story.author = msg.sender;
     stories[storyId] = story;
 
-    colony.setTaskRoleUser(storyId, WORKER, address(this));
-    colony.setTaskRoleUser(storyId, EVALUATOR, address(this));
+    colony.setTaskRoleUser(storyId, MANAGER, msg.sender);
 
-    emit StoryCreated(storyId);
+    emit StoryCreated(msg.sender, storyId);
+  }
+
+  function claimStory(uint _storyId) public {
+    require(stories[_storyId].author == msg.sender);
+
+    colony.setTaskRoleUser(_storyId, WORKER, address(this));
+    colony.setTaskRoleUser(_storyId, EVALUATOR, address(this));
+
+    emit StoryClaimed(_storyId, msg.sender);
   }
 
   function getStory(uint _storyId) public view returns (address) {

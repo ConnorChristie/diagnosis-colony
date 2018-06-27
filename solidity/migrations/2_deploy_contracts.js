@@ -8,7 +8,7 @@ module.exports = deployer => {
 
   const colonyNetworkContracts = "./lib/colonyNetwork/contracts/";
   const colonyNetworkBuilt = "./lib/colonyNetwork/build/contracts/";
-  const colonyAddress = "0xBE6ed15819c974C494A96D1598D91B87A0a5833A";
+  const colonyAddress = "0x5df0Fb8d833043F98B18D9B2529332efFD845C32";
 
   const Colony = artifacts.resolver.require(colonyNetworkContracts + "Colony", colonyNetworkBuilt);
   const Authority = artifacts.resolver.require(colonyNetworkContracts + "Authority", colonyNetworkBuilt);

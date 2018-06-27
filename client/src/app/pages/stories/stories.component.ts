@@ -1,6 +1,6 @@
 import { CurrencyPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { tap } from 'rxjs/operators';
+
 import { ColonyService } from '../../services/colony/colony.service';
 
 enum CardSize {
@@ -22,8 +22,8 @@ export class StoriesComponent implements OnInit {
 
   ngOnInit() {
     // TODO: Don't load every single story at once
-    this.colonyService.getStoryCount().subscribe(x => {
-      this.loadStories(0, x);
+    this.colonyService.getStoryCount().subscribe(count => {
+      this.stories$ = this.colonyService.getStories(0, count);
     });
   }
 
@@ -37,30 +37,5 @@ export class StoriesComponent implements OnInit {
     }
 
     return CardSize.HALF;
-  }
-
-  private loadStories(skip: number, take: number) {
-    this.stories$ = this.colonyService
-      .getStories(skip, take)
-      .map((story$, index) =>
-        story$.pipe(
-          tap(story => {
-            let characterLimit = 140;
-
-            if (this.getCardSize(index) === CardSize.HALF) {
-              characterLimit = 200;
-            }
-
-            if (story.story.storyDetails.details.length <= characterLimit) {
-              return;
-            }
-
-            // TODO: Smarter truncation
-            story.story.storyDetails.details =
-              story.story.storyDetails.details.substring(0, characterLimit) +
-              '…';
-          })
-        )
-      );
   }
 }
