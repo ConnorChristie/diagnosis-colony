@@ -4,12 +4,12 @@
       <header class="post-full-header">
         <div class="post-full-meta">
           <time class="post-full-meta-date" datetime="2017-11-07">7 November 2017</time>
-          <span class="date-divider">/</span> <a href="/tag/new-things/">{{story?.story.conditionDetails.category}}</a>
+          <span class="date-divider">/</span> <a href="/tag/new-things/">{{conditionDetails?.category}}</a>
         </div>
-        <h1 class="post-full-title">{{story?.story.storyDetails.title || 'Loading...'}}</h1>
+        <h1 class="post-full-title">{{storyDetails?.title || 'Loading...'}}</h1>
       </header>
 
-      <figure class="post-full-image" [style.backgroundImage]="story && 'url(' + story?.story.storyDetails.mainImage.raw + ')'">
+      <figure class="post-full-image" [style.backgroundImage]="storyDetails && 'url(' + storyDetails?.mainImage.raw + ')'">
         <div class="post-full-introauthors">
           <app-author-list [authors]="participants" [showDetailed]="true"></app-author-list>
         </div>
@@ -33,7 +33,7 @@
         </div>
 
         <div class="kg-card-markdown">
-          <p class="story-content">{{story?.story.storyDetails.details}}</p>
+          <p class="story-content">{{storyDetails?.details}}</p>
         </div>
       </section>
     </article>
@@ -62,7 +62,7 @@
                     </span>
                     <button id="assign-role" class="btn btn-secondary" type="button" ngbDropdownToggle>Assign Role</button>
                     <div aria-labelledby="assign-role" ngbDropdownMenu>
-                      <button (click)="onAssignRole(user, TaskRole.WORKER)" class="dropdown-item">Assign as Researcher</button>
+                      <button (click)="onAssignRole(user, TaskRole.RESEARCHER)" class="dropdown-item">Assign as Researcher</button>
                       <button (click)="onAssignRole(user, TaskRole.EVALUATOR)" class="dropdown-item">Assign as Evaluator</button>
                     </div>
                   </div>

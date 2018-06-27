@@ -53,7 +53,7 @@ export class SubmitComponent implements OnInit {
   }
 
   isResearching() {
-    return this.roles.some(x => x === StoryRole.WORKER);
+    return this.roles.some(x => x === StoryRole.RESEARCHER);
   }
 
   isEvaluating() {
@@ -104,6 +104,6 @@ export class SubmitComponent implements OnInit {
   }
 
   private ratingRole() {
-    return this.isResearching() ? StoryRole.MANAGER : StoryRole.WORKER;
+    return this.isResearching() ? StoryRole.AUTHOR : StoryRole.RESEARCHER;
   }
 }

@@ -1,9 +1,9 @@
 import BigNumber from 'bn.js';
 
 export enum StoryRole {
-  MANAGER = 'MANAGER',
+  AUTHOR = 'MANAGER',
   EVALUATOR = 'EVALUATOR',
-  WORKER = 'WORKER'
+  RESEARCHER = 'WORKER'
 }
 
 export interface IParticipant {
@@ -16,9 +16,9 @@ export interface ITaskRoles {
 }
 
 const ROLE_MAP = {
-  [StoryRole.MANAGER]: 0,
+  [StoryRole.AUTHOR]: 0,
   [StoryRole.EVALUATOR]: 1,
-  [StoryRole.WORKER]: 2
+  [StoryRole.RESEARCHER]: 2
 };
 
 export function toTaskRole(role: number | BigNumber) {
@@ -30,11 +30,11 @@ export function toTaskRole(role: number | BigNumber) {
 
   switch (roleNumber) {
     case 0:
-      return StoryRole.MANAGER;
+      return StoryRole.AUTHOR;
     case 1:
       return StoryRole.EVALUATOR;
     case 2:
-      return StoryRole.WORKER;
+      return StoryRole.RESEARCHER;
   }
 }
 

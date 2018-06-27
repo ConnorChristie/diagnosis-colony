@@ -4,7 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { combineLatest } from 'rxjs';
 import { filter, flatMap, map } from 'rxjs/operators';
 
-import { IStoryTask } from '../../models/story';
+import { IConditionDetails, IStoryDetails, IStoryTask } from '../../models/story';
 import { ITaskRoles, StoryRole } from '../../models/story-role';
 import { ColonyService } from '../../services/colony/colony.service';
 import { EthersNetworkService } from '../../services/networks/ethers-network/ethers-network.service';
@@ -25,6 +25,9 @@ enum ViewState {
 })
 export class ResearchComponent implements OnInit {
   public story: IStoryTask;
+  public storyDetails: IStoryDetails;
+  public conditionDetails: IConditionDetails;
+
   public userRoles: StoryRole[] = [];
 
   public viewState = ViewState.CONDITION;
@@ -57,7 +60,7 @@ export class ResearchComponent implements OnInit {
   }
 
   isResearching() {
-    return this.userRoles.some(x => x === StoryRole.WORKER);
+    return this.userRoles.some(x => x === StoryRole.RESEARCHER);
   }
 
   isEvaluating() {
@@ -112,12 +115,21 @@ export class ResearchComponent implements OnInit {
   }
 
   private loadStory(id: number) {
+    this.colonyService.getStoryDetails(id).subscribe(({ storyDetails, conditionDetails }) => {
+      this.storyDetails = storyDetails;
+      this.conditionDetails = conditionDetails;
+    });
+
     combineLatest(
       this.colonyService.getStory(id),
       this.colonyService
         .getStoryRoles(id)
         .pipe(flatMap(roles => this.toUserRoles(roles)))
-    ).subscribe(([story, userRoles]) => {
+    ).subscribe(async ([story, userRoles]) => {
+      if (story.author === await this.ethersNetworkService.getUserAddress()) {
+        userRoles.push(StoryRole.AUTHOR);
+      }
+
       this.story = story;
       this.userRoles = userRoles;
 
@@ -129,15 +141,11 @@ export class ResearchComponent implements OnInit {
     const userRoles: StoryRole[] = [];
     const userAddress = await this.ethersNetworkService.getUserAddress();
 
-    if (roles.manager.address === userAddress) {
-      userRoles.push(StoryRole.MANAGER);
+    if (roles.researchers.some(x => x.address === userAddress)) {
+      userRoles.push(StoryRole.RESEARCHER);
     }
 
-    if (roles.worker.address === userAddress) {
-      userRoles.push(StoryRole.WORKER);
-    }
-
-    if (roles.evaluator.address === userAddress) {
+    if (roles.evaluators.some(x => x.address === userAddress)) {
       userRoles.push(StoryRole.EVALUATOR);
     }
 
@@ -166,6 +174,6 @@ export class ResearchComponent implements OnInit {
   }
 
   private ratingRole() {
-    return this.isResearching() ? StoryRole.MANAGER : StoryRole.WORKER;
+    return this.isResearching() ? StoryRole.AUTHOR : StoryRole.RESEARCHER;
   }
 }

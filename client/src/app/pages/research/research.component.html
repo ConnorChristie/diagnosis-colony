@@ -1,7 +1,7 @@
 <main class="site-main outer">
   <div class="inner py-3">
     <div class="d-flex justify-content-between align-items-center my-2">
-      <h1 class="display-4">{{story?.story.storyDetails.title || 'Loading...'}}</h1>
+      <h1 class="display-4">{{storyDetails?.title || 'Loading...'}}</h1>
       <button [routerLink]="['/stories', story?.id]" class="btn btn-outline-primary">Back to Story</button>
     </div>
     <div *ngIf="canRate && isResearching()" class="alert alert-info" role="alert">
@@ -44,9 +44,9 @@
       <div class="col-sm-9">
         <div class="card">
           <div class="card-body">
-            <app-research-condition *ngIf="viewState === ViewState.CONDITION" [details]="story?.story.conditionDetails"></app-research-condition>
-            <app-research-symptoms *ngIf="viewState === ViewState.SYMPTOMS" [details]="story?.story.conditionDetails"></app-research-symptoms>
-            <app-research-images *ngIf="viewState === ViewState.IMAGES" [details]="story?.story.conditionDetails"></app-research-images>
+            <app-research-condition *ngIf="viewState === ViewState.CONDITION" [details]="conditionDetails"></app-research-condition>
+            <app-research-symptoms *ngIf="viewState === ViewState.SYMPTOMS" [details]="conditionDetails"></app-research-symptoms>
+            <app-research-images *ngIf="viewState === ViewState.IMAGES" [details]="conditionDetails"></app-research-images>
 
             <app-research-questions *ngIf="viewState === ViewState.QUESTIONS"></app-research-questions>
             <app-research-submit *ngIf="viewState === ViewState.SUBMIT" [story]="story" [roles]="userRoles"></app-research-submit>

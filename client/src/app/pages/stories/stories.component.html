@@ -17,7 +17,7 @@
 <main class="site-main outer">
   <div class="inner">
     <div class="post-feed">
-      <app-story-card *ngFor="let story of stories$; let i = index" [story]="story | async" class="post-card post"
+      <app-story-card *ngFor="let story of stories$; let i = index" [story]="story" class="post-card post"
                      [class.flex-quarter]="getCardSize(i) === CardSize.THIRD"
                      [class.flex-half]="getCardSize(i) === CardSize.HALF">
       </app-story-card>

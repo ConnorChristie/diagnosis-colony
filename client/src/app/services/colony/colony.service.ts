@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, range, ReplaySubject } from 'rxjs';
+import { fromPromise } from 'rxjs/internal-compatibility';
 import { filter, flatMap, map, reduce } from 'rxjs/operators';
 
 import { environment } from '../../../environments/environment';
@@ -12,7 +13,7 @@ import {
   ITaskRoles,
   StoryRole
 } from '../../models/story-role';
-import { IResearchRequest } from '../api/api.service';
+
 import {
   ColonyNetworkService,
   IColonyClient
@@ -24,6 +25,12 @@ import BigNumber from 'bn.js';
 import bs58 from 'bs58';
 
 const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
+
+export interface IResearchRequest {
+  requestId: number;
+  user: string;
+  duration: number;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -84,29 +91,128 @@ export class ColonyService {
     return this.colonyNetworkService.getResearchColony();
   }
 
-  async createStory(story: IStory) {
-    const { hash } = await this.ipfsNetworkService.saveData(story);
+  createStory(story: IStory) {
+    // const { hash } = await this.ipfsNetworkService.saveData(story);
 
-    await this.colonyNetworkService
-      .getResearchColony()
-      .createStoryTx(
-        // TODO: Refactor this into a convenience method
-        '0x' +
-          bs58
-            .decode(hash)
-            .slice(2)
-            .toString('hex'),
-        this.domainId
-      )
-      .send({
-        from: await this.ethersNetworkService.getUserAddress()
-      });
+    const dueDate = new Date();
+    dueDate.setDate(dueDate.getDate() + 180);
 
-    const { args } = await this.researchColony
-      .StoryCreatedEvent({})
-      .watchFirst({});
+    // return this.getColony().pipe(
+    //   flatMap<IColonyClient, number>(colony =>
+    //     Observable.create(async observer => {
+    //       const { hash } = await this.ipfsNetworkService.saveData(story);
+    //
+    //       const {
+    //         eventData: { taskId }
+    //       } = await colony.createTask.send({
+    //         specificationHash: hash,
+    //         domainId: this.domainId
+    //       });
+    //
+    //       observer.next(taskId);
+    //     }).pipe(
+    //       flatMap(async storyId => {
+    //         const op = await colony.setTaskDueDate.startOperation({
+    //           taskId: storyId,
+    //           dueDate: dueDate
+    //         });
+    //
+    //         await op.sign();
+    //         await op.send();
+    //
+    //         return storyId;
+    //       })
+    //     )
+    //   ),
+    //   flatMap<number, number>(async storyId => {
+    //     await this.researchColony.createStoryTx(storyId).send({
+    //       from: await this.ethersNetworkService.getUserAddress()
+    //     });
+    //
+    //     return storyId;
+    //   })
+    // );
 
-    return (args.storyId as BigNumber).toNumber();
+    return fromPromise(this.ipfsNetworkService.saveData(story)).pipe(
+      flatMap(
+        async ({ hash }) =>
+          await this.researchColony
+            .createStoryTx(
+              // TODO: Refactor this into a convenience method
+              '0x' +
+                bs58
+                  .decode(hash)
+                  .slice(2)
+                  .toString('hex'),
+              this.domainId
+            )
+            .send({
+              from: await this.ethersNetworkService.getUserAddress()
+            })
+      ),
+      flatMap(async () => this.researchColony
+        .StoryCreatedEvent({
+          user: await this.ethersNetworkService.getUserAddress()
+        }).watchFirst({})
+      ),
+      map(({ args }) => (args.storyId as BigNumber).toNumber()),
+      flatMap(storyId =>
+        this.getColony().pipe(
+          flatMap(async colony => {
+            console.log(storyId);
+            const op = await colony.setTaskDueDate.startOperation({
+              taskId: storyId,
+              dueDate: dueDate
+            });
+
+            await op.sign();
+            await op.send();
+
+            return storyId;
+          })
+        )
+      ),
+      flatMap(storyId =>
+        this.getColony().pipe(
+          flatMap(async colony => {
+            await colony.setTaskRoleUser.send({
+              taskId: storyId,
+              role: StoryRole.AUTHOR,
+              user: environment.arbiter.address
+            });
+
+            return storyId;
+          })
+        )
+      ),
+      flatMap<number, number>(async storyId => {
+        await this.researchColony.claimStoryTx(storyId).send({
+          from: await this.ethersNetworkService.getUserAddress()
+        });
+
+        return storyId;
+      })
+    );
+
+    // return await this.researchColony
+    //   .createStoryTx(
+    //     // TODO: Refactor this into a convenience method
+    //     '0x' +
+    //       bs58
+    //         .decode(hash)
+    //         .slice(2)
+    //         .toString('hex'),
+    //     this.domainId
+    //   )
+    //   .send({
+    //     from: await this.ethersNetworkService.getUserAddress()
+    //   });
+
+    // const { args } = await this.researchColony
+    //   .StoryCreatedEvent({})
+    //   .watchFirst({});
+    //
+    // return (args.storyId as BigNumber).toNumber();
   }
 
   getStory(id: number) {
@@ -128,14 +234,24 @@ export class ColonyService {
 
         return {
           id: id,
-          author: author,
-          story: await this.ipfsNetworkService.getData<IStory>(
-            specificationHash
-          ),
+          author: author.toLowerCase(),
           potId: potId,
           dueDate: dueDate,
           delivered: !!deliverableHash
         };
+      })
+    );
+  }
+
+  // TODO: Use this instead of accessing it from story.story
+  getStoryDetails(id: number) {
+    return this.getColony().pipe(
+      flatMap<IColonyClient, IStory>(async colony => {
+        const { specificationHash } = await colony.getTask.call({
+          taskId: id
+        });
+
+        return await this.ipfsNetworkService.getData<IStory>(specificationHash);
       })
     );
   }
@@ -178,29 +294,32 @@ export class ColonyService {
         async ([colony, token]) =>
           (await colony.getTaskPayout.call({
             taskId: storyId,
-            role: StoryRole.MANAGER,
+            role: StoryRole.AUTHOR,
             token: token
           })).amount
       )
     );
   }
 
-  async getStoryRoles(storyId: number) {
-    const assignmentCount = await this.researchColony.getAssignmentCount(
-      storyId
-    );
-
-    return range(1, assignmentCount.toNumber()).pipe(
-      flatMap(id => this.researchColony.getRoleAssignment(storyId, id)),
-      map(([user, role]) => [{ address: user }, toTaskRole(role)]),
-      reduce<[IParticipant, StoryRole], {}>((acc, [user, role]) => {
-        acc[role] = [...(acc[role] || []), user];
-        return acc;
-      }, {}),
-      map<{}, ITaskRoles>(roles => ({
-        researchers: roles[StoryRole.WORKER] || [],
-        evaluators: roles[StoryRole.EVALUATOR] || []
-      }))
+  getStoryRoles(storyId: number) {
+    return fromPromise(this.researchColony.getAssignmentCount(storyId)).pipe(
+      flatMap(assignmentCount =>
+        range(1, assignmentCount.toNumber()).pipe(
+          flatMap(id => this.researchColony.getRoleAssignment(storyId, id)),
+          map(([user, role]) => [
+            { address: user.toLowerCase() },
+            toTaskRole(role)
+          ]),
+          reduce<[IParticipant, StoryRole], {}>((acc, [user, role]) => {
+            acc[role] = [...(acc[role] || []), user];
+            return acc;
+          }, {}),
+          map<{}, ITaskRoles>(roles => ({
+            researchers: roles[StoryRole.RESEARCHER] || [],
+            evaluators: roles[StoryRole.EVALUATOR] || []
+          }))
+        )
+      )
     );
   }
 
@@ -222,36 +341,36 @@ export class ColonyService {
       .watchFirst({});
   }
 
-  setStoryDuration(storyId: number, duration: number) {
-    const dueDate = new Date();
-    dueDate.setDate(dueDate.getDate() + duration);
-
-    return this.getColony().pipe(
-      flatMap<IColonyClient, any>(async colony => {
-        const op = await colony.setTaskDueDate.startOperation({
-          taskId: storyId,
-          dueDate: dueDate
-        });
-
-        await op.sign();
-
-        return op;
-      })
-    );
-  }
-
-  finishSetStoryDuration(operation) {
-    return this.getColony().pipe(
-      flatMap<IColonyClient, boolean>(async colony => {
-        const op = await colony.setTaskDueDate.restoreOperation(operation);
-
-        await op.sign();
-        const { successful } = await op.send();
-
-        return successful;
-      })
-    );
-  }
+  // setStoryDuration(storyId: number, duration: number) {
+  //   const dueDate = new Date();
+  //   dueDate.setDate(dueDate.getDate() + duration);
+  //
+  //   return this.getColony().pipe(
+  //     flatMap<IColonyClient, any>(async colony => {
+  //       const op = await colony.setTaskDueDate.startOperation({
+  //         taskId: storyId,
+  //         dueDate: dueDate
+  //       });
+  //
+  //       await op.sign();
+  //
+  //       return op;
+  //     })
+  //   );
+  // }
+  //
+  // finishSetStoryDuration(operation) {
+  //   return this.getColony().pipe(
+  //     flatMap<IColonyClient, boolean>(async colony => {
+  //       const op = await colony.setTaskDueDate.restoreOperation(operation);
+  //
+  //       await op.sign();
+  //       const { successful } = await op.send();
+  //
+  //       return successful;
+  //     })
+  //   );
+  // }
 
   async submitResearchRequest(storyId: number, duration: number) {
     await this.colonyNetworkService
