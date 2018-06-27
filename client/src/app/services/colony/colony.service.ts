@@ -150,10 +150,12 @@ export class ColonyService {
               from: await this.ethersNetworkService.getUserAddress()
             })
       ),
-      flatMap(async () => this.researchColony
-        .StoryCreatedEvent({
-          user: await this.ethersNetworkService.getUserAddress()
-        }).watchFirst({})
+      flatMap(async () =>
+        this.researchColony
+          .StoryCreatedEvent({
+            user: await this.ethersNetworkService.getUserAddress()
+          })
+          .watchFirst({})
       ),
       map(({ args }) => (args.storyId as BigNumber).toNumber()),
       flatMap(storyId =>
