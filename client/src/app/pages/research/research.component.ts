@@ -4,7 +4,11 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { combineLatest } from 'rxjs';
 import { filter, flatMap, map } from 'rxjs/operators';
 
-import { IConditionDetails, IStoryDetails, IStoryTask } from '../../models/story';
+import {
+  IConditionDetails,
+  IStoryDetails,
+  IStoryTask
+} from '../../models/story';
 import { ITaskRoles, StoryRole } from '../../models/story-role';
 import { ColonyService } from '../../services/colony/colony.service';
 import { EthersNetworkService } from '../../services/networks/ethers-network/ethers-network.service';
@@ -115,10 +119,12 @@ export class ResearchComponent implements OnInit {
   }
 
   private loadStory(id: number) {
-    this.colonyService.getStoryDetails(id).subscribe(({ storyDetails, conditionDetails }) => {
-      this.storyDetails = storyDetails;
-      this.conditionDetails = conditionDetails;
-    });
+    this.colonyService
+      .getStoryDetails(id)
+      .subscribe(({ storyDetails, conditionDetails }) => {
+        this.storyDetails = storyDetails;
+        this.conditionDetails = conditionDetails;
+      });
 
     combineLatest(
       this.colonyService.getStory(id),
@@ -126,7 +132,7 @@ export class ResearchComponent implements OnInit {
         .getStoryRoles(id)
         .pipe(flatMap(roles => this.toUserRoles(roles)))
     ).subscribe(async ([story, userRoles]) => {
-      if (story.author === await this.ethersNetworkService.getUserAddress()) {
+      if (story.author === (await this.ethersNetworkService.getUserAddress())) {
         userRoles.push(StoryRole.AUTHOR);
       }
 
