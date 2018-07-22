@@ -27,7 +27,7 @@
     <input type="file" multiple (change)="onFileChange($event)" id="images" class="form-control">
     <small class="form-text text-muted">These images will only be shown to the researchers assigned to your story.</small>
 
-    <div class="d-flex flex-wrap justify-content-between mt-4">
+    <div class="d-flex flex-wrap justify-content-around mt-4">
       <div *ngFor="let image of images.controls; let i = index" [formGroupName]="i">
         <a (click)="deleteImage(i)" [routerLink]="" class="close-icon position-absolute rounded-circle" aria-label="Delete">
           <fa-icon [icon]="faTimes" transform="shrink-2"></fa-icon>
