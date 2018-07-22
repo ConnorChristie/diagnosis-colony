@@ -7,9 +7,11 @@
     "build": "truffle migrate --reset --compile-all && npm run typechain",
     "test": "truffle test",
     "typechain": "typechain './build/contracts/ResearchColony.json' --outDir '../client/src/app/contracts' --force",
+    "abigen": "abi-gen --abis './build/contracts/ResearchColony.json' --out '../client/src/app/contracts' --template './contract_templates/contract.handlebars' --partials './contract_templates/partials/**/*.handlebars' --backend web3",
     "postinstall": "npm run build"
   },
   "devDependencies": {
+    "@0xproject/abi-gen": "^1.0.0",
     "typechain": "^0.2.4"
   }
 }
