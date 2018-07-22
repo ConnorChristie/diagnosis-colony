@@ -98,7 +98,7 @@ export class ColonyService {
     return fromPromise(this.ipfsNetworkService.saveData(story)).pipe(
       flatMap(
         async ({ hash }) =>
-          await this.researchColony
+          this.researchColony
             .createStoryTx(
               // TODO: Refactor this into a convenience method
               '0x' +
@@ -112,7 +112,7 @@ export class ColonyService {
               from: await this.ethersNetworkService.getUserAddress()
             })
       ),
-      map(({ events: { StoryCreated: { returnValues } } }) => +returnValues.storyId),
+      map((tx) => +tx.events.StoryCreated.returnValues.storyId),
       flatMap(storyId =>
         this.getColony().pipe(
           flatMap(async colony => {
