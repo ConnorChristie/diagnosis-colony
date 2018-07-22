@@ -21,7 +21,7 @@ import {
 import { EthersNetworkService } from '../networks/ethers-network/ethers-network.service';
 import { IpfsNetworkService } from '../networks/ipfs-network/ipfs-network.service';
 
-import BigNumber from 'bn.js';
+import BN from 'bn.js';
 import bs58 from 'bs58';
 
 const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
@@ -92,46 +92,8 @@ export class ColonyService {
   }
 
   createStory(story: IStory) {
-    // const { hash } = await this.ipfsNetworkService.saveData(story);
-
     const dueDate = new Date();
     dueDate.setDate(dueDate.getDate() + 180);
-
-    // return this.getColony().pipe(
-    //   flatMap<IColonyClient, number>(colony =>
-    //     Observable.create(async observer => {
-    //       const { hash } = await this.ipfsNetworkService.saveData(story);
-    //
-    //       const {
-    //         eventData: { taskId }
-    //       } = await colony.createTask.send({
-    //         specificationHash: hash,
-    //         domainId: this.domainId
-    //       });
-    //
-    //       observer.next(taskId);
-    //     }).pipe(
-    //       flatMap(async storyId => {
-    //         const op = await colony.setTaskDueDate.startOperation({
-    //           taskId: storyId,
-    //           dueDate: dueDate
-    //         });
-    //
-    //         await op.sign();
-    //         await op.send();
-    //
-    //         return storyId;
-    //       })
-    //     )
-    //   ),
-    //   flatMap<number, number>(async storyId => {
-    //     await this.researchColony.createStoryTx(storyId).send({
-    //       from: await this.ethersNetworkService.getUserAddress()
-    //     });
-    //
-    //     return storyId;
-    //   })
-    // );
 
     return fromPromise(this.ipfsNetworkService.saveData(story)).pipe(
       flatMap(
@@ -144,24 +106,16 @@ export class ColonyService {
                   .decode(hash)
                   .slice(2)
                   .toString('hex'),
-              this.domainId
+              new BN(this.domainId)
             )
             .send({
               from: await this.ethersNetworkService.getUserAddress()
             })
       ),
-      flatMap(async () =>
-        this.researchColony
-          .StoryCreatedEvent({
-            user: await this.ethersNetworkService.getUserAddress()
-          })
-          .watchFirst({})
-      ),
-      map(({ args }) => (args.storyId as BigNumber).toNumber()),
+      map(({ events: { StoryCreated: { returnValues } } }) => +returnValues.storyId),
       flatMap(storyId =>
         this.getColony().pipe(
           flatMap(async colony => {
-            console.log(storyId);
             const op = await colony.setTaskDueDate.startOperation({
               taskId: storyId,
               dueDate: dueDate
@@ -188,33 +142,13 @@ export class ColonyService {
         )
       ),
       flatMap<number, number>(async storyId => {
-        await this.researchColony.claimStoryTx(storyId).send({
+        await this.researchColony.claimStoryTx(new BN(storyId)).send({
           from: await this.ethersNetworkService.getUserAddress()
         });
 
         return storyId;
       })
     );
-
-    // return await this.researchColony
-    //   .createStoryTx(
-    //     // TODO: Refactor this into a convenience method
-    //     '0x' +
-    //       bs58
-    //         .decode(hash)
-    //         .slice(2)
-    //         .toString('hex'),
-    //     this.domainId
-    //   )
-    //   .send({
-    //     from: await this.ethersNetworkService.getUserAddress()
-    //   });
-
-    // const { args } = await this.researchColony
-    //   .StoryCreatedEvent({})
-    //   .watchFirst({});
-    //
-    // return (args.storyId as BigNumber).toNumber();
   }
 
   getStory(id: number) {
@@ -245,7 +179,6 @@ export class ColonyService {
     );
   }
 
-  // TODO: Use this instead of accessing it from story.story
   getStoryDetails(id: number) {
     return this.getColony().pipe(
       flatMap<IColonyClient, IStory>(async colony => {
@@ -292,22 +225,22 @@ export class ColonyService {
 
   getStoryPayout(storyId: number) {
     return combineLatest(this.getColony(), this.getToken()).pipe(
-      flatMap<[IColonyClient, string], BigNumber>(
+      flatMap<[IColonyClient, string], BN>(
         async ([colony, token]) =>
           (await colony.getTaskPayout.call({
             taskId: storyId,
             role: StoryRole.AUTHOR,
-            token: token
+            source: token
           })).amount
       )
     );
   }
 
   getStoryRoles(storyId: number) {
-    return fromPromise(this.researchColony.getAssignmentCount(storyId)).pipe(
+    return fromPromise(this.researchColony.getAssignmentCount(new BN(storyId))).pipe(
       flatMap(assignmentCount =>
-        range(1, assignmentCount.toNumber()).pipe(
-          flatMap(id => this.researchColony.getRoleAssignment(storyId, id)),
+        range(1, new BN(assignmentCount).toNumber()).pipe(
+          flatMap(id => this.researchColony.getRoleAssignment(new BN(storyId), new BN(id))),
           map(([user, role]) => [
             { address: user.toLowerCase() },
             toTaskRole(role)
@@ -332,71 +265,31 @@ export class ColonyService {
     role: StoryRole
   ) {
     await this.researchColony
-      .assignUserRoleTx(storyId, requestId, user, toRoleNumber(role))
+      .assignUserRoleTx(new BN(storyId), new BN(requestId), user, toRoleNumber(role))
       .send({
         from: await this.ethersNetworkService.getUserAddress(),
         gas: 2000000
       });
-
-    await this.researchColony
-      .RoleAssignedEvent({ storyId, user })
-      .watchFirst({});
   }
-
-  // setStoryDuration(storyId: number, duration: number) {
-  //   const dueDate = new Date();
-  //   dueDate.setDate(dueDate.getDate() + duration);
-  //
-  //   return this.getColony().pipe(
-  //     flatMap<IColonyClient, any>(async colony => {
-  //       const op = await colony.setTaskDueDate.startOperation({
-  //         taskId: storyId,
-  //         dueDate: dueDate
-  //       });
-  //
-  //       await op.sign();
-  //
-  //       return op;
-  //     })
-  //   );
-  // }
-  //
-  // finishSetStoryDuration(operation) {
-  //   return this.getColony().pipe(
-  //     flatMap<IColonyClient, boolean>(async colony => {
-  //       const op = await colony.setTaskDueDate.restoreOperation(operation);
-  //
-  //       await op.sign();
-  //       const { successful } = await op.send();
-  //
-  //       return successful;
-  //     })
-  //   );
-  // }
 
   async submitResearchRequest(storyId: number, duration: number) {
     await this.colonyNetworkService
       .getResearchColony()
-      .submitResearchRequestTx(storyId, duration)
+      .submitResearchRequestTx(new BN(storyId), new BN(duration))
       .send({
         from: await this.ethersNetworkService.getUserAddress()
       });
-
-    await this.colonyNetworkService
-      .getResearchColony()
-      .ResearcherInterestedEvent({ storyId })
-      .watchFirst({});
   }
 
   async getResearchRequests(storyId: number) {
-    const requestCount = await this.researchColony.getRequestCount(storyId);
+    const requestCount = await this.researchColony.getRequestCount(new BN(storyId));
 
-    return range(1, requestCount.toNumber()).pipe(
+    return range(1, new BN(requestCount).toNumber()).pipe(
       flatMap(async id => ({
         requestId: id,
         request: await this.colonyNetworkService
           .getResearchColony()
-          .getResearchRequest(storyId, id)
+          .getResearchRequest(new BN(storyId), new BN(id))
       })),
       map<{ requestId; request }, IResearchRequest>(request => ({
         requestId: request.requestId,
@@ -427,7 +320,7 @@ export class ColonyService {
 
         const { secret } = await colony.generateSecret.call({
           salt: salt,
-          value: new BigNumber(rating * 10)
+          value: new BN(rating * 10)
         });
 
         await colony.submitTaskWorkRating.send({
@@ -461,7 +354,7 @@ export class ColonyService {
           taskId: storyId
         });
 
-        return count >= 2;
+        return count === 2;
       })
     );
   }

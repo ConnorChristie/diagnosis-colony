@@ -7,7 +7,6 @@ import { TrufflepigLoader } from '@colony/colony-js-contract-loader-http';
 import NetworkLoader from '@colony/colony-js-contract-loader-network';
 
 import Web3 from 'web3';
-
 declare const web3: Web3;
 
 declare interface ISigner {
@@ -45,8 +44,6 @@ export class EthersNetworkService {
       loader = new NetworkLoader({ network });
     }
 
-    // this.applySyncAddress().then();
-
     const wallet = this.signer || provider;
 
     this.adapter = new EthersAdapter({
@@ -74,21 +71,5 @@ export class EthersNetworkService {
 
   getWeb3() {
     return this.web3;
-  }
-
-  private async applySyncAddress() {
-    const userAddress = await this.getUserAddress();
-
-    Object.defineProperty(this.signer, 'address', {
-      enumerable: true,
-      value: userAddress,
-      writable: false
-    });
-
-    Object.defineProperty(this.signer, '_syncAddress', {
-      enumerable: true,
-      value: true,
-      writable: false
-    });
   }
 }

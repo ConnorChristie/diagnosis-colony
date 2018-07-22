@@ -34,10 +34,15 @@ export class ColonyNetworkService {
       symbol: environment.colony.token.symbol
     });
 
+    console.log(`Token addr: ${tokenAddress}`);
+
     // Create the colony
     const {
       eventData: { colonyId, colonyAddress }
     } = await this.networkClient.createColony.send({ tokenAddress });
+
+    console.log(`Colony ID: ${colonyId}`);
+    console.log(`Colony addr: ${colonyAddress}`);
 
     const colony = await this.getColony(colonyId);
     const userAddress = await this.ethersNetworkService.getUserAddress();
@@ -48,15 +53,12 @@ export class ColonyNetworkService {
     // Add yourself as an admin
     await colony.authority.setUserRole.send({
       user: userAddress,
-      role: 'ADMIN'
+      role: 'ADMIN',
+      enabled: true
     });
 
     // Mint some tokens
     // await colony.mintTokens.send({ amount: new BigNumber(1000) });
-
-    console.log(`Token addr: ${tokenAddress}`);
-    console.log(`Colony ID: ${colonyId}`);
-    console.log(`Colony addr: ${colonyAddress}`);
 
     return colonyId;
   }
