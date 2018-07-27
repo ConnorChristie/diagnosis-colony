@@ -284,7 +284,7 @@ export class ColonyService {
   async getResearchRequests(storyId: number) {
     const requestCount = await this.researchColony.getRequestCount(new BN(storyId));
 
-    return range(1, new BN(requestCount).toNumber()).pipe(
+    return range(1, +requestCount).pipe(
       flatMap(async id => ({
         requestId: id,
         request: await this.colonyNetworkService
@@ -294,7 +294,7 @@ export class ColonyService {
       map<{ requestId; request }, IResearchRequest>(request => ({
         requestId: request.requestId,
         user: request.request[0],
-        duration: request.request[1].toNumber()
+        duration: request.request[1]
       })),
       filter<IResearchRequest>(request => request.user !== ZERO_ADDRESS)
     );
